@@ -1,6 +1,4 @@
-/* =========================================
-   VAANIX - HERO
-========================================= */
+/* VAANIX - HERO */
 
 
 .hero {
@@ -15,8 +13,6 @@
 
 }
 
-
-/* TOP PILL */
 
 .hero-pill {
 
@@ -50,8 +46,6 @@
 }
 
 
-/* HEADING */
-
 .hero h1 {
 
     font-size: clamp(
@@ -71,8 +65,6 @@
 }
 
 
-/* GRADIENT TEXT */
-
 .hero h1 span {
 
     background:
@@ -91,8 +83,6 @@
 }
 
 
-/* DESCRIPTION */
-
 .hero p {
 
     max-width: 620px;
@@ -104,5 +94,12 @@
     font-size: 16px;
 
     line-height: 1.7;
+
+}
+
+
+body.light-mode .hero-pill {
+
+    color: #6b4fd8;
 
 }

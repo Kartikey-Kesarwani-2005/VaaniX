@@ -1,9 +1,5 @@
-/* =========================================
-   VAANIX - LANGUAGE CSS
-========================================= */
+/* VAANIX - LANGUAGE CSS */
 
-
-/* LANGUAGE SECTION */
 
 .language-bar {
 
@@ -16,8 +12,6 @@
 }
 
 
-/* SELECT ARROW AREA */
-
 .language-selector select {
 
     appearance: none;
@@ -28,8 +22,6 @@
 
 }
 
-
-/* LANGUAGE SELECTOR HOVER */
 
 .language-selector {
 
@@ -59,8 +51,6 @@
 }
 
 
-/* REGION */
-
 .region-control {
 
     max-width: 1150px;
@@ -72,8 +62,6 @@
 }
 
 
-/* REGION SELECT */
-
 .region-control select {
 
     appearance: none;
@@ -84,8 +72,6 @@
 
 }
 
-
-/* REGION SELECT FOCUS */
 
 .language-selector select:focus,
 .region-control select:focus {
@@ -103,8 +89,6 @@
 
 }
 
-
-/* DISABLED SELECT */
 
 select:disabled {
 

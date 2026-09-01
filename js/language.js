@@ -1,9 +1,5 @@
-/* =========================================
-   VAANIX - LANGUAGE
-========================================= */
+/* VAANIX - LANGUAGE */
 
-
-/* INITIALIZE LANGUAGE SYSTEM */
 
 function initLanguage() {
 
@@ -25,6 +21,11 @@ function initLanguage() {
     const intelligenceText =
         document.getElementById("intelligenceText");
 
+    const detected =
+        document.getElementById(
+            "detectedText"
+        );
+
 
     if (
         !fromLanguage ||
@@ -34,8 +35,6 @@ function initLanguage() {
         return;
     }
 
-
-    /* LANGUAGE CHANGE */
 
     fromLanguage.addEventListener(
         "change",
@@ -49,15 +48,11 @@ function initLanguage() {
     );
 
 
-    /* SWAP */
-
     swapButton.addEventListener(
         "click",
         swapLanguages
     );
 
-
-    /* REGION CHANGE */
 
     if (region) {
 
@@ -69,16 +64,10 @@ function initLanguage() {
     }
 
 
-    /* INITIAL UPDATE */
-
     updateLanguageInfo();
 
     updateRegion();
 
-
-    /* =====================================
-       UPDATE LANGUAGE
-    ===================================== */
 
     function updateLanguageInfo() {
 
@@ -86,12 +75,6 @@ function initLanguage() {
             fromLanguage.options[
                 fromLanguage.selectedIndex
             ].text;
-
-
-        const detected =
-            document.getElementById(
-                "detectedText"
-            );
 
 
         if (detected) {
@@ -103,10 +86,6 @@ function initLanguage() {
 
     }
 
-
-    /* =====================================
-       SWAP LANGUAGES
-    ===================================== */
 
     function swapLanguages() {
 
@@ -124,10 +103,6 @@ function initLanguage() {
 
     }
 
-
-    /* =====================================
-       UPDATE REGION
-    ===================================== */
 
     function updateRegion() {
 

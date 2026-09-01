@@ -1,6 +1,4 @@
-/* =========================================
-   VAANIX - FEATURES
-========================================= */
+/* VAANIX - FEATURES */
 
 
 .feature-section {
@@ -13,8 +11,6 @@
 
 }
 
-
-/* SECTION HEADING */
 
 .section-heading {
 
@@ -64,9 +60,7 @@
 }
 
 
-/* =========================================
-   FEATURE GRID
-========================================= */
+/* FEATURE GRID */
 
 .feature-grid {
 
@@ -79,10 +73,6 @@
 
 }
 
-
-/* =========================================
-   FEATURE CARD
-========================================= */
 
 .feature-card {
 
@@ -119,8 +109,6 @@
 }
 
 
-/* NUMBER */
-
 .feature-number {
 
     position: absolute;
@@ -137,8 +125,6 @@
 
 }
 
-
-/* ICON */
 
 .feature-icon {
 
@@ -164,8 +150,6 @@
 }
 
 
-/* TITLE */
-
 .feature-card h3 {
 
     font-size: 18px;
@@ -174,8 +158,6 @@
 
 }
 
-
-/* DESCRIPTION */
 
 .feature-card p {
 
@@ -186,5 +168,12 @@
     font-size: 13px;
 
     line-height: 1.7;
+
+}
+
+
+body.light-mode .feature-icon {
+
+    color: #6b4fd8;
 
 }

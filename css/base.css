@@ -1,7 +1,4 @@
-/* =========================================
-   VAANIX - BASE CSS
-   Global styles
-========================================= */
+/* VAANIX - BASE CSS */
 
 
 /* 1. RESET */
@@ -176,9 +173,6 @@ a {
         );
 
 }
-/* =========================================
-   LIGHT MODE
-========================================= */
 
 body.light-mode {
 
@@ -190,15 +184,19 @@ body.light-mode {
 
     --text: #111522;
 
+    --primary: #6b4fd8;
+
+    --secondary: #0b7285;
+
     --text-muted: #626b7d;
 
-    --text-dark: #8a92a3;
+    --text-dark: #5b6478;
 
     --border: rgba(20, 25, 40, 0.1);
 
     --dropdown-bg: #ffffff;
 
-    --field-base: #8a92a3;
+    --field-base: #5b6478;
 
     --field-strong: #6b7489;
 
@@ -212,7 +210,7 @@ body.light-mode {
 
     --card-title-color: #626b7d;
 
-    --indicator-color: #7b8499;
+    --indicator-color: #5b6478;
 
     --heading-note: #6b7489;
 

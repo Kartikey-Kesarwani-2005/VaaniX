@@ -1,12 +1,7 @@
-/* =========================================
-   VAANIX - TRANSLATOR CSS
-   Language + Translation Workspace
-========================================= */
+/* VAANIX - TRANSLATOR CSS */
 
 
-/* =========================================
-   1. LANGUAGE BAR
-========================================= */
+/* 1. LANGUAGE BAR */
 
 .language-bar {
 
@@ -21,9 +16,7 @@
 }
 
 
-/* =========================================
-   2. LANGUAGE SELECTOR
-========================================= */
+/* 2. LANGUAGE SELECTOR */
 
 .language-selector {
 
@@ -79,8 +72,6 @@
 }
 
 
-/* Language dropdown */
-
 .language-selector select {
 
     width: 100%;
@@ -98,8 +89,6 @@
 }
 
 
-/* Dropdown options */
-
 .language-selector select option {
 
     background: var(--dropdown-bg);
@@ -109,9 +98,7 @@
 }
 
 
-/* =========================================
-   3. SWAP BUTTON
-========================================= */
+/* 3. SWAP BUTTON */
 
 .swap-btn {
 
@@ -137,8 +124,6 @@
 
 }
 
-
-/* Hover effect */
 
 .swap-btn:hover {
 
@@ -166,9 +151,7 @@
 }
 
 
-/* =========================================
-   4. REGION CONTROL
-========================================= */
+/* 4. REGION CONTROL */
 
 .region-control {
 
@@ -203,8 +186,6 @@
 }
 
 
-/* Left side */
-
 .region-left {
 
     display: flex;
@@ -215,8 +196,6 @@
 
 }
 
-
-/* Location icon */
 
 .location-icon {
 
@@ -244,8 +223,6 @@
 }
 
 
-/* Region title */
-
 .region-title {
 
     font-size: 14px;
@@ -257,8 +234,6 @@
 }
 
 
-/* Region subtitle */
-
 .region-subtitle {
 
     margin-top: 4px;
@@ -269,8 +244,6 @@
 
 }
 
-
-/* Region dropdown */
 
 .region-control select {
 
@@ -323,11 +296,13 @@
 }
 
 
-/* =========================================
-   5. TRANSLATION GRID
-========================================= */
+/* 5. TRANSLATION GRID */
 
 .translation-grid {
+
+    max-width: 1150px;
+
+    margin: 16px auto 0;
 
     display: grid;
 
@@ -335,14 +310,10 @@
 
     gap: 16px;
 
-    margin-top: 16px;
-
 }
 
 
-/* =========================================
-   6. TRANSLATION CARD
-========================================= */
+/* 6. TRANSLATION CARD */
 
 .translation-card {
 
@@ -363,8 +334,6 @@
 }
 
 
-/* Card hover */
-
 .translation-card:hover {
 
     border-color:
@@ -376,8 +345,6 @@
 
 }
 
-
-/* Input focus */
 
 .translation-card:focus-within {
 
@@ -391,8 +358,6 @@
 }
 
 
-/* Output card */
-
 .output-card {
 
     background:
@@ -405,9 +370,7 @@
 }
 
 
-/* =========================================
-   7. CARD HEADER
-========================================= */
+/* 7. CARD HEADER */
 
 .card-header {
 
@@ -479,8 +442,6 @@
 }
 
 
-/* Regional badge */
-
 .regional-badge {
 
     padding: 6px 11px;
@@ -499,9 +460,7 @@
 }
 
 
-/* =========================================
-   8. TEXTAREA
-========================================= */
+/* 8. TEXTAREA */
 
 .translation-card textarea {
 
@@ -535,9 +494,7 @@
 }
 
 
-/* =========================================
-   9. OUTPUT AREA
-========================================= */
+/* 9. OUTPUT AREA */
 
 .output-area {
 
@@ -570,9 +527,7 @@
 }
 
 
-/* =========================================
-   10. CARD BOTTOM
-========================================= */
+/* 10. CARD BOTTOM */
 
 .card-bottom {
 
@@ -593,8 +548,6 @@
 }
 
 
-/* Tools */
-
 .input-tools {
 
     display: flex;
@@ -603,8 +556,6 @@
 
 }
 
-
-/* Tool buttons */
 
 .round-tool {
 
@@ -714,8 +665,6 @@
 }
 
 
-/* Character counter */
-
 .counter {
 
     color: var(--field-base);
@@ -727,9 +676,7 @@
 }
 
 
-/* =========================================
-   11. REGIONAL INDICATOR
-========================================= */
+/* 11. REGIONAL INDICATOR */
 
 .regional-indicator {
 
@@ -761,9 +708,7 @@
 }
 
 
-/* =========================================
-   12. TRANSLATE BUTTON
-========================================= */
+/* 12. TRANSLATE BUTTON */
 
 .translate-btn {
 
@@ -813,8 +758,6 @@
 }
 
 
-/* Button hover */
-
 .translate-btn:hover {
 
     transform: translateY(-2px);
@@ -828,16 +771,12 @@
 }
 
 
-/* Button click */
-
 .translate-btn:active {
 
     transform: translateY(-1px) scale(0.99);
 
 }
 
-
-/* Keyboard focus */
 
 .translate-btn:focus-visible {
 
@@ -847,8 +786,6 @@
 
 }
 
-
-/* Arrow */
 
 .translate-btn .arrow {
 
@@ -866,5 +803,12 @@
 .translate-btn:hover .arrow {
 
     transform: translateX(5px);
+
+}
+
+
+body.light-mode .regional-badge {
+
+    color: #6b4fd8;
 
 }

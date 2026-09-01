@@ -1,10 +1,5 @@
-/* =========================================
-   VAANIX - APP
-   Main application controller
-========================================= */
+/* VAANIX - APP */
 
-
-/* COMPONENTS */
 
 const components = {
 
@@ -32,8 +27,6 @@ const components = {
 
 };
 
-
-/* LOAD ONE COMPONENT */
 
 async function loadComponent(id, file) {
 
@@ -75,8 +68,6 @@ async function loadComponent(id, file) {
 }
 
 
-/* LOAD ALL COMPONENTS */
-
 async function loadAllComponents() {
 
     const entries =
@@ -94,17 +85,12 @@ async function loadAllComponents() {
 }
 
 
-/* START APPLICATION */
-
 async function startVaaniX() {
 
     await loadAllComponents();
 
 
-    /*
-       Components load hone ke baad
-       functionality initialize hogi.
-    */
+    /* Init only after components load */
 
     if (typeof initLanguage === "function") {
         initLanguage();
@@ -128,7 +114,5 @@ async function startVaaniX() {
 
 }
 
-
-/* START */
 
 startVaaniX();

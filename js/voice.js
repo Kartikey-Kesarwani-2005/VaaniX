@@ -1,6 +1,4 @@
-/* =========================================
-   VAANIX - VOICE
-========================================= */
+/* VAANIX - VOICE */
 
 
 function initVoice() {
@@ -18,10 +16,6 @@ function initVoice() {
         document.getElementById("outputText");
 
 
-    /* =====================================
-       MICROPHONE
-    ===================================== */
-
     if (micButton) {
 
         micButton.addEventListener(
@@ -32,10 +26,6 @@ function initVoice() {
     }
 
 
-    /* =====================================
-       SPEAKER
-    ===================================== */
-
     if (speakButton) {
 
         speakButton.addEventListener(
@@ -45,10 +35,6 @@ function initVoice() {
 
     }
 
-
-    /* =====================================
-       VOICE INPUT
-    ===================================== */
 
     function startVoiceInput() {
 
@@ -72,7 +58,7 @@ function initVoice() {
 
 
         recognition.lang =
-            getSpeechLanguage();
+            getRecognitionLanguage();
 
 
         recognition.interimResults =
@@ -137,10 +123,6 @@ function initVoice() {
     }
 
 
-    /* =====================================
-       TEXT TO SPEECH
-    ===================================== */
-
     function speakTranslation() {
 
         /* No translation yet - nothing to read aloud */
@@ -190,17 +172,28 @@ function initVoice() {
     }
 
 
-    /* =====================================
-       GET SPEECH LANGUAGE
-    ===================================== */
+    const fromLanguage =
+        document.getElementById("fromLanguage");
+
+    const toLanguage =
+        document.getElementById("toLanguage");
+
+
+    /* Listen in the source language */
+    function getRecognitionLanguage() {
+
+        if (!fromLanguage) {
+            return "hi-IN";
+        }
+
+        return (
+            fromLanguage.value === "english"
+        ) ? "en-IN" : "hi-IN";
+
+    }
+
 
     function getSpeechLanguage() {
-
-        const toLanguage =
-            document.getElementById(
-                "toLanguage"
-            );
-
 
         if (!toLanguage) {
             return "en-US";

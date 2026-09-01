@@ -1,11 +1,5 @@
-/* =========================================
-   VAANIX - RESPONSIVE
-========================================= */
+/* VAANIX - RESPONSIVE */
 
-
-/* =========================================
-   TABLET
-========================================= */
 
 @media (max-width: 860px) {
 
@@ -26,16 +20,12 @@
     }
 
 
-    /* Stack feature cards */
-
     .feature-grid {
 
         grid-template-columns: 1fr;
 
     }
 
-
-    /* Slightly smaller language bar */
 
     .language-bar {
 
@@ -66,10 +56,6 @@
 
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
 
 @media (max-width: 560px) {
 
@@ -122,8 +108,6 @@
     }
 
 
-    /* Language bar stacks into one column */
-
     .language-bar {
 
         grid-template-columns: 1fr;
@@ -162,8 +146,6 @@
     }
 
 
-    /* Regional section stacks */
-
     .region-control {
 
         align-items: flex-start;
@@ -197,8 +179,6 @@
     }
 
 
-    /* Translator cards */
-
     .translation-card {
 
         min-height: 320px;
@@ -227,8 +207,6 @@
     }
 
 
-    /* Regional toggle stacks */
-
     .intelligence-card {
 
         align-items: flex-start;
@@ -237,8 +215,6 @@
 
     }
 
-
-    /* Bigger translate button */
 
     .translate-btn {
 

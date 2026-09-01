@@ -1,6 +1,4 @@
-/* =========================================
-   VAANIX - NAVBAR
-========================================= */
+/* VAANIX - NAVBAR */
 
 
 .navbar {
@@ -24,8 +22,6 @@
 }
 
 
-/* BRAND */
-
 .brand {
 
     display: flex;
@@ -36,8 +32,6 @@
 
 }
 
-
-/* LOGO */
 
 .brand-mark {
 
@@ -83,8 +77,6 @@
 }
 
 
-/* BRAND NAME */
-
 .brand-name {
 
     font-size: 20px;
@@ -95,8 +87,6 @@
 
 }
 
-
-/* BRAND TAG */
 
 .brand-tag {
 
@@ -113,8 +103,6 @@
 }
 
 
-/* RIGHT SIDE */
-
 .nav-actions {
 
     display: flex;
@@ -125,8 +113,6 @@
 
 }
 
-
-/* ENGINE STATUS */
 
 .engine-status {
 
@@ -153,8 +139,6 @@
 }
 
 
-/* STATUS DOT */
-
 .status-dot {
 
     width: 7px;
@@ -170,8 +154,6 @@
 
 }
 
-
-/* THEME BUTTON */
 
 .icon-btn {
 

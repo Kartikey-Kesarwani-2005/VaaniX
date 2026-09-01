@@ -1,6 +1,4 @@
-/* =========================================
-   VAANIX - CLIPBOARD
-========================================= */
+/* VAANIX - CLIPBOARD */
 
 
 function initClipboard() {

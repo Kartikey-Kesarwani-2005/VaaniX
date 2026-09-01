@@ -1,6 +1,4 @@
-/* =========================================
-   VAANIX - TRANSLATOR
-========================================= */
+/* VAANIX - TRANSLATOR */
 
 
 function initTranslator() {
@@ -28,25 +26,37 @@ function initTranslator() {
             "regionalToggle"
         );
 
+    const fromLanguage =
+        document.getElementById(
+            "fromLanguage"
+        );
+
+    const toLanguage =
+        document.getElementById(
+            "toLanguage"
+        );
+
+    const region =
+        document.getElementById(
+            "region"
+        );
+
+    const intelligence =
+        document.getElementById(
+            "intelligenceText"
+        );
+
 
     if (!input || !output) {
         return;
     }
 
 
-    /* =====================================
-       CHARACTER COUNTER
-    ===================================== */
-
     input.addEventListener(
         "input",
         updateCounter
     );
 
-
-    /* =====================================
-       TRANSLATE
-    ===================================== */
 
     if (translateButton) {
 
@@ -58,10 +68,6 @@ function initTranslator() {
     }
 
 
-    /* =====================================
-       CLEAR
-    ===================================== */
-
     if (clearButton) {
 
         clearButton.addEventListener(
@@ -71,10 +77,6 @@ function initTranslator() {
 
     }
 
-
-    /* =====================================
-       REGIONAL TOGGLE
-    ===================================== */
 
     if (regionalToggle) {
 
@@ -86,10 +88,6 @@ function initTranslator() {
     }
 
 
-    /* =====================================
-       COUNTER
-    ===================================== */
-
     function updateCounter() {
 
         counter.textContent =
@@ -97,10 +95,6 @@ function initTranslator() {
 
     }
 
-
-    /* =====================================
-       TRANSLATE
-    ===================================== */
 
     function translateText() {
 
@@ -124,31 +118,21 @@ function initTranslator() {
 
 
         const from =
-            document.getElementById(
-                "fromLanguage"
-            ).value;
-
+            fromLanguage.value;
 
         const to =
-            document.getElementById(
-                "toLanguage"
-            ).value;
+            toLanguage.value;
 
+        const regionValue =
+            region.value;
 
-        const region =
-            document.getElementById(
-                "region"
-            ).value;
-
-
-        /* DEMO */
 
         const result =
             getDemoTranslation(
                 text,
                 from,
                 to,
-                region
+                regionValue
             );
 
 
@@ -175,10 +159,6 @@ function initTranslator() {
     }
 
 
-    /* =====================================
-       DEMO TRANSLATION
-    ===================================== */
-
     function getDemoTranslation(
         text,
         from,
@@ -187,11 +167,7 @@ function initTranslator() {
     ) {
 
 
-        /*
-          Ye sirf frontend demonstration hai.
-          Real translation ke liye API/backend
-          connect kiya jayega.
-        */
+        /* Demo only - real translation needs an API later. */
 
 
         if (
@@ -344,10 +320,6 @@ function initTranslator() {
     }
 
 
-    /* =====================================
-       CLEAR TEXT
-    ===================================== */
-
     function clearText() {
 
         input.value = "";
@@ -363,17 +335,7 @@ function initTranslator() {
     }
 
 
-    /* =====================================
-       REGIONAL MODE
-    ===================================== */
-
     function updateRegionalMode() {
-
-        const intelligence =
-            document.getElementById(
-                "intelligenceText"
-            );
-
 
         if (!intelligence) {
             return;
