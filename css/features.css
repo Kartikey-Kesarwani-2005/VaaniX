@@ -7,9 +7,9 @@
 
     max-width: 1150px;
 
-    margin: 110px auto 80px;
+    margin: 100px auto 80px;
 
-    padding: 0 20px;
+    padding: 0 24px;
 
 }
 
@@ -75,7 +75,7 @@
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 14px;
+    gap: 16px;
 
 }
 
@@ -90,7 +90,7 @@
 
     min-height: 230px;
 
-    padding: 25px;
+    padding: 28px;
 
     overflow: hidden;
 
@@ -114,7 +114,7 @@
 
     box-shadow:
         0 20px 50px
-        rgba(0, 0, 0, 0.25);
+        rgba(0, 0, 0, 0.22);
 
 }
 
@@ -168,9 +168,9 @@
 
 .feature-card h3 {
 
-    font-size: 17px;
+    font-size: 18px;
 
-    margin-bottom: 9px;
+    margin-bottom: 10px;
 
 }
 
@@ -183,7 +183,7 @@
 
     color: var(--text-muted);
 
-    font-size: 12px;
+    font-size: 13px;
 
     line-height: 1.7;
 

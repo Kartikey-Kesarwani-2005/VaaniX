@@ -16,7 +16,7 @@
 
     align-items: center;
 
-    gap: 14px;
+    gap: 16px;
 
 }
 
@@ -27,7 +27,7 @@
 
 .language-selector {
 
-    padding: 14px 16px;
+    padding: 16px 18px;
 
     background: var(--surface);
 
@@ -54,11 +54,11 @@
 
     display: block;
 
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 
     color: var(--text-dark);
 
-    font-size: 9px;
+    font-size: 10px;
 
     font-weight: 700;
 
@@ -132,6 +132,9 @@
 
     transform: rotate(180deg);
 
+    background:
+        rgba(139, 114, 255, 0.1);
+
     border-color:
         rgba(139, 114, 255, 0.5);
 
@@ -148,9 +151,9 @@
 
 .region-control {
 
-    margin-top: 14px;
+    margin-top: 16px;
 
-    padding: 13px 15px;
+    padding: 15px 18px;
 
     display: flex;
 
@@ -269,9 +272,9 @@
 
     grid-template-columns: 1fr 1fr;
 
-    gap: 14px;
+    gap: 16px;
 
-    margin-top: 14px;
+    margin-top: 16px;
 
 }
 
@@ -286,7 +289,7 @@
 
     min-height: 330px;
 
-    padding: 20px;
+    padding: 22px;
 
     background: var(--surface);
 
@@ -305,6 +308,10 @@
 
     border-color:
         rgba(139, 114, 255, 0.2);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.12);
 
 }
 
@@ -371,7 +378,7 @@
 
     color: var(--text-dark);
 
-    font-size: 10px;
+    font-size: 11px;
 
 }
 
@@ -380,7 +387,7 @@
 
 .regional-badge {
 
-    padding: 5px 9px;
+    padding: 6px 10px;
 
     border-radius: 8px;
 
@@ -466,11 +473,11 @@
 
     position: absolute;
 
-    left: 20px;
+    left: 22px;
 
-    right: 20px;
+    right: 22px;
 
-    bottom: 17px;
+    bottom: 18px;
 
     display: flex;
 
@@ -506,7 +513,7 @@
 
     border: 1px solid var(--border);
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     background:
         rgba(255, 255, 255, 0.035);
@@ -527,7 +534,12 @@
     color: white;
 
     background:
-        rgba(255, 255, 255, 0.09);
+        rgba(139, 114, 255, 0.12);
+
+    border-color:
+        rgba(139, 114, 255, 0.3);
+
+    transform: translateY(-1px);
 
 }
 
@@ -587,7 +599,7 @@
 
     height: 58px;
 
-    margin-top: 14px;
+    margin-top: 18px;
 
     display: flex;
 
@@ -633,7 +645,9 @@
 
     box-shadow:
         0 20px 45px
-        rgba(102, 91, 255, 0.3);
+        rgba(102, 91, 255, 0.28);
+
+    filter: brightness(1.05);
 
 }
 

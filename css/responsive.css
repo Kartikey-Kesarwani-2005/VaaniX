@@ -96,6 +96,8 @@
 
         grid-template-columns: 1fr;
 
+        gap: 12px;
+
     }
 
 
@@ -134,6 +136,8 @@
 
         min-height: 300px;
 
+        padding: 20px;
+
     }
 
 
@@ -143,6 +147,15 @@
         height: 190px;
 
         font-size: 17px;
+
+    }
+
+
+    .card-bottom {
+
+        left: 20px;
+
+        right: 20px;
 
     }
 

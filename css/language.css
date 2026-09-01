@@ -11,7 +11,7 @@
 
     margin: auto;
 
-    padding: 0 20px;
+    padding: 0 24px;
 
 }
 
@@ -48,11 +48,13 @@
 
     right: 16px;
 
-    bottom: 14px;
+    bottom: 16px;
 
     color: var(--text-muted);
 
     pointer-events: none;
+
+    font-size: 14px;
 
 }
 

@@ -7,9 +7,9 @@
 
 .intelligence-card {
 
-    margin-top: 14px;
+    margin-top: 16px;
 
-    padding: 18px 20px;
+    padding: 20px 22px;
 
     display: flex;
 
@@ -80,7 +80,7 @@
 
 .intelligence-title {
 
-    font-size: 13px;
+    font-size: 14px;
 
     font-weight: 700;
 
@@ -95,11 +95,11 @@
 
     max-width: 650px;
 
-    margin-top: 4px;
+    margin-top: 5px;
 
     color: var(--text-muted);
 
-    font-size: 11px;
+    font-size: 12px;
 
     line-height: 1.5;
 
