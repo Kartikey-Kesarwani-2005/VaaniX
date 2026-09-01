@@ -35,8 +35,6 @@
 
     --secondary: #4fdcff;
 
-    --radius: 20px;
-
     --dropdown-bg: #111624;
 
     --field-base: #4f5769;
@@ -49,7 +47,7 @@
 
     --region-bg: rgba(255, 255, 255, 0.025);
 
-    --placeholder: #3e4658;
+    --placeholder: #747d8f;
 
     --card-title-color: #737c90;
 
@@ -142,22 +140,7 @@ a {
 }
 
 
-/* 8. GLOBAL CONTAINER */
-
-.container {
-
-    width: 100%;
-
-    max-width: 1150px;
-
-    margin: auto;
-
-    padding: 0 20px;
-
-}
-
-
-/* 9. BACKGROUND GRID */
+/* 8. BACKGROUND GRID */
 
 .grid-bg {
 
@@ -225,7 +208,7 @@ body.light-mode {
 
     --region-bg: rgba(20, 25, 40, 0.035);
 
-    --placeholder: #9aa2b5;
+    --placeholder: #6a7386;
 
     --card-title-color: #626b7d;
 

@@ -87,11 +87,6 @@ function initLanguage() {
                 fromLanguage.selectedIndex
             ].text;
 
-        const to =
-            toLanguage.options[
-                toLanguage.selectedIndex
-            ].text;
-
 
         const detected =
             document.getElementById(

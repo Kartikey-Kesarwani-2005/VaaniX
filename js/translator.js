@@ -14,6 +14,9 @@ function initTranslator() {
     const translateButton =
         document.getElementById("translateBtn");
 
+    const translateLabel =
+        document.getElementById("translateLabel");
+
     const clearButton =
         document.getElementById("clearBtn");
 
@@ -108,10 +111,13 @@ function initTranslator() {
         if (!text) {
 
             output.innerHTML = `
-                <span class="output-placeholder">
-                    Please enter something to translate...
+                <span class="output-hint">
+                    Please enter some text to
+                    translate first.
                 </span>
             `;
+
+            input.focus();
 
             return;
         }
@@ -146,8 +152,25 @@ function initTranslator() {
             );
 
 
-        output.textContent =
-            result;
+        /* SHOW LOADING STATE */
+
+        if (translateLabel) {
+            translateLabel.textContent =
+                "Translating...";
+        }
+
+
+        setTimeout(function () {
+
+            output.textContent =
+                result;
+
+            if (translateLabel) {
+                translateLabel.textContent =
+                    "Translate with VaaniX";
+            }
+
+        }, 400);
 
     }
 
@@ -176,9 +199,14 @@ function initTranslator() {
             to === "hindi"
         ) {
 
+            const lower =
+                text.toLowerCase();
+
+
+            /* WHERE ARE YOU GOING? */
+
             if (
-                text.toLowerCase()
-                === "where are you going?"
+                lower === "where are you going?"
             ) {
 
                 if (region === "prayagraj") {
@@ -193,17 +221,71 @@ function initTranslator() {
 
                 }
 
+                if (region === "lucknow") {
+
+                    return "तू कहाँ जात है?";
+
+                }
+
                 return "आप कहाँ जा रहे हैं?";
 
             }
 
 
+            /* WHAT ARE YOU DOING? */
+
             if (
-                text.toLowerCase()
-                === "what are you doing?"
+                lower === "what are you doing?"
             ) {
 
+                if (region === "prayagraj") {
+
+                    return "का कर रहे हो?";
+
+                }
+
+                if (region === "patna") {
+
+                    return "का करत बाड़ऽ?";
+
+                }
+
+                if (region === "lucknow") {
+
+                    return "का करत हौ?";
+
+                }
+
                 return "आप क्या कर रहे हैं?";
+
+            }
+
+
+            /* HOW ARE YOU? */
+
+            if (
+                lower === "how are you?"
+            ) {
+
+                if (region === "prayagraj") {
+
+                    return "कैसे हो?";
+
+                }
+
+                if (region === "patna") {
+
+                    return "कैसन बाड़ऽ?";
+
+                }
+
+                if (region === "lucknow") {
+
+                    return "कैसन हौ?";
+
+                }
+
+                return "आप कैसे हैं?";
 
             }
 
@@ -215,19 +297,42 @@ function initTranslator() {
             to === "english"
         ) {
 
-            if (
-                text === "आप क्या कर रहे हैं?"
-            ) {
+            const going =
+                text === "आप कहाँ जा रहे हैं?" ||
+                text === "कहाँ जा रहे हो?" ||
+                text === "कहाँ जा रहल बाड़ऽ?" ||
+                text === "तू कहाँ जात है?";
+
+
+            const doing =
+                text === "आप क्या कर रहे हैं?" ||
+                text === "का कर रहे हो?" ||
+                text === "का करत बाड़ऽ?" ||
+                text === "का करत हौ?";
+
+
+            const how =
+                text === "आप कैसे हैं?" ||
+                text === "कैसे हो?" ||
+                text === "कैसन बाड़ऽ?" ||
+                text === "कैसन हौ?";
+
+
+            if (going) {
+
+                return "Where are you going?";
+
+            }
+
+            if (doing) {
 
                 return "What are you doing?";
 
             }
 
-            if (
-                text === "आप कहाँ जा रहे हैं?"
-            ) {
+            if (how) {
 
-                return "Where are you going?";
+                return "How are you?";
 
             }
 

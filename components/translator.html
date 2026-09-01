@@ -24,6 +24,7 @@
         <textarea
             id="inputText"
             maxlength="1000"
+            aria-label="Text to translate"
             placeholder="Type something to translate..."
         ></textarea>
 
@@ -35,6 +36,7 @@
                 <button
                     class="round-tool"
                     id="micBtn"
+                    type="button"
                     title="Speak to translate"
                     aria-label="Voice input"
                 >
@@ -45,6 +47,7 @@
                 <button
                     class="round-tool"
                     id="clearBtn"
+                    type="button"
                     title="Clear text"
                     aria-label="Clear text"
                 >
@@ -86,6 +89,7 @@
         <div
             class="output-area"
             id="outputText"
+            aria-live="polite"
         >
 
             <span class="output-placeholder">
@@ -102,6 +106,7 @@
                 <button
                     class="round-tool"
                     id="copyBtn"
+                    type="button"
                     title="Copy translation"
                     aria-label="Copy translation"
                 >
@@ -112,6 +117,7 @@
                 <button
                     class="round-tool"
                     id="speakBtn"
+                    type="button"
                     title="Listen to translation"
                     aria-label="Listen to translation"
                 >
@@ -141,11 +147,15 @@
 <button
     class="translate-btn"
     id="translateBtn"
+    type="button"
 >
 
     <span>✦</span>
 
-    <span>
+    <span
+        class="translate-label"
+        id="translateLabel"
+    >
         Translate with VaaniX
     </span>
 

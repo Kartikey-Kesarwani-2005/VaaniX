@@ -24,9 +24,11 @@
 
     align-items: center;
 
+    justify-content: center;
+
     gap: 8px;
 
-    padding: 8px 14px;
+    padding: 9px 16px;
 
     border-radius: 50px;
 
@@ -41,7 +43,9 @@
 
     font-size: 12px;
 
-    margin-bottom: 25px;
+    font-weight: 500;
+
+    margin-bottom: 28px;
 
 }
 
@@ -61,6 +65,8 @@
     letter-spacing: -3px;
 
     font-weight: 700;
+
+    margin: 0;
 
 }
 
@@ -91,7 +97,7 @@
 
     max-width: 620px;
 
-    margin: 24px auto 0;
+    margin: 26px auto 0;
 
     color: var(--text-muted);
 

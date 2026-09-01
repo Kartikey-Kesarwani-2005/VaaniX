@@ -200,6 +200,17 @@
 }
 
 
+/* Focus indicator for keyboard users */
+
+.switch input:focus-visible + .slider {
+
+    outline: 2px solid var(--secondary);
+
+    outline-offset: 2px;
+
+}
+
+
 /* Toggle circle */
 
 .slider::before {

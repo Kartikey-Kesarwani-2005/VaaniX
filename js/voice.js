@@ -86,6 +86,11 @@ function initVoice() {
             "🔴";
 
 
+        micButton.classList.add(
+            "recording"
+        );
+
+
         recognition.onresult =
             function(event) {
 
@@ -105,8 +110,7 @@ function initVoice() {
         recognition.onerror =
             function() {
 
-                micButton.textContent =
-                    "🎙";
+                stopRecording();
 
             };
 
@@ -114,10 +118,21 @@ function initVoice() {
         recognition.onend =
             function() {
 
-                micButton.textContent =
-                    "🎙";
+                stopRecording();
 
             };
+
+
+        function stopRecording() {
+
+            micButton.textContent =
+                "🎙";
+
+            micButton.classList.remove(
+                "recording"
+            );
+
+        }
 
     }
 
@@ -127,6 +142,12 @@ function initVoice() {
     ===================================== */
 
     function speakTranslation() {
+
+        /* No translation yet - nothing to read aloud */
+
+        if (output.querySelector(".output-placeholder")) {
+            return;
+        }
 
         const text =
             output.innerText.trim();
