@@ -163,9 +163,9 @@
 
 .region-control {
 
-    margin-top: 16px;
+    margin-top: 18px;
 
-    padding: 15px 18px;
+    padding: 16px 18px;
 
     display: flex;
 
@@ -173,13 +173,23 @@
 
     justify-content: space-between;
 
-    gap: 15px;
+    gap: 16px;
 
     background: var(--region-bg);
 
     border: 1px solid var(--border);
 
     border-radius: 16px;
+
+    transition: 0.25s;
+
+}
+
+
+.region-control:hover {
+
+    border-color:
+        rgba(139, 114, 255, 0.25);
 
 }
 
@@ -192,7 +202,7 @@
 
     align-items: center;
 
-    gap: 12px;
+    gap: 13px;
 
 }
 
@@ -201,18 +211,26 @@
 
 .location-icon {
 
-    width: 36px;
+    width: 42px;
 
-    height: 36px;
+    height: 42px;
 
     display: grid;
 
     place-items: center;
 
-    border-radius: 10px;
+    flex-shrink: 0;
+
+    border-radius: 12px;
 
     background:
-        rgba(139, 114, 255, 0.1);
+        linear-gradient(
+            135deg,
+            rgba(139, 114, 255, 0.14),
+            rgba(79, 220, 255, 0.1)
+        );
+
+    font-size: 19px;
 
 }
 
@@ -221,9 +239,11 @@
 
 .region-title {
 
-    font-size: 12px;
+    font-size: 14px;
 
     font-weight: 700;
+
+    letter-spacing: -0.2px;
 
 }
 
@@ -232,11 +252,11 @@
 
 .region-subtitle {
 
-    margin-top: 3px;
+    margin-top: 4px;
 
-    color: var(--text-dark);
+    color: var(--text-muted);
 
-    font-size: 10px;
+    font-size: 11px;
 
 }
 
@@ -247,19 +267,40 @@
 
     width: auto;
 
-    min-width: 190px;
+    min-width: 200px;
 
-    padding: 9px 12px;
+    padding: 11px 14px;
 
-    border-radius: 10px;
+    border-radius: 12px;
+
+    border: 1px solid var(--border);
 
     background: var(--dropdown-bg);
 
     color: var(--text);
 
-    font-size: 12px;
+    font-size: 13px;
 
     cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.region-control select:hover {
+
+    border-color:
+        rgba(139, 114, 255, 0.3);
+
+}
+
+
+.region-control select:focus-visible {
+
+    outline: 2px solid var(--secondary);
+
+    outline-offset: 2px;
 
 }
 

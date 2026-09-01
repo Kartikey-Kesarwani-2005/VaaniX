@@ -9,7 +9,7 @@
 
     margin-top: 16px;
 
-    padding: 20px 22px;
+    padding: 18px 22px;
 
     display: flex;
 
@@ -41,7 +41,7 @@
 
     align-items: center;
 
-    gap: 13px;
+    gap: 14px;
 
 }
 
@@ -50,9 +50,9 @@
 
 .spark-icon {
 
-    width: 40px;
+    width: 44px;
 
-    height: 40px;
+    height: 44px;
 
     display: grid;
 
@@ -63,15 +63,19 @@
     border-radius: 12px;
 
     background:
-        rgba(139, 114, 255, 0.12);
+        linear-gradient(
+            135deg,
+            rgba(139, 114, 255, 0.18),
+            rgba(79, 220, 255, 0.12)
+        );
 
-    color: #a99bff;
+    color: #b3a7ff;
 
-    font-size: 18px;
+    font-size: 20px;
 
     box-shadow:
         0 0 25px
-        rgba(139, 114, 255, 0.08);
+        rgba(139, 114, 255, 0.1);
 
 }
 
@@ -80,11 +84,11 @@
 
 .intelligence-title {
 
-    font-size: 14px;
+    font-size: 15px;
 
     font-weight: 700;
 
-    letter-spacing: 0.2px;
+    letter-spacing: -0.2px;
 
 }
 
@@ -111,6 +115,36 @@
 .intelligence-text strong {
 
     color: #aaa0ff;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   TOGGLE CONTROL
+========================================= */
+
+.region-toggle-control {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+
+}
+
+
+/* Toggle label */
+
+.region-toggle-label {
+
+    color: var(--text-muted);
+
+    font-size: 12px;
 
     font-weight: 600;
 
