@@ -1,0 +1,181 @@
+/* =========================================
+   VAANIX - NAVBAR
+========================================= */
+
+
+.navbar {
+
+    width: 100%;
+
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 25px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+/* BRAND */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+/* LOGO */
+
+.brand-mark {
+
+    width: 45px;
+
+    height: 45px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 10px 35px
+        rgba(139, 114, 255, 0.25);
+
+}
+
+
+.brand-mark span {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+}
+
+
+/* BRAND NAME */
+
+.brand-name {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+}
+
+
+/* BRAND TAG */
+
+.brand-tag {
+
+    margin-top: 3px;
+
+    color: var(--text-dark);
+
+    font-size: 8px;
+
+    letter-spacing: 1.8px;
+
+}
+
+
+/* RIGHT SIDE */
+
+.nav-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+}
+
+
+/* ENGINE STATUS */
+
+.engine-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+
+}
+
+
+/* STATUS DOT */
+
+.status-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #42e89a;
+
+    box-shadow:
+        0 0 12px #42e89a;
+
+}
+
+
+/* THEME BUTTON */
+
+.icon-btn {
+
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255,255,255,0.04);
+
+    color: white;
+
+    font-size: 18px;
+
+    transition: 0.25s;
+
+}
+
+
+.icon-btn:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        rgba(255,255,255,0.09);
+
+}

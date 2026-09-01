@@ -1,0 +1,179 @@
+/* =========================================
+   VAANIX - BASE CSS
+   Global styles
+========================================= */
+
+
+/* 1. RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* 2. ROOT VARIABLES */
+
+:root {
+
+    --background: #070910;
+
+    --surface: #0d111c;
+
+    --surface-light: #111624;
+
+    --text: #f7f8fc;
+
+    --text-muted: #8991a5;
+
+    --text-dark: #596174;
+
+    --border: rgba(255, 255, 255, 0.09);
+
+    --primary: #8b72ff;
+
+    --secondary: #4fdcff;
+
+    --radius: 20px;
+
+}
+
+
+/* 3. BODY */
+
+body {
+
+    min-height: 100vh;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    font-family: Arial, sans-serif;
+
+    overflow-x: hidden;
+
+}
+
+
+/* 4. BUTTON */
+
+button {
+
+    border: none;
+
+    outline: none;
+
+    cursor: pointer;
+
+}
+
+
+/* 5. SELECT */
+
+select {
+
+    border: none;
+
+    outline: none;
+
+}
+
+
+/* 6. TEXTAREA */
+
+textarea {
+
+    border: none;
+
+    outline: none;
+
+    resize: none;
+
+}
+
+
+/* 7. LINKS */
+
+a {
+
+    text-decoration: none;
+
+    color: inherit;
+
+}
+
+
+/* 8. GLOBAL CONTAINER */
+
+.container {
+
+    width: 100%;
+
+    max-width: 1150px;
+
+    margin: auto;
+
+    padding: 0 20px;
+
+}
+
+
+/* 9. BACKGROUND GRID */
+
+.grid-bg {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,0.025) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 70px 70px;
+
+    mask-image:
+
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 90%
+        );
+
+}
+/* =========================================
+   LIGHT MODE
+========================================= */
+
+body.light-mode {
+
+    --background: #f5f7fb;
+
+    --surface: #ffffff;
+
+    --surface-light: #eef1f7;
+
+    --text: #111522;
+
+    --text-muted: #626b7d;
+
+    --text-dark: #8a92a3;
+
+    --border: rgba(20, 25, 40, 0.1);
+
+}

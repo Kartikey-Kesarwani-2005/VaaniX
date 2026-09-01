@@ -1,0 +1,167 @@
+/* =========================================
+   VAANIX - RESPONSIVE
+========================================= */
+
+
+/* TABLET */
+
+@media (max-width: 800px) {
+
+
+    .hero {
+
+        margin-top: 50px;
+
+    }
+
+
+    .translation-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .feature-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .language-bar {
+
+        grid-template-columns:
+            1fr 45px 1fr;
+
+    }
+
+
+    .swap-btn {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 18px;
+
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 550px) {
+
+
+    .navbar {
+
+        padding: 18px 15px;
+
+    }
+
+
+    .engine-status {
+
+        display: none;
+
+    }
+
+
+    .hero {
+
+        margin-top: 35px;
+
+        margin-bottom: 35px;
+
+    }
+
+
+    .hero h1 {
+
+        letter-spacing: -2px;
+
+    }
+
+
+    .hero p {
+
+        font-size: 14px;
+
+    }
+
+
+    .language-bar {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .swap-btn {
+
+        transform: rotate(90deg);
+
+    }
+
+
+    .swap-btn:hover {
+
+        transform:
+            rotate(270deg);
+
+    }
+
+
+    .region-control {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .region-control select {
+
+        width: 100%;
+
+    }
+
+
+    .translation-card {
+
+        min-height: 300px;
+
+    }
+
+
+    .translation-card textarea,
+    .output-area {
+
+        height: 190px;
+
+        font-size: 17px;
+
+    }
+
+
+    .intelligence-card {
+
+        align-items: flex-start;
+
+    }
+
+
+    footer {
+
+        flex-direction: column;
+
+        gap: 12px;
+
+        text-align: center;
+
+    }
+
+}

@@ -1,0 +1,102 @@
+/* =========================================
+   VAANIX - HERO
+========================================= */
+
+
+.hero {
+
+    max-width: 850px;
+
+    margin: 70px auto 55px;
+
+    padding: 0 20px;
+
+    text-align: center;
+
+}
+
+
+/* TOP PILL */
+
+.hero-pill {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 14px;
+
+    border-radius: 50px;
+
+    background:
+        rgba(139,114,255,0.09);
+
+    border:
+        1px solid
+        rgba(139,114,255,0.18);
+
+    color: #aaa0e8;
+
+    font-size: 12px;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* HEADING */
+
+.hero h1 {
+
+    font-size: clamp(
+        42px,
+        7vw,
+        78px
+    );
+
+    line-height: 1.02;
+
+    letter-spacing: -3px;
+
+    font-weight: 700;
+
+}
+
+
+/* GRADIENT TEXT */
+
+.hero h1 span {
+
+    background:
+
+        linear-gradient(
+            100deg,
+            #927bff,
+            #50dcff
+        );
+    
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+
+}
+
+
+/* DESCRIPTION */
+
+.hero p {
+
+    max-width: 620px;
+
+    margin: 24px auto 0;
+
+    color: var(--text-muted);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+}

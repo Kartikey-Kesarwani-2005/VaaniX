@@ -1,0 +1,38 @@
+/* =========================================
+   VAANIX - FOOTER
+========================================= */
+
+
+footer {
+
+    max-width: 1150px;
+
+    margin: 0 auto;
+
+    padding: 30px 20px 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-top:
+        1px solid var(--border);
+
+    color: var(--text-dark);
+
+    font-size: 11px;
+
+}
+
+
+.footer-logo {
+
+    color: var(--text);
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}

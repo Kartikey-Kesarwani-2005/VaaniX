@@ -1,0 +1,104 @@
+/* =========================================
+   VAANIX - LANGUAGE CSS
+========================================= */
+
+
+/* LANGUAGE SECTION */
+
+.language-bar {
+
+    max-width: 1150px;
+
+    margin: auto;
+
+    padding: 0 20px;
+
+}
+
+
+/* SELECT ARROW AREA */
+
+.language-selector select {
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    padding-right: 30px;
+
+}
+
+
+/* LANGUAGE SELECTOR HOVER */
+
+.language-selector {
+
+    position: relative;
+
+}
+
+
+/* CUSTOM ARROW */
+
+.language-selector::after {
+
+    content: "⌄";
+
+    position: absolute;
+
+    right: 16px;
+
+    bottom: 14px;
+
+    color: var(--text-muted);
+
+    pointer-events: none;
+
+}
+
+
+/* REGION */
+
+.region-control {
+
+    max-width: 1150px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+}
+
+
+/* REGION SELECT */
+
+.region-control select {
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    padding-right: 32px;
+
+}
+
+
+/* REGION SELECT FOCUS */
+
+.language-selector select:focus,
+.region-control select:focus {
+
+    outline: none;
+
+}
+
+
+/* DISABLED SELECT */
+
+select:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+}

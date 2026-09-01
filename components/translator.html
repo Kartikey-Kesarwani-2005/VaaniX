@@ -1,0 +1,148 @@
+<section class="translation-grid">
+
+
+    <!-- INPUT -->
+
+    <div class="translation-card">
+
+        <div class="card-header">
+
+            <span class="card-title">
+                Your words
+            </span>
+
+            <span
+                class="detected"
+                id="detectedText"
+            >
+                English selected
+            </span>
+
+        </div>
+
+
+        <textarea
+            id="inputText"
+            maxlength="1000"
+            placeholder="Type something to translate..."
+        ></textarea>
+
+
+        <div class="card-bottom">
+
+            <div class="input-tools">
+
+                <button
+                    class="round-tool"
+                    id="micBtn"
+                >
+                    🎙
+                </button>
+
+
+                <button
+                    class="round-tool"
+                    id="clearBtn"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <span
+                class="counter"
+                id="counter"
+            >
+                0 / 1000
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- OUTPUT -->
+
+    <div class="translation-card output-card">
+
+        <div class="card-header">
+
+            <span class="card-title">
+                Translation
+            </span>
+
+            <span class="ai-badge">
+                Regional
+            </span>
+
+        </div>
+
+
+        <div
+            class="output-area"
+            id="outputText"
+        >
+
+            <span class="output-placeholder">
+                Your translation will appear here...
+            </span>
+
+        </div>
+
+
+        <div class="card-bottom">
+
+            <div class="input-tools">
+
+                <button
+                    class="round-tool"
+                    id="copyBtn"
+                >
+                    ⧉
+                </button>
+
+
+                <button
+                    class="round-tool"
+                    id="speakBtn"
+                >
+                    🔊
+                </button>
+
+            </div>
+
+
+            <span class="regional-indicator">
+
+                <span></span>
+
+                Regional aware
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TRANSLATE BUTTON -->
+
+<button
+    class="translate-btn"
+    id="translateBtn"
+>
+
+    <span>✦</span>
+
+    <span>
+        Translate with VaaniX
+    </span>
+
+    <span class="arrow">
+        →
+    </span>
+
+</button>
