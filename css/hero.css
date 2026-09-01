@@ -1,11 +1,10 @@
-/* VAANIX - HERO */
-
+/* VAANIX - HERO (compact — the translator leads) */
 
 .hero {
 
-    max-width: 850px;
+    max-width: 800px;
 
-    margin: 70px auto 55px;
+    margin: 52px auto 0;
 
     padding: 0 24px;
 
@@ -24,58 +23,46 @@
 
     gap: 8px;
 
-    padding: 9px 16px;
+    padding: 8px 16px;
 
     border-radius: 50px;
 
-    background:
-        rgba(139,114,255,0.09);
+    background: var(--primary-soft);
 
-    border:
-        1px solid
-        rgba(139,114,255,0.18);
+    border: 1px solid rgba(138, 108, 255, 0.24);
 
-    color: #aaa0e8;
+    color: var(--accent-text);
 
     font-size: 12px;
 
-    font-weight: 500;
+    font-weight: 700;
 
-    margin-bottom: 28px;
+    letter-spacing: 0.3px;
+
+    margin-bottom: 22px;
 
 }
 
 
 .hero h1 {
 
-    font-size: clamp(
-        42px,
-        7vw,
-        78px
-    );
+    font-size: clamp(36px, 6vw, 62px);
 
-    line-height: 1.02;
+    line-height: 1.06;
 
-    letter-spacing: -3px;
+    letter-spacing: -2px;
 
-    font-weight: 700;
-
-    margin: 0;
+    font-weight: 800;
 
 }
 
 
 .hero h1 span {
 
-    background:
+    background: linear-gradient(100deg, #927bff, #50dcff);
 
-        linear-gradient(
-            100deg,
-            #927bff,
-            #50dcff
-        );
-    
     -webkit-background-clip: text;
+
     background-clip: text;
 
     color: transparent;
@@ -85,21 +72,14 @@
 
 .hero p {
 
-    max-width: 620px;
+    max-width: 540px;
 
-    margin: 26px auto 0;
+    margin: 16px auto 0;
 
     color: var(--text-muted);
 
-    font-size: 16px;
+    font-size: 15.5px;
 
     line-height: 1.7;
-
-}
-
-
-body.light-mode .hero-pill {
-
-    color: #6b4fd8;
 
 }

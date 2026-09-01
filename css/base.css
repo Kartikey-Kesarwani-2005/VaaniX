@@ -1,95 +1,19 @@
-/* VAANIX - BASE CSS */
+/* VAANIX - BASE
+   Reset, design tokens and page background */
 
 
 /* 1. RESET */
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
-}
-
-
-/* 2. ROOT VARIABLES */
-
-:root {
-
-    --background: #070910;
-
-    --surface: #0d111c;
-
-    --surface-light: #111624;
-
-    --text: #f7f8fc;
-
-    --text-muted: #8991a5;
-
-    --text-dark: #596174;
-
-    --border: rgba(255, 255, 255, 0.09);
-
-    --primary: #8b72ff;
-
-    --secondary: #4fdcff;
-
-    --dropdown-bg: #111624;
-
-    --field-base: #4f5769;
-
-    --field-strong: #81899b;
-
-    --tool-bg: rgba(255, 255, 255, 0.035);
-
-    --icon-btn-bg: rgba(255, 255, 255, 0.04);
-
-    --region-bg: rgba(255, 255, 255, 0.025);
-
-    --placeholder: #747d8f;
-
-    --card-title-color: #737c90;
-
-    --indicator-color: #657087;
-
-    --heading-note: #777f92;
-
-    --watermark-color: #323847;
-
-    --icon-btn-hover: rgba(255, 255, 255, 0.09);
 
 }
 
-
-/* 3. BODY */
-
-body {
-
-    min-height: 100vh;
-
-    background: var(--background);
-
-    color: var(--text);
-
-    font-family:
-        "Inter",
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-    font-size: 15px;
-
-    line-height: 1.5;
-
-    -webkit-font-smoothing: antialiased;
-
-    -moz-osx-font-smoothing: grayscale;
-
-    overflow-x: hidden;
-
-}
-
-
-/* 4. BUTTON */
 
 button {
 
@@ -101,9 +25,6 @@ button {
 
 }
 
-
-/* 5. SELECT */
-
 select {
 
     border: none;
@@ -111,9 +32,6 @@ select {
     outline: none;
 
 }
-
-
-/* 6. TEXTAREA */
 
 textarea {
 
@@ -125,9 +43,6 @@ textarea {
 
 }
 
-
-/* 7. LINKS */
-
 a {
 
     text-decoration: none;
@@ -137,7 +52,160 @@ a {
 }
 
 
-/* 8. BACKGROUND GRID */
+/* 2. BODY */
+
+body {
+
+    min-height: 100vh;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family:
+
+        "Inter",
+
+        -apple-system,
+
+        BlinkMacSystemFont,
+
+        "Segoe UI",
+
+        sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.55;
+
+    -webkit-font-smoothing: antialiased;
+
+    -moz-osx-font-smoothing: grayscale;
+
+    overflow-x: hidden;
+
+}
+
+
+::selection {
+
+    background: rgba(138, 108, 255, 0.3);
+
+}
+
+
+/* Smooth theme switch (colors only, no layout) */
+
+body,
+
+body * {
+
+    transition-property: background-color, border-color, color;
+
+    transition-duration: 0.22s;
+
+    transition-timing-function: ease;
+
+}
+
+
+/* 3. DESIGN TOKENS — DARK (default) */
+
+:root {
+
+    --bg: #0b0f1a;
+
+    --nav-bg: rgba(11, 15, 26, 0.85);
+
+    --surface-solid: #121829;
+
+    --surface: rgba(255, 255, 255, 0.04);
+
+    --text: #eef1f8;
+
+    --text-muted: #9aa3b8;
+
+    --text-faint: #6b7489;
+
+    --placeholder: #5f6880;
+
+    --border: rgba(255, 255, 255, 0.1);
+
+    --border-strong: rgba(255, 255, 255, 0.2);
+
+    --primary: #8a6cff;
+
+    --accent: #54dcff;
+
+    --accent-text: #bdb3ff;
+
+    --primary-soft: rgba(138, 108, 255, 0.13);
+
+    --field-base: #5c6577;
+
+    --field-strong: #8b93a8;
+
+    --shadow-sm: 0 10px 26px rgba(0, 0, 0, 0.35);
+
+    --radius-xl: 24px;
+
+    --radius-lg: 18px;
+
+    --radius: 12px;
+
+    --grad-brand: linear-gradient(135deg, var(--primary), var(--accent));
+
+}
+
+
+/* 4. DESIGN TOKENS — LIGHT */
+
+body.light-mode {
+
+    --bg: #eef1f8;
+
+    --nav-bg: rgba(238, 241, 248, 0.88);
+
+    --surface-solid: #ffffff;
+
+    --surface: #f6f8fc;
+
+    --text: #151b2d;
+
+    --text-muted: #5a6478;
+
+    --text-faint: #6a7389;
+
+    --placeholder: #7d88a0;
+
+    --border: rgba(15, 23, 42, 0.12);
+
+    --border-strong: rgba(15, 23, 42, 0.2);
+
+    --primary: #6b4fd8;
+
+    --accent: #0b7285;
+
+    --accent-text: #6b4fd8;
+
+    --primary-soft: rgba(107, 79, 216, 0.1);
+
+    --field-base: #5b6478;
+
+    --field-strong: #3f4758;
+
+    --shadow-sm: 0 10px 24px rgba(28, 38, 70, 0.08);
+
+    --radius-xl: 24px;
+
+    --radius-lg: 18px;
+
+    --radius: 12px;
+
+}
+
+
+/* 5. PAGE BACKGROUND — fine grid + two soft brand glows */
 
 .grid-bg {
 
@@ -151,71 +219,93 @@ a {
 
     background-image:
 
-        linear-gradient(
-            rgba(255,255,255,0.025) 1px,
-            transparent 1px
-        ),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
 
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,0.025) 1px,
-            transparent 1px
-        );
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 
-    background-size: 70px 70px;
+    background-size: 64px 64px;
 
     mask-image:
 
-        linear-gradient(
-            to bottom,
-            black,
-            transparent 90%
-        );
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent 85%);
+
+    -webkit-mask-image:
+
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent 85%);
 
 }
 
-body.light-mode {
 
-    --background: #f5f7fb;
+.grid-bg::before {
 
-    --surface: #ffffff;
+    content: "";
 
-    --surface-light: #eef1f7;
+    position: absolute;
 
-    --text: #111522;
+    top: -260px;
 
-    --primary: #6b4fd8;
+    left: -180px;
 
-    --secondary: #0b7285;
+    width: 660px;
 
-    --text-muted: #626b7d;
+    height: 660px;
 
-    --text-dark: #5b6478;
+    border-radius: 50%;
 
-    --border: rgba(20, 25, 40, 0.1);
+    background:
 
-    --dropdown-bg: #ffffff;
+        radial-gradient(circle, rgba(138, 108, 255, 0.17), transparent 65%);
 
-    --field-base: #5b6478;
+}
 
-    --field-strong: #6b7489;
 
-    --tool-bg: rgba(20, 25, 40, 0.05);
+.grid-bg::after {
 
-    --icon-btn-bg: rgba(20, 25, 40, 0.05);
+    content: "";
 
-    --region-bg: rgba(20, 25, 40, 0.035);
+    position: absolute;
 
-    --placeholder: #6a7386;
+    top: 140px;
 
-    --card-title-color: #626b7d;
+    right: -220px;
 
-    --indicator-color: #5b6478;
+    width: 560px;
 
-    --heading-note: #6b7489;
+    height: 560px;
 
-    --watermark-color: #aab2c5;
+    border-radius: 50%;
 
-    --icon-btn-hover: rgba(139, 114, 255, 0.12);
+    background:
+
+        radial-gradient(circle, rgba(84, 220, 255, 0.09), transparent 65%);
+
+}
+
+
+/* Lighter grid + glows for light mode */
+
+body.light-mode .grid-bg {
+
+    background-image:
+
+        linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+
+        linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+
+}
+
+body.light-mode .grid-bg::before {
+
+    background:
+
+        radial-gradient(circle, rgba(107, 79, 216, 0.11), transparent 65%);
+
+}
+
+body.light-mode .grid-bg::after {
+
+    background:
+
+        radial-gradient(circle, rgba(11, 114, 133, 0.08), transparent 65%);
 
 }

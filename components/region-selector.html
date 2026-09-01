@@ -1,58 +1,57 @@
 <section class="region-control">
 
-
-    <div class="region-left">
-
-        <div class="location-icon">
-            📍
-        </div>
+    <div class="region-chip" aria-hidden="true">
+        📍
+    </div>
 
 
-        <div>
+    <div class="region-copy">
 
-            <div class="region-title">
-                Regional Expression
-            </div>
+        <span class="region-label">
+            YOUR REGION
+        </span>
 
-            <div class="region-subtitle">
-                Adapt translation to your local
-                way of speaking
-            </div>
 
-        </div>
+        <select
+            id="region"
+            aria-label="Region"
+        >
+
+            <option value="prayagraj" selected>
+                Prayagraj, Uttar Pradesh
+            </option>
+
+            <option value="standard">
+                Standard Hindi
+            </option>
+
+            <option value="varanasi">
+                Varanasi · Purvanchal
+            </option>
+
+            <option value="lucknow">
+                Lucknow · Awadh
+            </option>
+
+            <option value="agra">
+                Agra · Braj
+            </option>
+
+            <option value="patna">
+                Patna · Bihar
+            </option>
+
+        </select>
 
     </div>
 
 
-    <select
-        id="region"
-        aria-label="Region"
-    >
+    <div class="region-hint">
 
-        <option value="standard">
-            Standard Hindi
-        </option>
+        <span class="hint-dot"></span>
 
-        <option value="prayagraj">
-            Prayagraj · Eastern UP
-        </option>
+        Regional expressions enabled
 
-        <option value="varanasi">
-            Varanasi · Purvanchal
-        </option>
-
-        <option value="lucknow">
-            Lucknow · Awadh
-        </option>
-
-        <option value="agra">
-            Agra · Braj
-        </option>
-
-        <option value="patna">
-            Patna · Bihar
-        </option>
-
-    </select>
+    </div>
 
 </section>

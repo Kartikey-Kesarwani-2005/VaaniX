@@ -1,203 +1,47 @@
-/* VAANIX - TRANSLATOR CSS */
+/* VAANIX - TRANSLATOR
+   Regional Expression selector + translation workspace.
+   Main rules are DARK (uses the existing dark theme variables).
+   A body.light-mode block at the end restores the light look. */
 
 
-/* 1. LANGUAGE BAR */
-
-.language-bar {
-
-    display: grid;
-
-    grid-template-columns: 1fr 58px 1fr;
-
-    align-items: center;
-
-    gap: 16px;
-
-}
-
-
-/* 2. LANGUAGE SELECTOR */
-
-.language-selector {
-
-    padding: 16px 18px;
-
-    background: var(--surface);
-
-    border: 1px solid var(--border);
-
-    border-radius: 16px;
-
-    transition: 0.25s;
-
-}
-
-
-.language-selector:hover {
-
-    border-color:
-        rgba(139, 114, 255, 0.3);
-
-}
-
-
-.language-selector:focus-within {
-
-    border-color:
-        rgba(139, 114, 255, 0.4);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(139, 114, 255, 0.08);
-
-}
-
-
-/* Small FROM / TO text */
-
-.selector-label {
-
-    display: block;
-
-    margin-bottom: 7px;
-
-    color: var(--primary);
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-
-}
-
-
-.language-selector select {
-
-    width: 100%;
-
-    background: transparent;
-
-    color: var(--text);
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-}
-
-
-.language-selector select option {
-
-    background: var(--dropdown-bg);
-
-    color: var(--text);
-
-}
-
-
-/* 3. SWAP BUTTON */
-
-.swap-btn {
-
-    width: 50px;
-
-    height: 50px;
-
-    margin: auto;
-
-    border-radius: 50%;
-
-    border: 1px solid var(--border);
-
-    background: var(--surface-light);
-
-    color: var(--text);
-
-    font-size: 21px;
-
-    cursor: pointer;
-
-    transition: 0.35s;
-
-}
-
-
-.swap-btn:hover {
-
-    transform: rotate(180deg);
-
-    background:
-        rgba(139, 114, 255, 0.1);
-
-    border-color:
-        rgba(139, 114, 255, 0.5);
-
-    box-shadow:
-        0 0 25px
-        rgba(139, 114, 255, 0.18);
-
-}
-
-
-.swap-btn:focus-visible {
-
-    outline: 2px solid var(--secondary);
-
-    outline-offset: 2px;
-
-}
-
-
-/* 4. REGION CONTROL */
+/* 1. REGIONAL EXPRESSION selector */
 
 .region-control {
 
-    margin-top: 18px;
+    max-width: 1150px;
 
-    padding: 16px 18px;
+    margin: 24px auto 0;
+
+    padding: 14px 20px;
 
     display: flex;
 
     align-items: center;
-
-    justify-content: space-between;
 
     gap: 16px;
 
-    background: var(--region-bg);
+    border-radius: 16px;
+
+    background: var(--surface-solid);
+
+    backdrop-filter: blur(14px);
+
+    -webkit-backdrop-filter: blur(14px);
 
     border: 1px solid var(--border);
 
-    border-radius: 16px;
-
-    transition: 0.25s;
-
-}
-
-
-.region-control:hover {
-
-    border-color:
-        rgba(139, 114, 255, 0.25);
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.35),
+        0 2px 44px rgba(138, 108, 255, 0.1);
 
 }
 
 
-.region-left {
+/* Location pin chip */
 
-    display: flex;
+.region-chip {
 
-    align-items: center;
-
-    gap: 13px;
-
-}
-
-
-.location-icon {
+    flex-shrink: 0;
 
     width: 42px;
 
@@ -207,170 +51,204 @@
 
     place-items: center;
 
-    flex-shrink: 0;
-
     border-radius: 12px;
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(139, 114, 255, 0.14),
-            rgba(79, 220, 255, 0.1)
-        );
+    background: var(--grad-brand);
 
-    font-size: 19px;
+    font-size: 18px;
+
+    box-shadow: 0 8px 18px rgba(92, 132, 255, 0.3);
 
 }
 
 
-.region-title {
+/* "YOUR REGION" label + select */
 
-    font-size: 14px;
+.region-copy {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.region-label {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--accent-text);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+}
+
+
+.region-copy select {
+
+    width: 100%;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    padding-right: 30px;
+
+    background: transparent;
+
+    background-image:
+
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%239aa3b8' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    background-repeat: no-repeat;
+
+    background-position: right 2px center;
+
+    background-size: 12px 8px;
+
+    color: var(--text);
+
+    font-size: 17px;
 
     font-weight: 700;
 
-    letter-spacing: -0.2px;
+    cursor: pointer;
+
+    transition: color 0.2s, border-color 0.2s;
+
+}
+
+.region-copy select:hover {
+
+    color: var(--accent-text);
+
+}
+
+.region-copy select:focus-visible {
+
+    outline: 2px solid var(--accent);
+
+    outline-offset: 3px;
+
+    border-radius: var(--radius);
 
 }
 
 
-.region-subtitle {
+.region-copy select option {
 
-    margin-top: 4px;
+    background: var(--surface-solid);
+
+    color: var(--text);
+
+}
+
+
+/* Tiny "Regional expressions enabled" hint */
+
+.region-hint {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-shrink: 0;
 
     color: var(--text-muted);
 
     font-size: 11px;
 
-}
+    font-weight: 600;
 
-
-.region-control select {
-
-    width: auto;
-
-    min-width: 200px;
-
-    padding: 11px 14px;
-
-    border-radius: 12px;
-
-    border: 1px solid var(--border);
-
-    background: var(--dropdown-bg);
-
-    color: var(--text);
-
-    font-size: 13px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+    white-space: nowrap;
 
 }
 
 
-.region-control select:hover {
+.hint-dot {
 
-    border-color:
-        rgba(139, 114, 255, 0.3);
+    width: 7px;
 
-}
+    height: 7px;
 
+    border-radius: 50%;
 
-.region-control select:focus-visible {
+    background: #3eea9b;
 
-    outline: 2px solid var(--secondary);
-
-    outline-offset: 2px;
+    box-shadow: 0 0 8px rgba(62, 234, 155, 0.7);
 
 }
 
 
-.region-control select option {
+/* 2. TRANSLATION WORKSPACE
+   "YOUR WORDS" and "TRANSLATION" panels. */
 
-    background: var(--dropdown-bg);
-
-    color: var(--text);
-
-}
-
-
-/* 5. TRANSLATION GRID */
-
-.translation-grid {
+.workspace {
 
     max-width: 1150px;
 
-    margin: 16px auto 0;
+    margin: 20px auto 0;
+
+}
+
+
+/* Two-column panel layout */
+
+.translation-grid {
 
     display: grid;
 
     grid-template-columns: 1fr 1fr;
 
-    gap: 16px;
+    gap: 20px;
 
 }
 
-
-/* 6. TRANSLATION CARD */
 
 .translation-card {
 
     position: relative;
 
-    min-height: 360px;
+    min-height: 420px;
 
-    padding: 24px 22px;
-
-    background: var(--surface);
-
-    border: 1px solid var(--border);
+    padding: 24px 24px 70px;
 
     border-radius: 20px;
 
-    transition: 0.3s;
+    background: var(--surface-solid);
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.3),
+        0 0 44px rgba(138, 108, 255, 0.06);
+
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 
 }
-
 
 .translation-card:hover {
 
-    border-color:
-        rgba(139, 114, 255, 0.2);
+    transform: translateY(-2px);
+
+    border-color: rgba(138, 108, 255, 0.4);
 
     box-shadow:
-        0 8px 30px
-        rgba(0, 0, 0, 0.12);
+        0 14px 32px rgba(0, 0, 0, 0.35),
+        0 0 52px rgba(138, 108, 255, 0.08);
 
 }
 
 
-.translation-card:focus-within {
-
-    border-color:
-        rgba(139, 114, 255, 0.4);
-
-    box-shadow:
-        0 0 35px
-        rgba(139, 114, 255, 0.06);
-
-}
-
-
-.output-card {
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(139, 114, 255, 0.065),
-            rgba(255, 255, 255, 0.02)
-        );
-
-}
-
-
-/* 7. CARD HEADER */
+/* 3. CARD HEADER - clean labels with blue indicator dots */
 
 .card-header {
 
@@ -382,95 +260,91 @@
 
     padding-bottom: 14px;
 
-    border-bottom:
-        1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 
 }
 
 
 .card-title {
 
-    color: var(--card-title-color);
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    letter-spacing: 1.2px;
-
-    text-transform: uppercase;
-
     display: flex;
 
     align-items: center;
 
-    gap: 8px;
+    gap: 9px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    text-transform: uppercase;
 
 }
-
 
 .card-title::before {
 
     content: "";
 
-    width: 6px;
+    width: 8px;
 
-    height: 6px;
+    height: 8px;
 
     border-radius: 50%;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--secondary)
-        );
+    background: var(--primary);
 
-    opacity: 0.85;
+    box-shadow: 0 0 8px rgba(138, 108, 255, 0.4);
 
 }
 
 
 .detected {
 
-    color: var(--text-dark);
+    color: var(--text-faint);
 
-    font-size: 11px;
+    font-size: 11.5px;
 
-    letter-spacing: 0.3px;
+    font-weight: 600;
 
 }
 
 
 .regional-badge {
 
-    padding: 6px 11px;
+    padding: 5px 11px;
 
     border-radius: 50px;
 
-    background:
-        rgba(139, 114, 255, 0.1);
+    background: var(--primary-soft);
 
-    color: #b2a7ff;
+    border: 1px solid rgba(138, 108, 255, 0.3);
 
-    font-size: 10px;
+    color: var(--accent-text);
 
-    font-weight: 700;
+    font-size: 10.5px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.4px;
 
 }
 
 
-/* 8. TEXTAREA */
+/* 4. INPUT / OUTPUT AREAS */
 
 .translation-card textarea {
 
     width: 100%;
 
-    height: 220px;
+    height: 240px;
 
-    margin-top: 16px;
+    margin-top: 18px;
 
-    padding: 0;
+    padding: 2px;
 
     background: transparent;
 
@@ -480,12 +354,11 @@
 
     font-size: 20px;
 
-    line-height: 1.6;
+    line-height: 1.65;
 
-    caret-color: var(--secondary);
+    caret-color: var(--accent);
 
 }
-
 
 .translation-card textarea::placeholder {
 
@@ -493,14 +366,22 @@
 
 }
 
+.translation-card textarea:focus-visible {
 
-/* 9. OUTPUT AREA */
+    outline: 2px solid var(--accent);
+
+    outline-offset: 6px;
+
+    border-radius: var(--radius);
+
+}
+
 
 .output-area {
 
-    height: 220px;
+    height: 240px;
 
-    margin-top: 16px;
+    margin-top: 18px;
 
     overflow-y: auto;
 
@@ -508,7 +389,9 @@
 
     font-size: 20px;
 
-    line-height: 1.6;
+    line-height: 1.65;
+
+    overflow-wrap: break-word;
 
 }
 
@@ -522,20 +405,20 @@
 
 .output-hint {
 
-    color: var(--secondary);
+    color: var(--accent);
 
 }
 
 
-/* 10. CARD BOTTOM */
+/* 5. CARD BOTTOM BAR */
 
 .card-bottom {
 
     position: absolute;
 
-    left: 22px;
+    left: 24px;
 
-    right: 22px;
+    right: 24px;
 
     bottom: 18px;
 
@@ -545,6 +428,10 @@
 
     justify-content: space-between;
 
+    gap: 12px;
+
+    flex-wrap: wrap;
+
 }
 
 
@@ -552,26 +439,41 @@
 
     display: flex;
 
-    gap: 7px;
+    gap: 8px;
 
 }
 
 
+.input-side {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-left: auto;
+
+}
+
+
+/* 6. ROUND TOOL ICONS */
+
 .round-tool {
 
-    width: 38px;
+    width: 40px;
 
-    height: 38px;
+    height: 40px;
 
     display: grid;
 
     place-items: center;
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
 
     border-radius: 12px;
 
-    background: var(--tool-bg);
+    background: var(--surface);
 
     color: var(--field-strong);
 
@@ -579,48 +481,21 @@
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition: transform 0.2s, border-color 0.2s, background-color 0.2s, color 0.2s;
 
 }
-
-
-.round-tool.copied {
-
-    font-size: 10px;
-
-    white-space: nowrap;
-
-    color: var(--secondary);
-
-    border-color:
-        rgba(79, 220, 255, 0.3);
-
-}
-
 
 .round-tool:hover {
 
-    color: white;
+    color: var(--text);
 
-    background:
-        rgba(139, 114, 255, 0.12);
+    background: var(--primary-soft);
 
-    border-color:
-        rgba(139, 114, 255, 0.3);
+    border-color: rgba(138, 108, 255, 0.4);
 
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 
 }
-
-
-.round-tool:focus-visible {
-
-    outline: 2px solid var(--secondary);
-
-    outline-offset: 2px;
-
-}
-
 
 .round-tool:active {
 
@@ -628,37 +503,53 @@
 
 }
 
+.round-tool:focus-visible {
 
-/* Recording state */
+    outline: 2px solid var(--accent);
+
+    outline-offset: 2px;
+
+}
+
+
+.round-tool.copied {
+
+    font-size: 10.5px;
+
+    white-space: nowrap;
+
+    color: #3eea9b;
+
+    border-color: rgba(62, 234, 155, 0.4);
+
+    background: rgba(62, 234, 155, 0.1);
+
+}
+
 
 .round-tool.recording {
 
     color: #ff5d5d;
 
-    border-color:
-        rgba(255, 93, 93, 0.4);
+    border-color: rgba(255, 93, 93, 0.45);
 
-    background:
-        rgba(255, 93, 93, 0.1);
+    background: rgba(255, 93, 93, 0.12);
 
     animation: mic-pulse 1s infinite;
 
 }
 
-
 @keyframes mic-pulse {
 
     0% {
 
-        box-shadow:
-            0 0 0 0 rgba(255, 93, 93, 0.4);
+        box-shadow: 0 0 0 0 rgba(255, 93, 93, 0.4);
 
     }
 
     100% {
 
-        box-shadow:
-            0 0 0 10px rgba(255, 93, 93, 0);
+        box-shadow: 0 0 0 10px rgba(255, 93, 93, 0);
 
     }
 
@@ -667,16 +558,16 @@
 
 .counter {
 
-    color: var(--field-base);
+    color: var(--text-faint);
 
-    font-size: 11px;
+    font-size: 11.5px;
 
-    letter-spacing: 0.3px;
+    font-weight: 600;
+
+    letter-spacing: 0.4px;
 
 }
 
-
-/* 11. REGIONAL INDICATOR */
 
 .regional-indicator {
 
@@ -684,43 +575,40 @@
 
     align-items: center;
 
-    gap: 6px;
+    gap: 7px;
 
-    color: var(--indicator-color);
+    color: var(--text-faint);
 
     font-size: 11px;
 
-    letter-spacing: 0.3px;
+    font-weight: 600;
+
+    letter-spacing: 0.4px;
 
 }
-
 
 .regional-indicator span {
 
-    width: 5px;
+    width: 7px;
 
-    height: 5px;
+    height: 7px;
 
     border-radius: 50%;
 
-    background: #54d9ff;
+    background: var(--primary);
+
+    box-shadow: 0 0 8px rgba(138, 108, 255, 0.5);
 
 }
 
 
-/* 12. TRANSLATE BUTTON */
+/* 7. TRANSLATE BUTTON - prominent action inside the input panel */
 
 .translate-btn {
 
     position: relative;
 
-    width: 100%;
-
-    height: 60px;
-
-    margin-top: 18px;
-
-    display: flex;
+    display: inline-flex;
 
     align-items: center;
 
@@ -728,32 +616,58 @@
 
     gap: 10px;
 
-    border: none;
+    height: 46px;
 
-    border-radius: 16px;
+    padding: 0 20px;
 
-    background:
-        linear-gradient(
-            100deg,
-            #745cff,
-            #4dcfff
-        );
+    border-radius: 14px;
 
-    color: white;
+    background: var(--grad-brand);
 
-    font-size: 15px;
+    color: #fff;
 
-    font-weight: 700;
+    font-size: 14px;
+
+    font-weight: 800;
 
     letter-spacing: 0.2px;
 
+    white-space: nowrap;
+
+    box-shadow: 0 10px 24px rgba(92, 132, 255, 0.3);
+
+    overflow: hidden;
+
     cursor: pointer;
 
-    box-shadow:
-        0 15px 35px
-        rgba(102, 91, 255, 0.2);
+    flex-shrink: 0;
 
-    transition: 0.3s;
+    transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+
+}
+
+
+.translate-btn::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+
+    transform: translateX(-120%);
+
+    transition: transform 0.6s ease;
+
+    pointer-events: none;
+
+}
+
+.translate-btn:hover::after {
+
+    transform: translateX(120%);
 
 }
 
@@ -762,53 +676,268 @@
 
     transform: translateY(-2px);
 
-    box-shadow:
-        0 22px 45px
-        rgba(102, 91, 255, 0.3);
+    box-shadow: 0 14px 28px rgba(92, 132, 255, 0.38);
 
-    filter: brightness(1.05);
+    filter: brightness(1.06);
 
 }
-
 
 .translate-btn:active {
 
-    transform: translateY(-1px) scale(0.99);
+    transform: translateY(0) scale(0.97);
 
 }
 
-
 .translate-btn:focus-visible {
 
-    outline: 2px solid var(--secondary);
+    outline: 2px solid var(--accent);
 
     outline-offset: 3px;
 
 }
 
 
-.translate-btn .arrow {
+.translate-icon {
 
-    position: absolute;
-
-    right: 20px;
-
-    font-size: 20px;
-
-    transition: 0.25s;
+    font-size: 15px;
 
 }
 
 
+.translate-btn .arrow {
+
+    font-size: 19px;
+
+    transition: transform 0.25s;
+
+}
+
 .translate-btn:hover .arrow {
 
-    transform: translateX(5px);
+    transform: translateX(4px);
+
+}
+
+
+/* 8. LIGHT MODE
+   Restores the light/off-white panel appearance exactly.
+   Only backgrounds, borders and colors change - no layout. */
+
+body.light-mode .region-control {
+
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(239, 243, 253, 0.94));
+
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    box-shadow:
+        0 10px 26px rgba(16, 32, 72, 0.1),
+        0 2px 44px rgba(92, 132, 255, 0.16);
+
+}
+
+
+body.light-mode .region-label {
+
+    color: #2f54b0;
+
+}
+
+
+body.light-mode .region-copy select {
+
+    background-image:
+
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235b6478' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    color: #1d2b4a;
+
+}
+
+body.light-mode .region-copy select:hover {
+
+    color: #2f54b0;
+
+}
+
+body.light-mode .region-copy select:focus-visible {
+
+    outline: 2px solid #2f54b0;
+
+}
+
+
+body.light-mode .region-copy select option {
+
+    background: #ffffff;
+
+    color: #1d2b4a;
+
+}
+
+
+body.light-mode .region-hint {
+
+    color: #4d5c7d;
+
+}
+
+
+body.light-mode .translation-card {
+
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.97), #f3f6fc);
+
+    border: 1px solid rgba(140, 158, 198, 0.3);
+
+    box-shadow: 0 8px 22px rgba(16, 32, 72, 0.06);
+
+}
+
+body.light-mode .translation-card:hover {
+
+    border-color: rgba(47, 84, 176, 0.35);
+
+    box-shadow: 0 14px 30px rgba(16, 32, 72, 0.09);
+
+}
+
+
+body.light-mode .card-header {
+
+    border-bottom: 1px solid rgba(29, 43, 74, 0.1);
+
+}
+
+
+body.light-mode .card-title {
+
+    color: #3a4a6b;
+
+}
+
+body.light-mode .card-title::before {
+
+    background: #2f54b0;
+
+    box-shadow: 0 0 8px rgba(47, 84, 176, 0.35);
+
+}
+
+
+body.light-mode .detected {
+
+    color: #5f6d89;
 
 }
 
 
 body.light-mode .regional-badge {
 
-    color: #6b4fd8;
+    background: rgba(47, 84, 176, 0.08);
+
+    border: 1px solid rgba(47, 84, 176, 0.25);
+
+    color: #2f54b0;
+
+}
+
+
+body.light-mode .translation-card textarea {
+
+    color: #1d2b4a;
+
+    caret-color: #2f54b0;
+
+}
+
+body.light-mode .translation-card textarea::placeholder {
+
+    color: #8391ab;
+
+}
+
+body.light-mode .translation-card textarea:focus-visible {
+
+    outline: 2px solid #2f54b0;
+
+}
+
+
+body.light-mode .output-area {
+
+    color: #1d2b4a;
+
+}
+
+body.light-mode .output-placeholder {
+
+    color: #8391ab;
+
+}
+
+body.light-mode .output-hint {
+
+    color: #2f54b0;
+
+}
+
+
+body.light-mode .round-tool {
+
+    border: 1px solid rgba(29, 43, 74, 0.12);
+
+    background: rgba(47, 84, 176, 0.05);
+
+    color: #5f6d89;
+
+}
+
+body.light-mode .round-tool:hover {
+
+    color: #2f54b0;
+
+    background: rgba(47, 84, 176, 0.1);
+
+    border-color: rgba(47, 84, 176, 0.35);
+
+}
+
+body.light-mode .round-tool.copied {
+
+    color: #1f8a57;
+
+    border-color: rgba(31, 138, 87, 0.4);
+
+    background: rgba(31, 138, 87, 0.08);
+
+}
+
+body.light-mode .round-tool.recording {
+
+    color: #e5484d;
+
+    border-color: rgba(229, 72, 77, 0.4);
+
+    background: rgba(229, 72, 77, 0.08);
+
+}
+
+
+body.light-mode .counter {
+
+    color: #5f6d89;
+
+}
+
+body.light-mode .regional-indicator {
+
+    color: #5f6d89;
+
+}
+
+body.light-mode .regional-indicator span {
+
+    background: #2f54b0;
+
+    box-shadow: 0 0 8px rgba(47, 84, 176, 0.5);
 
 }

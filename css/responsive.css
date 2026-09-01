@@ -1,21 +1,19 @@
 /* VAANIX - RESPONSIVE */
 
 
-@media (max-width: 860px) {
+/* TABLET */
 
+@media (max-width: 860px) {
 
     .hero {
 
-        margin-top: 50px;
+        margin-top: 44px;
 
     }
 
+    .hero h1 {
 
-    /* Stack translator boxes vertically */
-
-    .translation-grid {
-
-        grid-template-columns: 1fr;
+        font-size: clamp(34px, 7vw, 52px);
 
     }
 
@@ -29,43 +27,91 @@
 
     .language-bar {
 
-        grid-template-columns:
-            1fr 45px 1fr;
+        grid-template-columns: 1fr 48px 1fr;
+
+        gap: 12px;
 
     }
-
 
     .swap-btn {
 
-        width: 42px;
+        width: 46px;
 
-        height: 42px;
+        height: 46px;
 
-        font-size: 18px;
-
-    }
-
-
-    /* Prevent region select from overflowing */
-
-    .region-control select {
-
-        min-width: 0;
+        font-size: 19px;
 
     }
 
 }
 
 
-@media (max-width: 560px) {
+/* SMALL TABLET - stack the translation panes */
 
+@media (max-width: 760px) {
 
-    .navbar {
+    .region-control {
 
-        padding: 18px 16px;
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+
+        padding: 16px 20px;
 
     }
 
+    .region-copy select {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+    .region-hint {
+
+        white-space: normal;
+
+    }
+
+
+    .translation-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+    }
+
+    .translation-card {
+
+        min-height: 320px;
+
+    }
+
+
+    .intelligence-card {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 640px) {
+
+    .navbar {
+
+        padding: 12px 16px;
+
+    }
 
     .engine-status {
 
@@ -73,37 +119,42 @@
 
     }
 
-
-    /* Bigger tap target for theme button */
-
     .icon-btn {
 
-        width: 44px;
+        width: 42px;
 
-        height: 44px;
+        height: 42px;
 
     }
 
 
     .hero {
 
-        margin-top: 35px;
+        margin: 32px auto 0;
 
-        margin-bottom: 35px;
+        padding: 0 18px;
 
     }
-
 
     .hero h1 {
 
-        letter-spacing: -2px;
+        font-size: clamp(30px, 9vw, 40px);
+
+        letter-spacing: -1.4px;
 
     }
-
 
     .hero p {
 
         font-size: 14px;
+
+    }
+
+    .hero-pill {
+
+        margin-bottom: 18px;
+
+        font-size: 11px;
 
     }
 
@@ -112,91 +163,79 @@
 
         grid-template-columns: 1fr;
 
-        gap: 14px;
+        gap: 10px;
+
+        padding: 16px;
+
+        margin-top: 30px;
 
     }
 
+    .language-selector select {
 
-    /* Swap button as a full-width row between selects */
+        font-size: 16px;
+
+    }
 
     .swap-btn {
 
         width: 100%;
 
-        height: 44px;
+        height: 46px;
 
         margin: 0;
 
-        border-radius: 14px;
+        border-radius: 12px;
 
         transform: none;
-
-        font-size: 20px;
 
     }
 
-
     .swap-btn:hover {
 
-        transform: none;
+        transform: rotate(180deg);
 
-        background:
-            rgba(139, 114, 255, 0.14);
+    }
+
+    .swap-btn:active {
+
+        transform: rotate(180deg) scale(0.98);
 
     }
 
 
     .region-control {
 
-        align-items: flex-start;
-
-        flex-direction: column;
+        padding: 16px 18px;
 
     }
 
 
-    .region-control select {
+    .workspace {
 
-        width: 100%;
+        margin-top: 18px;
 
-        padding: 12px 14px;
-
-    }
-
-
-    /* Bigger touch targets on tool buttons */
-
-    .round-tool {
-
-        width: 44px;
-
-        height: 44px;
-
-        border-radius: 12px;
-
-        font-size: 17px;
+        padding: 0 14px;
 
     }
-
 
     .translation-card {
 
-        min-height: 320px;
+        min-height: 260px;
 
-        padding: 22px 18px;
+        padding: 18px 18px 70px;
 
     }
 
-
     .translation-card textarea,
+
     .output-area {
 
-        height: 190px;
+        height: 180px;
 
         font-size: 17px;
 
     }
-
 
     .card-bottom {
 
@@ -206,19 +245,38 @@
 
     }
 
+    .input-side {
 
-    .intelligence-card {
+        flex-wrap: wrap;
 
-        align-items: flex-start;
+        width: 100%;
 
-        flex-direction: column;
+        gap: 10px;
+
+    }
+
+    .translate-btn {
+
+        flex: 1 1 100%;
+
+        height: 50px;
+
+        font-size: 15px;
 
     }
 
 
-    .translate-btn {
+    .feature-section {
 
-        height: 56px;
+        margin: 68px auto 56px;
+
+        padding: 0 18px;
+
+    }
+
+    .feature-card {
+
+        padding: 24px;
 
     }
 
@@ -230,6 +288,8 @@
         gap: 12px;
 
         text-align: center;
+
+        padding: 24px 18px 36px;
 
     }
 

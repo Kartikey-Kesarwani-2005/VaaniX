@@ -1,15 +1,31 @@
 /* VAANIX - NAVBAR */
 
+#navbar {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 50;
+
+    background: var(--nav-bg);
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
 
 .navbar {
 
-    width: 100%;
-
-    max-width: 1250px;
+    max-width: 1150px;
 
     margin: auto;
 
-    padding: 28px 24px;
+    padding: 14px 24px;
 
     display: flex;
 
@@ -35,70 +51,59 @@
 
 .brand-mark {
 
-    width: 44px;
+    width: 40px;
 
-    height: 44px;
+    height: 40px;
 
     display: grid;
 
     place-items: center;
 
-    border-radius: 13px;
+    border-radius: 12px;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--secondary)
-        );
+    background: var(--grad-brand);
 
-    box-shadow:
-        0 10px 35px
-        rgba(139, 114, 255, 0.25);
+    color: #fff;
 
-    transition: 0.3s;
+    font-size: 20px;
+
+    font-weight: 700;
+
+    box-shadow: 0 8px 22px rgba(138, 108, 255, 0.28);
+
+    transition: transform 0.25s;
 
 }
-
 
 .brand:hover .brand-mark {
 
-    transform: translateY(-2px);
-
-}
-
-
-.brand-mark span {
-
-    font-size: 23px;
-
-    font-weight: 700;
+    transform: rotate(-3deg);
 
 }
 
 
 .brand-name {
 
-    font-size: 20px;
+    font-size: 18px;
 
-    font-weight: 700;
+    font-weight: 800;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
 
 }
 
 
 .brand-tag {
 
-    margin-top: 3px;
+    margin-top: 1px;
 
-    color: var(--text-dark);
+    color: var(--text-faint);
 
-    font-size: 8px;
+    font-size: 8.5px;
 
-    font-weight: 600;
+    font-weight: 700;
 
-    letter-spacing: 1.8px;
+    letter-spacing: 2.2px;
 
 }
 
@@ -109,7 +114,7 @@
 
     align-items: center;
 
-    gap: 16px;
+    gap: 12px;
 
 }
 
@@ -122,19 +127,19 @@
 
     gap: 8px;
 
-    padding: 8px 13px;
+    padding: 8px 14px;
 
     border-radius: 50px;
 
     border: 1px solid var(--border);
 
-    background: var(--region-bg);
+    background: var(--surface);
 
     color: var(--text-muted);
 
-    font-size: 12px;
+    font-size: 11.5px;
 
-    font-weight: 500;
+    font-weight: 600;
 
 }
 
@@ -147,10 +152,7 @@
 
     border-radius: 50%;
 
-    background: #42e89a;
-
-    box-shadow:
-        0 0 12px #42e89a;
+    background: #3eea9b;
 
 }
 
@@ -165,30 +167,27 @@
 
     border: 1px solid var(--border);
 
-    background: var(--icon-btn-bg);
+    background: var(--surface);
 
     color: var(--text);
 
-    font-size: 18px;
+    font-size: 17px;
 
     cursor: pointer;
 
-    transition: 0.25s;
+    transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
 
 }
-
 
 .icon-btn:hover {
 
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 
-    background: var(--icon-btn-hover);
+    border-color: var(--border-strong);
 
-    border-color:
-        rgba(139, 114, 255, 0.3);
+    background: var(--primary-soft);
 
 }
-
 
 .icon-btn:active {
 
@@ -196,10 +195,11 @@
 
 }
 
+.icon-btn:focus-visible,
 
-.icon-btn:focus-visible {
+.engine-status:focus-within {
 
-    outline: 2px solid var(--secondary);
+    outline: 2px solid var(--accent);
 
     outline-offset: 2px;
 

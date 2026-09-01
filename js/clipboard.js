@@ -6,6 +6,9 @@ function initClipboard() {
     const copyButton =
         document.getElementById("copyBtn");
 
+    const shareButton =
+        document.getElementById("shareBtn");
+
     const output =
         document.getElementById("outputText");
 
@@ -19,6 +22,58 @@ function initClipboard() {
         "click",
         copyTranslation
     );
+
+
+    if (shareButton) {
+
+        shareButton.addEventListener(
+            "click",
+            shareTranslation
+        );
+
+    }
+
+
+    function shareTranslation() {
+
+        /* No translation yet - nothing to share */
+
+        if (output.querySelector(".output-placeholder")) {
+            return;
+        }
+
+        const text =
+            output.innerText.trim();
+
+
+        if (!text) {
+            return;
+        }
+
+
+        /* Native share menu when available */
+
+        if (navigator.share) {
+
+            navigator.share({
+
+                title: "VaaniX Translation",
+
+                text: text
+
+            });
+
+        }
+
+        else {
+
+            alert(
+                "Sharing is not supported in this browser."
+            );
+
+        }
+
+    }
 
 
     async function copyTranslation() {

@@ -1,164 +1,186 @@
-<section class="translation-grid">
+<section class="workspace">
+
+    <div class="translation-grid">
 
 
-    <!-- INPUT -->
+        <!-- INPUT -->
 
-    <div class="translation-card">
+        <div class="translation-card">
 
-        <div class="card-header">
+            <div class="card-header">
 
-            <span class="card-title">
-                Your words
-            </span>
+                <span class="card-title">
+                    Your words
+                </span>
 
-            <span
-                class="detected"
-                id="detectedText"
-            >
-                English selected
-            </span>
-
-        </div>
-
-
-        <textarea
-            id="inputText"
-            maxlength="1000"
-            aria-label="Text to translate"
-            placeholder="Type something to translate..."
-        ></textarea>
-
-
-        <div class="card-bottom">
-
-            <div class="input-tools">
-
-                <button
-                    class="round-tool"
-                    id="micBtn"
-                    type="button"
-                    title="Speak to translate"
-                    aria-label="Voice input"
+                <span
+                    class="detected"
+                    id="detectedText"
                 >
-                    🎙
-                </button>
-
-
-                <button
-                    class="round-tool"
-                    id="clearBtn"
-                    type="button"
-                    title="Clear text"
-                    aria-label="Clear text"
-                >
-                    ×
-                </button>
+                    English selected
+                </span>
 
             </div>
 
 
-            <span
-                class="counter"
-                id="counter"
-            >
-                0 / 1000
-            </span>
+            <textarea
+                id="inputText"
+                maxlength="1000"
+                aria-label="Text to translate"
+                placeholder="Type something to translate..."
+            ></textarea>
+
+
+            <div class="card-bottom">
+
+                <div class="input-tools">
+
+                    <button
+                        class="round-tool"
+                        id="micBtn"
+                        type="button"
+                        title="Speak to translate"
+                        aria-label="Voice input"
+                    >
+                        🎙
+                    </button>
+
+
+                    <button
+                        class="round-tool"
+                        id="clearBtn"
+                        type="button"
+                        title="Clear text"
+                        aria-label="Clear text"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="input-side">
+
+                    <span
+                        class="counter"
+                        id="counter"
+                    >
+                        0 / 1000
+                    </span>
+
+
+                    <button
+                        class="translate-btn"
+                        id="translateBtn"
+                        type="button"
+                    >
+
+                        <span
+                            class="translate-icon"
+                        >✦</span>
+
+                        <span
+                            class="translate-label"
+                            id="translateLabel"
+                        >
+                            Translate with VaaniX
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
-    </div>
 
+        <!-- OUTPUT -->
 
-    <!-- OUTPUT -->
+        <div class="translation-card">
 
-    <div class="translation-card output-card">
+            <div class="card-header">
 
-        <div class="card-header">
+                <span class="card-title">
+                    Translation
+                </span>
 
-            <span class="card-title">
-                Translation
-            </span>
-
-            <span class="regional-badge">
-                Regional
-            </span>
-
-        </div>
-
-
-        <div
-            class="output-area"
-            id="outputText"
-            aria-live="polite"
-        >
-
-            <span class="output-placeholder">
-                Your translation will appear here...
-            </span>
-
-        </div>
-
-
-        <div class="card-bottom">
-
-            <div class="input-tools">
-
-                <button
-                    class="round-tool"
-                    id="copyBtn"
-                    type="button"
-                    title="Copy translation"
-                    aria-label="Copy translation"
-                >
-                    ⧉
-                </button>
-
-
-                <button
-                    class="round-tool"
-                    id="speakBtn"
-                    type="button"
-                    title="Listen to translation"
-                    aria-label="Listen to translation"
-                >
-                    🔊
-                </button>
+                <span class="regional-badge">
+                    Regional
+                </span>
 
             </div>
 
 
-            <span class="regional-indicator">
+            <div
+                class="output-area"
+                id="outputText"
+                aria-live="polite"
+            >
 
-                <span></span>
+                <span class="output-placeholder">
+                    Your translation will appear here...
+                </span>
 
-                Regional aware
+            </div>
 
-            </span>
+
+            <div class="card-bottom">
+
+                <div class="input-tools">
+
+                    <button
+                        class="round-tool"
+                        id="copyBtn"
+                        type="button"
+                        title="Copy translation"
+                        aria-label="Copy translation"
+                    >
+                        ⧉
+                    </button>
+
+
+                    <button
+                        class="round-tool"
+                        id="speakBtn"
+                        type="button"
+                        title="Listen to translation"
+                        aria-label="Listen to translation"
+                    >
+                        🔊
+                    </button>
+
+
+                    <button
+                        class="round-tool"
+                        id="shareBtn"
+                        type="button"
+                        title="Share translation"
+                        aria-label="Share translation"
+                    >
+                        ↗
+                    </button>
+
+                </div>
+
+
+                <span class="regional-indicator">
+
+                    <span></span>
+
+                    Regional Translation
+
+                </span>
+
+            </div>
 
         </div>
+
 
     </div>
 
 </section>
-
-
-<button
-    class="translate-btn"
-    id="translateBtn"
-    type="button"
->
-
-    <span>✦</span>
-
-    <span
-        class="translate-label"
-        id="translateLabel"
-    >
-        Translate with VaaniX
-    </span>
-
-    <span class="arrow">
-        →
-    </span>
-
-</button>
