@@ -3,9 +3,11 @@
 ========================================= */
 
 
-/* TABLET */
+/* =========================================
+   TABLET
+========================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 860px) {
 
 
     .hero {
@@ -15,6 +17,8 @@
     }
 
 
+    /* Stack translator boxes vertically */
+
     .translation-grid {
 
         grid-template-columns: 1fr;
@@ -22,12 +26,16 @@
     }
 
 
+    /* Stack feature cards */
+
     .feature-grid {
 
         grid-template-columns: 1fr;
 
     }
 
+
+    /* Slightly smaller language bar */
 
     .language-bar {
 
@@ -47,17 +55,28 @@
 
     }
 
+
+    /* Prevent region select from overflowing */
+
+    .region-control select {
+
+        min-width: 0;
+
+    }
+
 }
 
 
-/* MOBILE */
+/* =========================================
+   MOBILE
+========================================= */
 
-@media (max-width: 550px) {
+@media (max-width: 560px) {
 
 
     .navbar {
 
-        padding: 18px 15px;
+        padding: 18px 16px;
 
     }
 
@@ -65,6 +84,17 @@
     .engine-status {
 
         display: none;
+
+    }
+
+
+    /* Bigger tap target for theme button */
+
+    .icon-btn {
+
+        width: 44px;
+
+        height: 44px;
 
     }
 
@@ -92,29 +122,47 @@
     }
 
 
+    /* Language bar stacks into one column */
+
     .language-bar {
 
         grid-template-columns: 1fr;
 
-        gap: 12px;
+        gap: 14px;
 
     }
 
 
+    /* Swap button as a full-width row between selects */
+
     .swap-btn {
 
-        transform: rotate(90deg);
+        width: 100%;
+
+        height: 44px;
+
+        margin: 0;
+
+        border-radius: 14px;
+
+        transform: none;
+
+        font-size: 20px;
 
     }
 
 
     .swap-btn:hover {
 
-        transform:
-            rotate(270deg);
+        transform: none;
+
+        background:
+            rgba(139, 114, 255, 0.14);
 
     }
 
+
+    /* Regional section stacks */
 
     .region-control {
 
@@ -129,14 +177,33 @@
 
         width: 100%;
 
+        padding: 12px 14px;
+
     }
 
+
+    /* Bigger touch targets on tool buttons */
+
+    .round-tool {
+
+        width: 44px;
+
+        height: 44px;
+
+        border-radius: 12px;
+
+        font-size: 17px;
+
+    }
+
+
+    /* Translator cards */
 
     .translation-card {
 
         min-height: 320px;
 
-        padding: 22px 20px;
+        padding: 22px 18px;
 
     }
 
@@ -153,18 +220,29 @@
 
     .card-bottom {
 
-        left: 20px;
+        left: 18px;
 
-        right: 20px;
+        right: 18px;
 
     }
 
+
+    /* Regional toggle stacks */
 
     .intelligence-card {
 
         align-items: flex-start;
 
         flex-direction: column;
+
+    }
+
+
+    /* Bigger translate button */
+
+    .translate-btn {
+
+        height: 56px;
 
     }
 
