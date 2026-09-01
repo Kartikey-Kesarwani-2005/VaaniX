@@ -57,7 +57,7 @@
 
 .section-heading h2 em {
 
-    color: #777f92;
+    color: var(--heading-note);
 
     font-style: normal;
 
@@ -129,7 +129,7 @@
 
     right: 22px;
 
-    color: #323847;
+    color: var(--watermark-color);
 
     font-size: 11px;
 

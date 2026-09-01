@@ -37,6 +37,30 @@
 
     --radius: 20px;
 
+    --dropdown-bg: #111624;
+
+    --field-base: #4f5769;
+
+    --field-strong: #81899b;
+
+    --tool-bg: rgba(255, 255, 255, 0.035);
+
+    --icon-btn-bg: rgba(255, 255, 255, 0.04);
+
+    --region-bg: rgba(255, 255, 255, 0.025);
+
+    --placeholder: #3e4658;
+
+    --card-title-color: #737c90;
+
+    --indicator-color: #657087;
+
+    --heading-note: #777f92;
+
+    --watermark-color: #323847;
+
+    --icon-btn-hover: rgba(255, 255, 255, 0.09);
+
 }
 
 
@@ -188,5 +212,29 @@ body.light-mode {
     --text-dark: #8a92a3;
 
     --border: rgba(20, 25, 40, 0.1);
+
+    --dropdown-bg: #ffffff;
+
+    --field-base: #8a92a3;
+
+    --field-strong: #6b7489;
+
+    --tool-bg: rgba(20, 25, 40, 0.05);
+
+    --icon-btn-bg: rgba(20, 25, 40, 0.05);
+
+    --region-bg: rgba(20, 25, 40, 0.035);
+
+    --placeholder: #9aa2b5;
+
+    --card-title-color: #626b7d;
+
+    --indicator-color: #7b8499;
+
+    --heading-note: #6b7489;
+
+    --watermark-color: #aab2c5;
+
+    --icon-btn-hover: rgba(139, 114, 255, 0.12);
 
 }
