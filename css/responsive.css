@@ -1,296 +1,46 @@
 /* VAANIX - RESPONSIVE */
 
-
 /* TABLET */
-
 @media (max-width: 860px) {
-
-    .hero {
-
-        margin-top: 44px;
-
-    }
-
-    .hero h1 {
-
-        font-size: clamp(34px, 7vw, 52px);
-
-    }
-
-
-    .feature-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .language-bar {
-
-        grid-template-columns: 1fr 48px 1fr;
-
-        gap: 12px;
-
-    }
-
-    .swap-btn {
-
-        width: 46px;
-
-        height: 46px;
-
-        font-size: 19px;
-
-    }
-
+	.hero { margin-top: 44px; }
+	.hero h1 { font-size: clamp(34px, 7vw, 52px); }
+	.feature-grid { grid-template-columns: 1fr; }
+	.language-bar { grid-template-columns: 1fr 48px 1fr; gap: 12px; }
+	.swap-btn { width: 46px; height: 46px; font-size: 19px; }
 }
-
 
 /* SMALL TABLET - stack the translation panes */
-
 @media (max-width: 760px) {
-
-    .region-control {
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 14px;
-
-        padding: 16px 20px;
-
-    }
-
-    .region-copy select {
-
-        width: 100%;
-
-        min-width: 0;
-
-    }
-
-    .region-hint {
-
-        white-space: normal;
-
-    }
-
-
-    .translation-grid {
-
-        grid-template-columns: 1fr;
-
-        gap: 18px;
-
-    }
-
-    .translation-card {
-
-        min-height: 320px;
-
-    }
-
-
-    .intelligence-card {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-    }
-
+	.region-control { flex-direction: column; align-items: stretch; gap: 14px; padding: 16px 20px; }
+	.region-copy select { width: 100%; min-width: 0; }
+	.region-hint { white-space: normal; }
+	.translation-grid { grid-template-columns: 1fr; gap: 18px; }
+	.translation-card { min-height: 320px; }
+	.intelligence-card { flex-direction: column; align-items: flex-start; }
 }
 
-
 /* MOBILE */
-
 @media (max-width: 640px) {
-
-    .navbar {
-
-        padding: 12px 16px;
-
-    }
-
-    .engine-status {
-
-        display: none;
-
-    }
-
-    .icon-btn {
-
-        width: 42px;
-
-        height: 42px;
-
-    }
-
-
-    .hero {
-
-        margin: 32px auto 0;
-
-        padding: 0 18px;
-
-    }
-
-    .hero h1 {
-
-        font-size: clamp(30px, 9vw, 40px);
-
-        letter-spacing: -1.4px;
-
-    }
-
-    .hero p {
-
-        font-size: 14px;
-
-    }
-
-    .hero-pill {
-
-        margin-bottom: 18px;
-
-        font-size: 11px;
-
-    }
-
-
-    .language-bar {
-
-        grid-template-columns: 1fr;
-
-        gap: 10px;
-
-        padding: 16px;
-
-        margin-top: 30px;
-
-    }
-
-    .language-selector select {
-
-        font-size: 16px;
-
-    }
-
-    .swap-btn {
-
-        width: 100%;
-
-        height: 46px;
-
-        margin: 0;
-
-        border-radius: 12px;
-
-        transform: none;
-
-    }
-
-    .swap-btn:hover {
-
-        transform: rotate(180deg);
-
-    }
-
-    .swap-btn:active {
-
-        transform: rotate(180deg) scale(0.98);
-
-    }
-
-
-    .region-control {
-
-        padding: 16px 18px;
-
-    }
-
-
-    .workspace {
-
-        margin-top: 18px;
-
-        padding: 0 14px;
-
-    }
-
-    .translation-card {
-
-        min-height: 260px;
-
-        padding: 18px 18px 70px;
-
-    }
-
-    .translation-card textarea,
-
-    .output-area {
-
-        height: 180px;
-
-        font-size: 17px;
-
-    }
-
-    .card-bottom {
-
-        left: 18px;
-
-        right: 18px;
-
-    }
-
-    .input-side {
-
-        flex-wrap: wrap;
-
-        width: 100%;
-
-        gap: 10px;
-
-    }
-
-    .translate-btn {
-
-        flex: 1 1 100%;
-
-        height: 50px;
-
-        font-size: 15px;
-
-    }
-
-
-    .feature-section {
-
-        margin: 68px auto 56px;
-
-        padding: 0 18px;
-
-    }
-
-    .feature-card {
-
-        padding: 24px;
-
-    }
-
-
-    footer {
-
-        flex-direction: column;
-
-        gap: 12px;
-
-        text-align: center;
-
-        padding: 24px 18px 36px;
-
-    }
-
+	.navbar { padding: 12px 16px; }
+	.engine-status { display: none; }
+	.icon-btn { width: 42px; height: 42px; }
+	.hero { margin: 32px auto 0; padding: 0 18px; }
+	.hero h1 { font-size: clamp(30px, 9vw, 40px); letter-spacing: -1.4px; }
+	.hero p { font-size: 14px; }
+	.hero-pill { margin-bottom: 18px; font-size: 11px; }
+	.language-bar { grid-template-columns: 1fr; gap: 10px; padding: 16px; margin-top: 30px; }
+	.language-selector select { font-size: 16px; }
+	.swap-btn { width: 100%; height: 46px; margin: 0; border-radius: 12px; transform: none; }
+	.swap-btn:hover { transform: rotate(180deg); }
+	.swap-btn:active { transform: rotate(180deg) scale(0.98); }
+	.region-control { padding: 16px 18px; }
+	.workspace { margin-top: 18px; padding: 0 14px; }
+	.translation-card { min-height: 260px; padding: 18px 18px 70px; }
+	.translation-card textarea, .output-area { height: 180px; font-size: 17px; }
+	.card-bottom { left: 18px; right: 18px; }
+	.input-side { flex-wrap: wrap; width: 100%; gap: 10px; }
+	.translate-btn { flex: 1 1 100%; height: 50px; font-size: 15px; }
+	.feature-section { margin: 68px auto 56px; padding: 0 18px; }
+	.feature-card { padding: 24px; }
+	footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 18px 36px; }
 }

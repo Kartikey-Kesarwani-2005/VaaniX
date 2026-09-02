@@ -1,40 +1,15 @@
 /* VAANIX - FOOTER */
-
 footer {
-
-    max-width: 1150px;
-
-    margin: 0 auto;
-
-    padding: 28px 24px 44px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 16px;
-
-    border-top: 1px solid var(--border);
-
-    color: var(--text-faint);
-
-    font-size: 11.5px;
-
-    font-weight: 500;
-
+	max-width: 1150px;
+	margin: 0 auto;
+	padding: 28px 24px 44px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	border-top: 1px solid var(--border);
+	color: var(--text-faint);
+	font-size: 11.5px;
+	font-weight: 500;
 }
-
-
-.footer-logo {
-
-    color: var(--text);
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    letter-spacing: -0.3px;
-
-}
+.footer-logo { color: var(--text); font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }

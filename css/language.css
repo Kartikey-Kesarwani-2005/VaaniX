@@ -1,215 +1,82 @@
-/* VAANIX - LANGUAGE
-   Top segment of the translation workspace */
-
+/* VAANIX - LANGUAGE  Top segment of the translation workspace */
 
 /* 1. LANGUAGE BAR (workspace segment 1) */
-
 .language-bar {
-
-    max-width: 1150px;
-
-    margin: 38px auto 0;
-
-    padding: 18px 22px;
-
-    display: grid;
-
-    grid-template-columns: 1fr 60px 1fr;
-
-    gap: 16px;
-
-    align-items: center;
-
-    background: var(--surface-solid);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-
-    box-shadow: var(--shadow-sm);
-
+	max-width: 1150px;
+	margin: 38px auto 0;
+	padding: 18px 22px;
+	display: grid;
+	grid-template-columns: 1fr 60px 1fr;
+	gap: 16px;
+	align-items: center;
+	background: var(--surface-solid);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+	box-shadow: var(--shadow-sm);
 }
-
 
 /* 2. FROM / TO FIELDS */
-
 .language-selector {
-
-    padding: 12px 16px 14px;
-
-    background: var(--surface);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius-lg);
-
-    transition: border-color 0.2s;
-
+	padding: 12px 16px 14px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	transition: border-color 0.2s;
 }
-
-.language-selector:hover {
-
-    border-color: var(--border-strong);
-
-}
-
-.language-selector:focus-within {
-
-    border-color: rgba(138, 108, 255, 0.55);
-
-}
-
-
+.language-selector:hover { border-color: var(--border-strong); }
+.language-selector:focus-within { border-color: rgba(138, 108, 255, 0.55); }
 .selector-label {
-
-    display: block;
-
-    margin-bottom: 6px;
-
-    color: var(--text-faint);
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
-
+	display: block;
+	margin-bottom: 6px;
+	color: var(--text-faint);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 2px;
 }
-
-
-.language-selector select {
-
-    width: 100%;
-
-    background: transparent;
-
-    color: var(--text);
-
-    font-size: 17px;
-
-    font-weight: 650;
-
-}
-
-.language-selector select:focus-visible {
-
-    outline: 2px solid var(--accent);
-
-    outline-offset: 3px;
-
-    border-radius: var(--radius);
-
-}
-
-
-select:disabled {
-
-    opacity: 0.5;
-
-    cursor: not-allowed;
-
-}
-
+.language-selector select { width: 100%; background: transparent; color: var(--text); font-size: 17px; font-weight: 650; }
+.language-selector select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--radius); }
+select:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Native option list follows the theme */
-
-.language-selector select option {
-
-    background: var(--surface-solid);
-
-    color: var(--text);
-
-}
-
+.language-selector select option { background: var(--surface-solid); color: var(--text); }
 
 /* 3. SWAP BUTTON */
-
 .swap-btn {
-
-    width: 54px;
-
-    height: 54px;
-
-    margin: auto;
-
-    display: grid;
-
-    place-items: center;
-
-    border-radius: 50%;
-
-    border: 1px solid var(--border-strong);
-
-    background: var(--surface-solid);
-
-    color: var(--accent-text);
-
-    font-size: 21px;
-
-    cursor: pointer;
-
-    transition: transform 0.35s, border-color 0.2s, background-color 0.2s, box-shadow 0.25s;
-
+	width: 54px;
+	height: 54px;
+	margin: auto;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	border: 1px solid var(--border-strong);
+	background: var(--surface-solid);
+	color: var(--accent-text);
+	font-size: 21px;
+	cursor: pointer;
+	transition: transform 0.35s, border-color 0.2s, background-color 0.2s, box-shadow 0.25s;
 }
-
 .swap-btn:hover {
-
-    transform: rotate(180deg);
-
-    border-color: rgba(138, 108, 255, 0.6);
-
-    background: var(--primary-soft);
-
-    box-shadow: 0 0 24px rgba(138, 108, 255, 0.2);
-
+	transform: rotate(180deg);
+	border-color: rgba(138, 108, 255, 0.6);
+	background: var(--primary-soft);
+	box-shadow: 0 0 24px rgba(138, 108, 255, 0.2);
 }
-
-.swap-btn:active {
-
-    transform: rotate(180deg) scale(0.92);
-
-}
-
-.swap-btn:focus-visible {
-
-    outline: 2px solid var(--accent);
-
-    outline-offset: 2px;
-
-}
-
+.swap-btn:active { transform: rotate(180deg) scale(0.92); }
+.swap-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* 4. CHEVRON ARROWS (dark chevron by default) */
-
 .language-selector select {
-
-    appearance: none;
-
-    -webkit-appearance: none;
-
-    padding-right: 30px;
-
-    background-image:
-
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238b93a8' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
-
-    background-repeat: no-repeat;
-
-    background-position: right 12px center;
-
-    background-size: 12px 8px;
-
-    cursor: pointer;
-
+	appearance: none;
+	-webkit-appearance: none;
+	padding-right: 30px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238b93a8' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 12px center;
+	background-size: 12px 8px;
+	cursor: pointer;
 }
 
-
 /* Lighter arrow for light mode */
-
 body.light-mode .language-selector select {
-
-    background-image:
-
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235b6478' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
-
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235b6478' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
 }

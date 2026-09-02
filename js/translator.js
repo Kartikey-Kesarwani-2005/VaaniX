@@ -1,359 +1,101 @@
 /* VAANIX - TRANSLATOR */
 
-
+/* Wire up the translate, clear, and regional-mode controls. */
 function initTranslator() {
-
-    const input =
-        document.getElementById("inputText");
-
-    const output =
-        document.getElementById("outputText");
-
-    const translateButton =
-        document.getElementById("translateBtn");
-
-    const translateLabel =
-        document.getElementById("translateLabel");
-
-    const clearButton =
-        document.getElementById("clearBtn");
-
-    const counter =
-        document.getElementById("counter");
-
-    const regionalToggle =
-        document.getElementById(
-            "regionalToggle"
-        );
-
-    const fromLanguage =
-        document.getElementById(
-            "fromLanguage"
-        );
-
-    const toLanguage =
-        document.getElementById(
-            "toLanguage"
-        );
-
-    const region =
-        document.getElementById(
-            "region"
-        );
-
-    const intelligence =
-        document.getElementById(
-            "intelligenceText"
-        );
-
-
-    if (!input || !output) {
-        return;
-    }
-
-
-    input.addEventListener(
-        "input",
-        updateCounter
-    );
-
-
-    if (translateButton) {
-
-        translateButton.addEventListener(
-            "click",
-            translateText
-        );
-
-    }
-
-
-    if (clearButton) {
-
-        clearButton.addEventListener(
-            "click",
-            clearText
-        );
-
-    }
-
-
-    if (regionalToggle) {
-
-        regionalToggle.addEventListener(
-            "change",
-            updateRegionalMode
-        );
-
-    }
-
-
-    function updateCounter() {
-
-        counter.textContent =
-            `${input.value.length} / 1000`;
-
-    }
-
-
-    function translateText() {
-
-        const text =
-            input.value.trim();
-
-
-        if (!text) {
-
-            output.innerHTML = `
-                <span class="output-hint">
-                    Please enter some text to
-                    translate first.
-                </span>
-            `;
-
-            input.focus();
-
-            return;
-        }
-
-
-        const from =
-            fromLanguage.value;
-
-        const to =
-            toLanguage.value;
-
-        const regionValue =
-            region.value;
-
-
-        const result =
-            getDemoTranslation(
-                text,
-                from,
-                to,
-                regionValue
-            );
-
-
-        /* SHOW LOADING STATE */
-
-        if (translateLabel) {
-            translateLabel.textContent =
-                "Translating...";
-        }
-
-
-        setTimeout(function () {
-
-            output.textContent =
-                result;
-
-            if (translateLabel) {
-                translateLabel.textContent =
-                    "Translate with VaaniX";
-            }
-
-        }, 400);
-
-    }
-
-
-    function getDemoTranslation(
-        text,
-        from,
-        to,
-        region
-    ) {
-
-
-        /* Demo only - real translation needs an API later. */
-
-
-        if (
-            from === "english" &&
-            to === "hindi"
-        ) {
-
-            const lower =
-                text.toLowerCase();
-
-
-            /* WHERE ARE YOU GOING? */
-
-            if (
-                lower === "where are you going?"
-            ) {
-
-                if (region === "prayagraj") {
-
-                    return "कहाँ जा रहे हो?";
-
-                }
-
-                if (region === "patna") {
-
-                    return "कहाँ जा रहल बाड़ऽ?";
-
-                }
-
-                if (region === "lucknow") {
-
-                    return "तू कहाँ जात है?";
-
-                }
-
-                return "आप कहाँ जा रहे हैं?";
-
-            }
-
-
-            /* WHAT ARE YOU DOING? */
-
-            if (
-                lower === "what are you doing?"
-            ) {
-
-                if (region === "prayagraj") {
-
-                    return "का कर रहे हो?";
-
-                }
-
-                if (region === "patna") {
-
-                    return "का करत बाड़ऽ?";
-
-                }
-
-                if (region === "lucknow") {
-
-                    return "का करत हौ?";
-
-                }
-
-                return "आप क्या कर रहे हैं?";
-
-            }
-
-
-            /* HOW ARE YOU? */
-
-            if (
-                lower === "how are you?"
-            ) {
-
-                if (region === "prayagraj") {
-
-                    return "कैसे हो?";
-
-                }
-
-                if (region === "patna") {
-
-                    return "कैसन बाड़ऽ?";
-
-                }
-
-                if (region === "lucknow") {
-
-                    return "कैसन हौ?";
-
-                }
-
-                return "आप कैसे हैं?";
-
-            }
-
-        }
-
-
-        if (
-            from === "hindi" &&
-            to === "english"
-        ) {
-
-            const going =
-                text === "आप कहाँ जा रहे हैं?" ||
-                text === "कहाँ जा रहे हो?" ||
-                text === "कहाँ जा रहल बाड़ऽ?" ||
-                text === "तू कहाँ जात है?";
-
-
-            const doing =
-                text === "आप क्या कर रहे हैं?" ||
-                text === "का कर रहे हो?" ||
-                text === "का करत बाड़ऽ?" ||
-                text === "का करत हौ?";
-
-
-            const how =
-                text === "आप कैसे हैं?" ||
-                text === "कैसे हो?" ||
-                text === "कैसन बाड़ऽ?" ||
-                text === "कैसन हौ?";
-
-
-            if (going) {
-
-                return "Where are you going?";
-
-            }
-
-            if (doing) {
-
-                return "What are you doing?";
-
-            }
-
-            if (how) {
-
-                return "How are you?";
-
-            }
-
-        }
-
-
-        return `Demo translation for: ${text}`;
-
-    }
-
-
-    function clearText() {
-
-        input.value = "";
-
-        output.innerHTML = `
-            <span class="output-placeholder">
-                Your translation will appear here...
-            </span>
-        `;
-
-        updateCounter();
-
-    }
-
-
-    function updateRegionalMode() {
-
-        if (!intelligence) {
-            return;
-        }
-
-
-        if (regionalToggle.checked) {
-
-            intelligence.style.opacity = "1";
-
-        }
-
-        else {
-
-            intelligence.style.opacity = "0.45";
-
-        }
-
-    }
-
+	const input = document.getElementById("inputText");
+	const output = document.getElementById("outputText");
+	const translateButton = document.getElementById("translateBtn");
+	const translateLabel = document.getElementById("translateLabel");
+	const clearButton = document.getElementById("clearBtn");
+	const counter = document.getElementById("counter");
+	const regionalToggle = document.getElementById("regionalToggle");
+	const fromLanguage = document.getElementById("fromLanguage");
+	const toLanguage = document.getElementById("toLanguage");
+	const region = document.getElementById("region");
+	const intelligence = document.getElementById("intelligenceText");
+
+	if (!input || !output) return;
+
+	input.addEventListener("input", updateCounter);
+	if (translateButton) translateButton.addEventListener("click", translateText);
+	if (clearButton) clearButton.addEventListener("click", clearText);
+	if (regionalToggle) regionalToggle.addEventListener("change", updateRegionalMode);
+
+	/* Keep the live "x / 1000" counter in sync with what the user types. */
+	function updateCounter() {
+		counter.textContent = `${input.value.length} / 1000`;
+	}
+
+	/* Translate the input: show a loading label, then reveal the result. */
+	function translateText() {
+		const text = input.value.trim();
+		if (!text) {
+			output.innerHTML = `<span class="output-hint">Please enter some text to translate first.</span>`;
+			input.focus();
+			return;
+		}
+		const result = getDemoTranslation(text, fromLanguage.value, toLanguage.value, region.value);
+
+		if (translateLabel) translateLabel.textContent = "Translating...";
+		setTimeout(function () {
+			output.textContent = result;
+			if (translateLabel) translateLabel.textContent = "Translate with VaaniX";
+		}, 400);
+	}
+
+	/* Clear the input box and reset the output to its placeholder. */
+	function clearText() {
+		input.value = "";
+		output.innerHTML = `<span class="output-placeholder">Your translation will appear here...</span>`;
+		updateCounter();
+	}
+
+	/* Dim / brighten the regional intelligence card based on the toggle. */
+	function updateRegionalMode() {
+		if (!intelligence) return;
+		intelligence.style.opacity = regionalToggle.checked ? "1" : "0.45";
+	}
+}
+
+/* Map of demo sentences: English -> regional Hindi variants per region. */
+const DEMO_TRANSLATIONS = {
+	"where are you going?": {
+		prayagraj: "कहाँ जा रहे हो?",
+		patna: "कहाँ जा रहल बाड़ऽ?",
+		lucknow: "तू कहाँ जात है?",
+		standard: "आप कहाँ जा रहे हैं?"
+	},
+	"what are you doing?": {
+		prayagraj: "का कर रहे हो?",
+		patna: "का करत बाड़ऽ?",
+		lucknow: "का करत हौ?",
+		standard: "आप क्या कर रहे हैं?"
+	},
+	"how are you?": {
+		prayagraj: "कैसे हो?",
+		patna: "कैसन बाड़ऽ?",
+		lucknow: "कैसन हौ?",
+		standard: "आप कैसे हैं?"
+	}
+};
+
+/* Return a demo translation. Placeholder — replace with a real API later. */
+function getDemoTranslation(text, from, to, region) {
+	/* English -> Hindi: look up the sentence, then the region variant. */
+	if (from === "english" && to === "hindi") {
+		const entry = DEMO_TRANSLATIONS[text.toLowerCase()];
+		if (entry) return entry[region] || entry.standard;
+	}
+
+	/* Hindi -> English: reverse lookup returns the English sentence. */
+	if (from === "hindi" && to === "english") {
+		for (const english in DEMO_TRANSLATIONS) {
+			const variants = DEMO_TRANSLATIONS[english];
+			for (const regionKey in variants) {
+				if (text === variants[regionKey]) return english;
+			}
+		}
+	}
+
+	return `Demo translation for: ${text}`;
 }
