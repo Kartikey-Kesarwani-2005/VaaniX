@@ -1,354 +1,377 @@
-/* VAANIX - TRANSLATOR
-   Regional Expression selector + translation workspace.
-   Main rules are DARK (uses the dark theme variables).
-   A body.light-mode block at the end restores the light look. */
+/* =============================================================
+   VAANIX - TRANSLATOR WORKSPACE
+   ============================================================= */
 
-/* 1. REGIONAL EXPRESSION selector */
-.region-control {
-	max-width: 1150px;
-	margin: 24px auto 0;
-	padding: 14px 20px;
+.workspace {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	gap: 16px;
-	border-radius: 16px;
-	background: var(--surface-solid);
-	backdrop-filter: blur(14px);
-	-webkit-backdrop-filter: blur(14px);
-	border: 1px solid var(--border);
-	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35), 0 2px 44px rgba(138, 108, 255, 0.1);
 }
 
-/* Location pin chip */
-.region-chip {
-	flex-shrink: 0;
-	width: 42px;
-	height: 42px;
-	display: grid;
-	place-items: center;
-	border-radius: 12px;
-	background: var(--grad-brand);
-	font-size: 18px;
-	box-shadow: 0 8px 18px rgba(92, 132, 255, 0.3);
-}
-
-/* "YOUR REGION" label + select */
-.region-copy { flex: 1; min-width: 0; }
-
-.region-label {
-	display: block;
-	margin-bottom: 4px;
-	color: var(--accent-text);
-	font-size: 10px;
-	font-weight: 800;
-	letter-spacing: 2px;
-}
-
-.region-copy select {
-	width: 100%;
-	appearance: none;
-	-webkit-appearance: none;
-	padding-right: 30px;
-	background: transparent;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%239aa3b8' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
-	background-repeat: no-repeat;
-	background-position: right 2px center;
-	background-size: 12px 8px;
-	color: var(--text);
-	font-size: 17px;
-	font-weight: 700;
-	cursor: pointer;
-	transition: color 0.2s, border-color 0.2s;
-}
-.region-copy select:hover { color: var(--accent-text); }
-.region-copy select:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 3px;
-	border-radius: var(--radius);
-}
-.region-copy select option { background: var(--surface-solid); color: var(--text); }
-
-/* Tiny "Regional expressions enabled" hint */
-.region-hint {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	flex-shrink: 0;
-	color: var(--text-muted);
-	font-size: 11px;
-	font-weight: 600;
-	white-space: nowrap;
-}
-.hint-dot {
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	background: #3eea9b;
-	box-shadow: 0 0 8px rgba(62, 234, 155, 0.7);
-}
-
-/* 2. TRANSLATION WORKSPACE - "YOUR WORDS" and "TRANSLATION" panels */
-.workspace { max-width: 1150px; margin: 20px auto 0; }
-
-/* Two-column panel layout */
 .translation-grid {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 20px;
-}
-.translation-card {
-	position: relative;
-	min-height: 420px;
-	padding: 24px 24px 70px;
-	border-radius: 20px;
-	background: var(--surface-solid);
-	border: 1px solid var(--border);
-	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3), 0 0 44px rgba(138, 108, 255, 0.06);
-	transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.translation-card:hover {
-	transform: translateY(-2px);
-	border-color: rgba(138, 108, 255, 0.4);
-	box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35), 0 0 52px rgba(138, 108, 255, 0.08);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
 }
 
-/* 3. CARD HEADER - clean labels with blue indicator dots */
+/* =============================================================
+   INPUT / OUTPUT PANELS
+   ============================================================= */
+.translation-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	padding: 16px 17px 14px;
+	border-radius: var(--radius);
+	/* Very subtle inner gradient so the glass is not perfectly flat. */
+	background-image:
+		linear-gradient(160deg, rgba(139, 92, 246, 0.07) 0%, transparent 46%),
+		linear-gradient(0deg, rgba(34, 211, 238, 0.045) 0%, transparent 40%);
+}
+
+.translation-card:focus-within {
+	border-color: var(--border-cyan);
+	box-shadow:
+		0 0 0 1px rgba(34, 211, 238, 0.25),
+		0 0 25px rgba(34, 211, 238, 0.08),
+		var(--shadow),
+		var(--inset-hairline);
+}
+
+/* Header and footer rows are pinned to the same height on BOTH cards. The input
+   card's header holds a small pill and its footer a button, while the output
+   card's header holds that button and its footer a bare label - without this the
+   two panels drift apart in height whenever they stack. The floor is the tallest
+   a chrome row can get: the 40px control plus the foot's 12px padding and 1px
+   rule. min-height does not cap, so leaving it lower lets the button stretch the
+   input card's footer past the output card's. */
+.card-header,
+.card-foot {
+	min-height: calc(40px + 12px + 1px);
+}
+
 .card-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding-bottom: 14px;
-	border-bottom: 1px solid var(--border);
+	gap: 10px;
+	margin-bottom: 12px;
 }
+
 .card-title {
-	display: flex;
-	align-items: center;
-	gap: 9px;
-	color: var(--text-muted);
+	font-size: 13.5px;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	color: var(--text);
+}
+
+.detected {
+	padding: 4px 10px;
+	border-radius: var(--radius-pill);
+	background: rgba(124, 58, 237, 0.14);
+	border: 1px solid rgba(139, 92, 246, 0.24);
 	font-size: 11px;
-	font-weight: 800;
-	letter-spacing: 1.4px;
-	text-transform: uppercase;
-}
-.card-title::before {
-	content: "";
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: var(--primary);
-	box-shadow: 0 0 8px rgba(138, 108, 255, 0.4);
-}
-.detected { color: var(--text-faint); font-size: 11.5px; font-weight: 600; }
-.regional-badge {
-	padding: 5px 11px;
-	border-radius: 50px;
-	background: var(--primary-soft);
-	border: 1px solid rgba(138, 108, 255, 0.3);
-	color: var(--accent-text);
-	font-size: 10.5px;
-	font-weight: 800;
-	letter-spacing: 0.4px;
+	font-weight: 600;
+	color: var(--accent-ink);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 58%;
 }
 
-/* 4. INPUT / OUTPUT AREAS */
-.translation-card textarea {
+/* ---------- Textarea ---------- */
+#inputText {
+	flex: 1;
 	width: 100%;
-	height: 240px;
-	margin-top: 18px;
-	padding: 2px;
+	min-height: 132px;
+	padding: 0;
+	font-family: var(--font);
+	font-size: 15.5px;
+	line-height: 1.6;
+	color: var(--text);
 	background: transparent;
-	color: var(--text);
-	font-family: inherit;
-	font-size: 20px;
-	line-height: 1.65;
-	caret-color: var(--accent);
+	border: 0;
+	resize: none;
 }
-.translation-card textarea::placeholder { color: var(--placeholder); }
-.translation-card textarea:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 6px;
-	border-radius: var(--radius);
-}
-.output-area {
-	height: 240px;
-	margin-top: 18px;
-	overflow-y: auto;
-	color: var(--text);
-	font-size: 20px;
-	line-height: 1.65;
-	overflow-wrap: break-word;
-}
-.output-placeholder { color: var(--placeholder); }
-.output-hint { color: var(--accent); }
 
-/* 5. CARD BOTTOM BAR */
-.card-bottom {
-	position: absolute;
-	left: 24px;
-	right: 24px;
-	bottom: 18px;
+#inputText::placeholder { color: var(--placeholder); }
+#inputText:focus { outline: none; }
+
+/* ---------- Output ---------- */
+.output-area {
+	flex: 1;
+	display: flex;
+	align-items: flex-start;
+	min-height: 132px;
+	font-size: 15.5px;
+	line-height: 1.6;
+	color: var(--text);
+	overflow-wrap: anywhere;
+}
+
+/* Class names are load-bearing: js/clipboard.js and js/voice.js both do
+   output.querySelector(".output-placeholder") to detect "nothing yet",
+   and js/translator.js re-creates both of these on clear / empty input. */
+.output-placeholder {
+	color: var(--placeholder);
+	font-style: italic;
+}
+
+.output-hint { color: var(--text-muted); }
+
+/* ---------- Card footer ---------- */
+.card-foot {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
-	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid var(--border-soft);
 }
-.input-tools { display: flex; gap: 8px; }
-.input-side { display: flex; align-items: center; gap: 14px; margin-left: auto; }
 
-/* 6. ROUND TOOL ICONS */
-.round-tool {
-	width: 40px;
-	height: 40px;
-	display: grid;
-	place-items: center;
-	border: 1px solid var(--border-strong);
-	border-radius: 12px;
-	background: var(--surface);
-	color: var(--field-strong);
-	font-size: 16px;
-	cursor: pointer;
-	transition: transform 0.2s, border-color 0.2s, background-color 0.2s, color 0.2s;
+.counter {
+	font-size: 11.5px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	color: var(--text-muted);
 }
-.round-tool:hover {
-	color: var(--text);
-	background: var(--primary-soft);
-	border-color: rgba(138, 108, 255, 0.4);
-	transform: translateY(-2px);
+
+.regional-indicator {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	font-size: 11.5px;
+	font-weight: 600;
+	color: var(--text-muted);
 }
-.round-tool:active { transform: scale(0.92); }
-.round-tool:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.round-tool.copied {
-	font-size: 10.5px;
-	white-space: nowrap;
-	color: #3eea9b;
-	border-color: rgba(62, 234, 155, 0.4);
-	background: rgba(62, 234, 155, 0.1);
-}
-.round-tool.recording {
-	color: #ff5d5d;
-	border-color: rgba(255, 93, 93, 0.45);
-	background: rgba(255, 93, 93, 0.12);
-	animation: mic-pulse 1s infinite;
-}
-@keyframes mic-pulse {
-	0% { box-shadow: 0 0 0 0 rgba(255, 93, 93, 0.4); }
-	100% { box-shadow: 0 0 0 10px rgba(255, 93, 93, 0); }
-}
-.counter { color: var(--text-faint); font-size: 11.5px; font-weight: 600; letter-spacing: 0.4px; }
-.regional-indicator { display: flex; align-items: center; gap: 7px; color: var(--text-faint); font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
-.regional-indicator span {
-	width: 7px;
-	height: 7px;
+
+.regional-indicator > span {
+	width: 6px;
+	height: 6px;
 	border-radius: 50%;
-	background: var(--primary);
-	box-shadow: 0 0 8px rgba(138, 108, 255, 0.5);
+	background: var(--cyan);
+	box-shadow: 0 0 10px var(--border-cyan);
 }
 
-/* 7. TRANSLATE BUTTON - prominent action inside the input panel */
+/* ---------- Compact secondary controls ---------- */
+.ghost-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	min-height: 40px;
+	padding: 6px 14px;
+	border-radius: var(--radius-pill);
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-muted);
+	background: var(--surface-deep);
+	border: 1px solid var(--border-soft);
+	box-shadow: none;
+	transition:
+		color 0.2s ease,
+		border-color 0.2s ease,
+		box-shadow 0.2s ease,
+		transform 0.2s ease;
+}
+
+.ghost-btn:hover {
+	color: var(--text);
+	border-color: var(--border-cyan);
+	box-shadow: 0 0 18px rgba(34, 211, 238, 0.14);
+	transform: translateY(-1px);
+}
+
+.ghost-btn:active { transform: translateY(0); }
+
+/* =============================================================
+   TRANSLATE BUTTON
+   ============================================================= */
+.translate-row {
+	display: flex;
+	justify-content: center;
+}
+
 .translate-btn {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 10px;
-	height: 46px;
-	padding: 0 20px;
-	border-radius: 14px;
-	background: var(--grad-brand);
-	color: #fff;
-	font-size: 14px;
-	font-weight: 800;
-	letter-spacing: 0.2px;
-	white-space: nowrap;
-	box-shadow: 0 10px 24px rgba(92, 132, 255, 0.3);
+	gap: 9px;
+	min-width: 210px;
+	height: 50px;
+	padding: 0 30px;
 	overflow: hidden;
-	cursor: pointer;
-	flex-shrink: 0;
-	transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+	isolation: isolate;
+	border-radius: var(--radius-sm);
+	background: var(--gradient-button);
+	color: var(--on-accent);
+	font-size: 15px;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	box-shadow: 0 0 25px rgba(124, 58, 237, 0.30);
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.25s ease,
+		filter 0.25s ease;
 }
+
+/*
+	The gradient ends on #22D3EE, where white text is only ~1.8:1. Rather than
+	dull the whole button, a soft dark band sits behind the label only - the
+	outer thirds stay bright neon. Lifts white to ~5.4:1 at the arrow and
+	~7:1 behind the words.
+*/
 .translate-btn::after {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
-	transform: translateX(-120%);
-	transition: transform 0.6s ease;
+	z-index: -1;
+	background: radial-gradient(62% 150% at 50% 50%,
+		rgba(3, 7, 18, 0.62) 0%,
+		rgba(3, 7, 18, 0.44) 55%,
+		rgba(3, 7, 18, 0) 100%);
 	pointer-events: none;
 }
-.translate-btn:hover::after { transform: translateX(120%); }
+
 .translate-btn:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 14px 28px rgba(92, 132, 255, 0.38);
-	filter: brightness(1.06);
+	filter: brightness(1.08);
+	box-shadow:
+		0 0 34px rgba(124, 58, 237, 0.46),
+		0 0 60px rgba(34, 211, 238, 0.18);
 }
-.translate-btn:active { transform: translateY(0) scale(0.97); }
-.translate-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.translate-icon { font-size: 15px; }
-.translate-btn .arrow { font-size: 19px; transition: transform 0.25s; }
-.translate-btn:hover .arrow { transform: translateX(4px); }
 
-/* 8. LIGHT MODE
-   Restores the light/off-white panel appearance exactly.
-   Only backgrounds, borders and colors change - no layout. */
-body.light-mode .region-control {
-	background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(239, 243, 253, 0.94));
-	border: 1px solid rgba(255, 255, 255, 0.75);
-	box-shadow: 0 10px 26px rgba(16, 32, 72, 0.1), 0 2px 44px rgba(92, 132, 255, 0.16);
+.translate-btn:active { transform: translateY(0); }
+
+.translate-arrow {
+	font-size: 17px;
+	line-height: 1;
+	transition: transform 0.22s ease;
 }
-body.light-mode .region-label { color: #2f54b0; }
-body.light-mode .region-copy select {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235b6478' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
-	color: #1d2b4a;
+
+.translate-btn:hover .translate-arrow { transform: translateX(4px); }
+
+/* =============================================================
+   ACTION CARDS
+   ------------------------------------------------------
+   IMPORTANT STRUCTURAL NOTE
+   The <button> is a childless, absolutely positioned overlay. js/voice.js does
+   micButton.textContent = "🔴" and js/clipboard.js does copyButton.textContent
+   = "✓ Copied", either of which would destroy any markup inside the button.
+   Keep the icon / title / desc as siblings of the button, never children.
+   ============================================================= */
+.action-row {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
 }
-body.light-mode .region-copy select:hover { color: #2f54b0; }
-body.light-mode .region-copy select:focus-visible { outline: 2px solid #2f54b0; }
-body.light-mode .region-copy select option { background: #ffffff; color: #1d2b4a; }
-body.light-mode .region-hint { color: #4d5c7d; }
-body.light-mode .translation-card {
-	background: linear-gradient(160deg, rgba(255, 255, 255, 0.97), #f3f6fc);
-	border: 1px solid rgba(140, 158, 198, 0.3);
-	box-shadow: 0 8px 22px rgba(16, 32, 72, 0.06);
+
+.action-card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	min-width: 0;
+	padding: 13px 14px;
+	overflow: hidden;
+	border-radius: var(--radius-sm);
+	background-image: linear-gradient(150deg, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+	transition:
+		transform 0.2s ease,
+		border-color 0.2s ease,
+		box-shadow 0.25s ease,
+		background-color 0.2s ease;
 }
-body.light-mode .translation-card:hover {
-	border-color: rgba(47, 84, 176, 0.35);
-	box-shadow: 0 14px 30px rgba(16, 32, 72, 0.09);
+
+.action-card:hover {
+	transform: translateY(-2px);
+	border-color: rgba(139, 92, 246, 0.4);
+	box-shadow:
+		0 0 30px rgba(124, 58, 237, 0.12),
+		var(--shadow),
+		var(--inset-hairline);
 }
-body.light-mode .card-header { border-bottom: 1px solid rgba(29, 43, 74, 0.1); }
-body.light-mode .card-title { color: #3a4a6b; }
-body.light-mode .card-title::before { background: #2f54b0; box-shadow: 0 0 8px rgba(47, 84, 176, 0.35); }
-body.light-mode .detected { color: #5f6d89; }
-body.light-mode .regional-badge {
-	background: rgba(47, 84, 176, 0.08);
-	border: 1px solid rgba(47, 84, 176, 0.25);
-	color: #2f54b0;
+
+.action-icon {
+	flex-shrink: 0;
+	font-size: 19px;
+	line-height: 1;
+	filter: saturate(0.85);
+	transition: filter 0.2s ease, transform 0.2s ease;
 }
-body.light-mode .translation-card textarea { color: #1d2b4a; caret-color: #2f54b0; }
-body.light-mode .translation-card textarea::placeholder { color: #8391ab; }
-body.light-mode .translation-card textarea:focus-visible { outline: 2px solid #2f54b0; }
-body.light-mode .output-area { color: #1d2b4a; }
-body.light-mode .output-placeholder { color: #8391ab; }
-body.light-mode .output-hint { color: #2f54b0; }
-body.light-mode .round-tool {
-	border: 1px solid rgba(29, 43, 74, 0.12);
-	background: rgba(47, 84, 176, 0.05);
-	color: #5f6d89;
+
+.action-card:hover .action-icon {
+	filter: saturate(1.1);
+	transform: scale(1.06);
 }
-body.light-mode .round-tool:hover {
-	color: #2f54b0;
-	background: rgba(47, 84, 176, 0.1);
-	border-color: rgba(47, 84, 176, 0.35);
+
+.action-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
 }
-body.light-mode .round-tool.copied {
-	color: #1f8a57;
-	border-color: rgba(31, 138, 87, 0.4);
-	background: rgba(31, 138, 87, 0.08);
+
+.action-title {
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--text);
+	line-height: 1.3;
 }
-body.light-mode .round-tool.recording {
-	color: #e5484d;
-	border-color: rgba(229, 72, 77, 0.4);
-	background: rgba(229, 72, 77, 0.08);
+
+.action-desc {
+	font-size: 11.5px;
+	color: var(--text-muted);
+	line-height: 1.35;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-body.light-mode .counter { color: #5f6d89; }
-body.light-mode .regional-indicator { color: #5f6d89; }
-body.light-mode .regional-indicator span { background: #2f54b0; box-shadow: 0 0 8px rgba(47, 84, 176, 0.5); }
+
+/* The hit target. No children, no visible glyph - it is purely a hit area. */
+.action-hit {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border-radius: inherit;
+	background: transparent;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+}
+
+.action-hit:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: -3px;
+}
+
+/* ---------- JS-driven states (voice.js .recording, clipboard.js .copied) ---- */
+.action-card:has(.action-hit.recording) {
+	border-color: rgba(251, 113, 133, 0.45);
+	box-shadow: 0 0 24px rgba(251, 113, 133, 0.18), var(--inset-hairline);
+}
+
+.action-card:has(.action-hit.recording) .action-icon {
+	filter: none;
+	animation: mic-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+	0%, 100% { transform: scale(1);    opacity: 1; }
+	50%      { transform: scale(1.14); opacity: 0.75; }
+}
+
+.action-card:has(.action-hit.copied) {
+	border-color: rgba(52, 211, 153, 0.45);
+	box-shadow: 0 0 24px rgba(52, 211, 153, 0.18), var(--inset-hairline);
+}
+
+.action-card:has(.action-hit.copied) .action-title::after {
+	content: " ✓";
+	color: var(--success);
+}

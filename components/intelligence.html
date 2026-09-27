@@ -1,58 +1,24 @@
-<section class="intelligence-card">
+<section class="region-panel">
 
-    <div class="intelligence-main">
+    <header class="region-panel-head">
+        <h2 class="panel-title">Regional Mode</h2>
+        <p class="panel-sub">Get translations in your local dialect and region-specific tone.</p>
+    </header>
 
-        <div class="spark-icon">
-            ✦
-        </div>
-
-
-        <div>
-
-            <div class="intelligence-title">
-                Local way of speaking
-            </div>
-
-
-            <div
-                class="intelligence-text"
-                id="intelligenceText"
-            >
-
-                VaaniX will adapt the translation
-                to
-
-                <strong id="selectedRegion">
-                    Prayagraj, Uttar Pradesh
-                </strong>.
-
-            </div>
-
-        </div>
-
-    </div>
-
-
+    <!-- regionalToggle: js/translator.js dims #intelligenceText to 0.45 opacity
+         when this is unchecked. That behaviour is untouched. -->
     <div class="region-toggle-control">
-
-        <span class="region-toggle-label">
-            Regional mode
-        </span>
-
+        <span class="region-toggle-label">Regional mode</span>
 
         <label class="switch">
-
             <input
                 type="checkbox"
                 id="regionalToggle"
                 aria-label="Regional mode"
                 checked
             >
-
-            <span class="slider"></span>
-
+            <span class="slider" aria-hidden="true"></span>
         </label>
-
     </div>
 
 </section>

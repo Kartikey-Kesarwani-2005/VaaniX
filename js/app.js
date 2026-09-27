@@ -3,13 +3,14 @@
 /* Every page section lives in its own HTML file (a "component"). */
 const components = {
 	navbar: "components/navbar.html",
-	hero: "components/hero.html",
+	sidebar: "components/sidebar.html",
 	"language-selector": "components/language-selector.html",
 	"region-selector": "components/region-selector.html",
 	translator: "components/translator.html",
 	intelligence: "components/intelligence.html",
 	features: "components/features.html",
-	footer: "components/footer.html"
+	footer: "components/footer.html",
+	drawer: "components/drawer.html"
 };
 
 /* Fetch one component file and drop its HTML into the matching <div>. */
@@ -41,7 +42,9 @@ async function startVaaniX() {
 		initTranslator,
 		initVoice,
 		initClipboard,
-		initTheme
+		initTheme,
+		initSidebar,
+		initRegionArt
 	];
 	/* Call whichever init functions exist — skip any that are missing. */
 	initFunctions.forEach(function (init) {

@@ -1,71 +1,262 @@
-/* VAANIX - REGIONAL INTELLIGENCE
-   Live context strip that completes the regional result */
-.intelligence-card {
-	max-width: 1150px;
-	margin: 26px auto 0;
-	padding: 16px 22px;
+/* =============================================================
+   VAANIX - REGIONAL MODE PANEL
+   ============================================================= */
+
+.region-panel {
+	padding: 17px 16px 16px;
+	border-radius: var(--radius);
+}
+
+.region-panel-head {
+	margin-bottom: 15px;
+}
+
+.panel-title {
+	font-size: 17px;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+}
+
+.panel-sub {
+	margin-top: 6px;
+	font-size: 12.5px;
+	line-height: 1.5;
+	color: var(--text-muted);
+}
+
+/* ---------- Regional toggle ---------- */
+.region-toggle-control {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 18px;
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius-lg);
-	transition: border-color 0.2s, box-shadow 0.2s;
+	gap: 12px;
+	padding: 11px 13px;
+	border-radius: var(--radius-sm);
+	background: var(--surface-deep);
+	border: 1px solid var(--border-soft);
 }
-.intelligence-card:hover { border-color: var(--border-strong); }
-.intelligence-card:focus-within { border-color: rgba(138, 108, 255, 0.5); }
-.intelligence-main { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.spark-icon {
-	flex-shrink: 0;
-	width: 40px;
-	height: 40px;
-	display: grid;
-	place-items: center;
-	border-radius: 13px;
-	background: var(--primary-soft);
-	border: 1px solid rgba(138, 108, 255, 0.24);
-	color: var(--accent-text);
-	font-size: 17px;
-}
-.intelligence-title { font-size: 14px; font-weight: 800; letter-spacing: -0.2px; }
-.intelligence-text {
-	margin-top: 4px;
-	color: var(--text-muted);
-	font-size: 12.5px;
-	line-height: 1.55;
-	transition: opacity 0.25s;
-}
-.intelligence-text strong { color: var(--accent-text); font-weight: 700; }
-.region-toggle-control { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.region-toggle-label { color: var(--text-muted); font-size: 12.5px; font-weight: 600; }
 
-/* Toggle switch */
-.switch { position: relative; width: 50px; height: 28px; flex-shrink: 0; }
-.switch input { width: 0; height: 0; opacity: 0; }
-.slider {
-	position: absolute;
-	inset: 0;
-	border-radius: 50px;
-	background: var(--border-strong);
-	cursor: pointer;
-	transition: background-color 0.3s;
+.region-toggle-label {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--text);
 }
+
+/* The label is the click target, so it is 44px tall while the visible track
+   stays 26px - padding the whole switch would make the pill look chunky. */
+.switch {
+	position: relative;
+	display: inline-block;
+	flex-shrink: 0;
+	width: 46px;
+	height: 44px;
+	cursor: pointer;
+}
+
+.switch input {
+	position: absolute;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	cursor: pointer;
+}
+
+	.slider {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	height: 26px;
+	transform: translateY(-50%);
+	border-radius: var(--radius-pill);
+	background: rgba(100, 116, 139, 0.32);
+	border: 1px solid var(--border-soft);
+	transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
 .slider::before {
 	content: "";
 	position: absolute;
-	width: 22px;
-	height: 22px;
-	left: 3px;
 	top: 3px;
+	left: 3px;
+	width: 18px;
+	height: 18px;
 	border-radius: 50%;
-	background: #fff;
+	background: var(--on-accent);
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-	transition: transform 0.3s;
+	transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.switch input:checked + .slider { background: var(--grad-brand); }
-.switch input:checked + .slider::before { transform: translateX(22px); }
-.switch input:focus-visible + .slider { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* Lighter track for light mode */
-body.light-mode .slider { background: #d6dcea; }
+.switch input:checked + .slider {
+	background: var(--gradient-primary);
+	border-color: rgba(139, 92, 246, 0.4);
+	box-shadow: 0 0 18px rgba(124, 58, 237, 0.32);
+}
+
+.switch input:checked + .slider::before { transform: translateX(20px); }
+
+.switch input:focus-visible + .slider {
+	outline: 2px solid var(--cyan);
+	outline-offset: 2px;
+}
+
+/* ---------- Region select ---------- */
+.region-label {
+	display: block;
+	margin-bottom: 8px;
+	font-size: 10.5px;
+	font-weight: 700;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+}
+
+/* =============================================================
+   REGION PANEL: PHOTO AS THE PANEL BACKGROUND
+
+   .region-visual is stretched to fill the whole panel, so the landmark photo
+   is the backdrop for the entire column rather than a strip inside it. The
+   content then sits on its own glass surface, which is what keeps the text
+   readable: a photo behind body text cannot be given a guaranteed contrast
+   ratio, whereas a fixed-alpha glass panel over it can. Both themes are
+   verified against real rendered pixels, not just computed styles.
+   ============================================================= */
+.region-panel--pick {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	display: flex;
+	flex-direction: column;
+	/* The controls sit in a full-bleed bar on the photo's top edge, the photo
+	   runs as an uninterrupted hero band through the middle, and the
+	   intelligence card is inset at the bottom. Composition over a card-in-a-
+	   card look, and the label lands on the image rather than below it.
+	   padding:0 cancels .region-panel's inset for the top bar to bleed. */
+	padding: 0;
+	min-height: 430px;
+}
+
+/* The control bar: full-bleed against the photo's top edge, so "Choose Your
+   Region" and the select sit ON the image instead of floating in a padded box.
+   Kept on glass so the label never has to fight the photograph for contrast. */
+.region-picker {
+	--sel-h: 44px;
+	position: relative;
+	z-index: 1;
+	flex: 0 0 auto;
+	padding: 15px 16px 14px;
+	border-radius: 0;
+	background: var(--surface-deep);
+	backdrop-filter: blur(20px) saturate(1.4);
+	-webkit-backdrop-filter: blur(20px) saturate(1.4);
+	border: 0;
+	border-bottom: 1px solid var(--border);
+	box-shadow: 0 10px 24px rgba(2, 5, 18, 0.28);
+}
+
+/* Pushed to the bottom and inset on the sides, so the photo reads as one
+   continuous band between the control bar and this card. */
+.region-panel--pick .intelligence-card {
+	position: relative;
+	z-index: 1;
+	margin: auto 16px 16px;
+}
+
+/* Light Glass over a photograph is not dark enough for --text-muted: measured
+   4.04:1 against the real pixels behind it. Raising the card's opacity lifts
+   the backdrop and restores the margin, without touching the text token that
+   every other panel depends on. */
+body.light-mode .region-panel--pick .region-picker,
+body.light-mode .region-panel--pick .intelligence-card {
+	background: rgba(255, 255, 255, 0.9);
+}
+
+#region {
+	width: 100%;
+	height: var(--sel-h);
+	padding: 0 34px 0 14px;
+	/* Square corners, matching the full-bleed control bar. Rounded corners on a
+	   native <select> also leave the photo showing through the corner triangles,
+	   and a contrast audit that measures the element box (a <select> yields no
+	   range rects for its own text) reads those bright pixels as the backdrop. */
+	border-radius: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text);
+	cursor: pointer;
+	min-width: 0;
+	text-overflow: ellipsis;
+	/* Its own, far more opaque surface than the shared --surface: this select
+	   sits directly on a photograph, and at 0.62 the value text measured only
+	   3.4:1 in dark mode and 4.0:1 in light against the real pixels behind it.
+	   0.9 clears 4.5:1 in both without flattening the glass bar around it. */
+	background: var(--surface-region-select);
+	backdrop-filter: blur(20px) saturate(1.4);
+	-webkit-backdrop-filter: blur(20px) saturate(1.4);
+	border: 1px solid var(--border);
+	box-shadow: var(--inset-hairline);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Theme-aware chevron. `select { appearance: none }` in css/base.css strips
+   the native arrow, so it has to be drawn - the 34px right padding above
+   reserves exactly this much room. Mirrors .language-selector::after. */
+.region-picker::after {
+	content: "";
+	position: absolute;
+	right: 27px;
+	/* 14px = the bar's bottom padding, so the chevron centres on the select
+	   rather than on the bar. */
+	bottom: calc(14px + var(--sel-h) / 2 - 3.5px);
+	width: 7px;
+	height: 7px;
+	border-right: 1.6px solid var(--text-muted);
+	border-bottom: 1.6px solid var(--text-muted);
+	transform: rotate(45deg) translateY(-2px);
+	pointer-events: none;
+	transition: border-color 0.2s ease;
+}
+
+.region-picker:hover::after { border-color: var(--cyan); }
+
+#region:hover {
+	border-color: var(--border-cyan);
+	box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 0 25px rgba(34, 211, 238, 0.08);
+}
+
+/* =============================================================
+   REGIONAL EXPRESSION INFO
+   #intelligenceText is dimmed to 0.45 by js/translator.js when the
+   regional toggle is off. That opacity change is set inline by JS,
+   so nothing here may override it.
+   ============================================================= */
+.intelligence-card {
+	padding: 13px 14px;
+	border-radius: var(--radius-sm);
+	background: var(--surface-deep);
+	box-shadow: none;
+	transition: opacity 0.35s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.intelligence-title {
+	margin-bottom: 6px;
+	font-size: 10.5px;
+	font-weight: 700;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--accent-ink);
+}
+
+.intelligence-text {
+	font-size: 12.5px;
+	line-height: 1.55;
+	color: var(--text-muted);
+	transition: color 0.3s ease;
+}
+
+.intelligence-text strong {
+	color: var(--text);
+	font-weight: 700;
+}

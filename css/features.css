@@ -1,56 +1,60 @@
-/* VAANIX - FEATURES */
-.feature-section { max-width: 1150px; margin: 92px auto 80px; padding: 0 24px; }
-.section-heading { max-width: 640px; margin-bottom: 40px; }
-.section-heading > span {
-	color: var(--accent-text);
-	font-size: 11px;
-	font-weight: 800;
-	letter-spacing: 2.4px;
-	text-transform: uppercase;
+/* =============================================================
+   VAANIX - FEATURE STRIP
+   The old full-width "WHY VAANIX" section is now a compact three-up
+   strip under the workspace. Same content, dashboard scale.
+   ============================================================= */
+
+.feature-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
 }
-.section-heading h2 {
-	margin-top: 12px;
-	font-size: clamp(28px, 4vw, 42px);
-	line-height: 1.15;
-	letter-spacing: -1.3px;
-	font-weight: 800;
-}
-.section-heading h2 em { color: var(--text-muted); font-style: normal; }
-.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
 .feature-card {
-	position: relative;
-	padding: 28px;
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius-lg);
-	transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+	display: flex;
+	align-items: flex-start;
+	gap: 11px;
+	min-width: 0;
+	padding: 13px 14px;
+	border-radius: var(--radius-sm);
+	background-image: linear-gradient(150deg, rgba(34, 211, 238, 0.05) 0%, transparent 62%);
+	transition:
+		transform 0.2s ease,
+		border-color 0.2s ease,
+		box-shadow 0.25s ease;
 }
+
 .feature-card:hover {
-	transform: translateY(-4px);
-	border-color: rgba(138, 108, 255, 0.4);
-	box-shadow: var(--shadow-sm);
+	transform: translateY(-2px);
+	border-color: rgba(34, 211, 238, 0.32);
+	box-shadow: 0 0 30px rgba(34, 211, 238, 0.1), var(--shadow-sm);
 }
-.feature-number {
-	position: absolute;
-	top: 22px;
-	right: 26px;
-	color: var(--text-faint);
-	font-size: 11px;
-	font-weight: 800;
-	letter-spacing: 1px;
-}
+
 .feature-icon {
-	width: 46px;
-	height: 46px;
+	flex-shrink: 0;
 	display: grid;
 	place-items: center;
-	margin-bottom: 20px;
-	border-radius: 14px;
-	background: var(--primary-soft);
-	color: var(--accent-text);
-	font-size: 19px;
-	transition: transform 0.25s;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	font-size: 15px;
+	color: var(--accent-ink);
+	background: rgba(124, 58, 237, 0.14);
+	border: 1px solid rgba(139, 92, 246, 0.22);
 }
-.feature-card:hover .feature-icon { transform: scale(1.08) rotate(-4deg); }
-.feature-card h3 { font-size: 18px; margin-bottom: 9px; font-weight: 800; letter-spacing: -0.3px; }
-.feature-card p { max-width: 270px; color: var(--text-muted); font-size: 13.5px; line-height: 1.7; }
+
+.feature-body { min-width: 0; }
+
+.feature-card h3 {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--text);
+	line-height: 1.3;
+}
+
+.feature-card p {
+	margin-top: 3px;
+	font-size: 11.5px;
+	line-height: 1.45;
+	color: var(--text-muted);
+}

@@ -1,46 +1,156 @@
-/* VAANIX - RESPONSIVE */
+/* =============================================================
+   VAANIX - RESPONSIVE
+   Desktop  : sidebar | workspace | regional
+   Tablet   : sidebar | workspace, regional drops to a full row
+   Mobile   : header, workspace, regional - nothing scrolls sideways
+   ============================================================= */
 
-/* TABLET */
-@media (max-width: 860px) {
-	.hero { margin-top: 44px; }
-	.hero h1 { font-size: clamp(34px, 7vw, 52px); }
-	.feature-grid { grid-template-columns: 1fr; }
-	.language-bar { grid-template-columns: 1fr 48px 1fr; gap: 12px; }
-	.swap-btn { width: 46px; height: 46px; font-size: 19px; }
+/* ---------- Wide desktop: let the middle column breathe ---------- */
+@media (min-width: 1400px) {
+	.app { padding: 20px 28px 30px; }
+	.app-grid {
+		grid-template-columns: 228px minmax(0, 1fr) 312px;
+		gap: 20px;
+	}
 }
 
-/* SMALL TABLET - stack the translation panes */
-@media (max-width: 760px) {
-	.region-control { flex-direction: column; align-items: stretch; gap: 14px; padding: 16px 20px; }
-	.region-copy select { width: 100%; min-width: 0; }
-	.region-hint { white-space: normal; }
-	.translation-grid { grid-template-columns: 1fr; gap: 18px; }
-	.translation-card { min-height: 320px; }
-	.intelligence-card { flex-direction: column; align-items: flex-start; }
+/* ---------- Narrow desktop ---------- */
+@media (max-width: 1180px) {
+	.app-grid {
+		grid-template-columns: 200px minmax(0, 1fr);
+	}
+	/* Regional panel becomes a full-width row under the two columns. */
+	.col-region {
+		grid-column: 1 / -1;
+		flex-direction: row;
+		align-items: stretch;
+	}
+	.col-region > div { flex: 1 1 0; min-width: 0; }
+	/* Split the pick / info halves so the row is not one very wide card. */
+	.col-region #intelligence { flex: 0 0 300px; }
 }
 
-/* MOBILE */
-@media (max-width: 640px) {
-	.navbar { padding: 12px 16px; }
-	.engine-status { display: none; }
-	.icon-btn { width: 42px; height: 42px; }
-	.hero { margin: 32px auto 0; padding: 0 18px; }
-	.hero h1 { font-size: clamp(30px, 9vw, 40px); letter-spacing: -1.4px; }
-	.hero p { font-size: 14px; }
-	.hero-pill { margin-bottom: 18px; font-size: 11px; }
-	.language-bar { grid-template-columns: 1fr; gap: 10px; padding: 16px; margin-top: 30px; }
-	.language-selector select { font-size: 16px; }
-	.swap-btn { width: 100%; height: 46px; margin: 0; border-radius: 12px; transform: none; }
-	.swap-btn:hover { transform: rotate(180deg); }
-	.swap-btn:active { transform: rotate(180deg) scale(0.98); }
-	.region-control { padding: 16px 18px; }
-	.workspace { margin-top: 18px; padding: 0 14px; }
-	.translation-card { min-height: 260px; padding: 18px 18px 70px; }
-	.translation-card textarea, .output-area { height: 180px; font-size: 17px; }
-	.card-bottom { left: 18px; right: 18px; }
-	.input-side { flex-wrap: wrap; width: 100%; gap: 10px; }
-	.translate-btn { flex: 1 1 100%; height: 50px; font-size: 15px; }
-	.feature-section { margin: 68px auto 56px; padding: 0 18px; }
-	.feature-card { padding: 24px; }
-	footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 18px 36px; }
+/* ---------- Tablet ---------- */
+@media (max-width: 900px) {
+	.app { padding: 16px 18px 24px; }
+
+	.app-grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+
+	/* Sidebar collapses to a horizontal icon+label row. The column order is
+	   already nav, main, region in index.html, so no `order` is needed. */
+	.sidebar {
+		flex-direction: row;
+		align-items: center;
+		gap: 14px;
+		padding: 10px 12px;
+		overflow-x: auto;
+	}
+
+	.nav-list {
+		flex-direction: row;
+		gap: 6px;
+		flex-shrink: 0;
+	}
+
+	.nav-item { padding: 8px 12px; white-space: nowrap; }
+	.nav-item:hover { transform: none; }
+	.sidebar-note { display: none; }
+
+	.col-region { flex-direction: column; }
+	.col-region #intelligence { flex: none; }
+
+	.translation-grid { grid-template-columns: minmax(0, 1fr); }
+	#inputText,
+	.output-area { min-height: 118px; }
+
+	/* Touch-capable widths get the full-size select, not just phones. */
+	.language-selector { --sel-h: 44px; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 620px) {
+	body { font-size: 14.5px; }
+
+	.app { padding: 12px 13px 22px; }
+	.app-grid { gap: 14px; }
+
+	/* Header stacks, tagline stays readable instead of being clipped. */
+	.navbar {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 11px;
+		padding: 13px 15px;
+	}
+	.nav-actions {
+		justify-content: space-between;
+	}
+	.brand-tag { white-space: normal; }
+
+	.workspace-title { font-size: 22px; }
+	.workspace-sub { font-size: 12.5px; }
+
+	/* From / swap / To become a vertical stack. */
+	.language-bar {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 10px;
+	}
+	.swap-btn {
+		justify-self: center;
+		margin: 0;
+	}
+
+	.translation-grid { gap: 13px; }
+	.translation-card { padding: 14px 14px 12px; }
+
+	/* Action cards stack; the description is the first thing to go. */
+	.action-row { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+	.action-card { padding: 12px 13px; }
+	.action-desc { white-space: normal; }
+
+	.feature-grid { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+
+	.translate-btn { width: 100%; min-width: 0; }
+
+	/* The drawer takes the full width once the sidebar becomes a top row. */
+	.drawer { width: 100%; }
+	.drawer-head { padding: 13px 15px; }
+	.drawer-body { padding: 13px 15px 20px; }
+
+	footer {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 5px;
+		padding: 13px 15px;
+	}
+}
+
+/* ---------- Very small ---------- */
+@media (max-width: 400px) {
+	.app { padding: 10px 10px 20px; }
+	.brand-name { font-size: 17px; }
+	.brand-mark { width: 36px; height: 36px; font-size: 18px; }
+	.engine-status { font-size: 11px; padding: 6px 10px; }
+	.workspace-title { font-size: 20px; }
+	.card-title { font-size: 13px; }
+	.detected { max-width: 52%; }
+}
+
+/* =============================================================
+   SAFETY NET
+   Any child that would still push the page sideways gets clipped
+   rather than allowed to create a horizontal scrollbar. The grid
+   itself cannot overflow: base.css sizes its columns with
+   minmax(0, 1fr) and gives .col min-width: 0.
+   ============================================================= */
+
+#inputText,
+.output-area,
+.language-bar,
+.action-row,
+.feature-grid,
+.translation-grid {
+	max-width: 100%;
 }

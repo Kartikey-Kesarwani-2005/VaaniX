@@ -1,0 +1,52 @@
+<nav class="sidebar" aria-label="Sections">
+
+    <ul class="nav-list">
+        <!--
+            All four are real <button>s (see js/nav.js). "Translator" is the page
+            you are on and stays marked with aria-current; the other three are
+            actions rather than destinations, so they must NOT claim
+            aria-current - they open a drawer or scroll to the regional panel.
+        -->
+        <li>
+            <button class="nav-item is-active" type="button" data-nav="translator" aria-current="page">
+                <span class="nav-glyph" aria-hidden="true">◈</span>
+                <span class="nav-text">Translator</span>
+            </button>
+        </li>
+        <li>
+            <button class="nav-item" type="button" data-nav="region">
+                <span class="nav-glyph" aria-hidden="true">◎</span>
+                <span class="nav-text">My Region</span>
+            </button>
+        </li>
+        <li>
+            <button class="nav-item" type="button" data-nav="history">
+                <span class="nav-glyph" aria-hidden="true">◷</span>
+                <span class="nav-text">History</span>
+                <span class="nav-badge" id="historyBadge" hidden>0</span>
+            </button>
+        </li>
+        <li>
+            <button class="nav-item" type="button" data-nav="settings">
+                <span class="nav-glyph" aria-hidden="true">⚙</span>
+                <span class="nav-text">Settings</span>
+            </button>
+        </li>
+    </ul>
+
+    <!--
+        The old landing hero explained what VaaniX does. Rather than delete that
+        copy, it now lives here as a compact note.
+    -->
+    <div class="sidebar-note">
+        <div class="note-pill">
+            <span aria-hidden="true">✦</span>
+            Language · Region · Local Expression
+        </div>
+        <p class="note-text">
+            Everyday English turned into natural Hindi, shaped by the expressions
+            of Prayagraj, Varanasi, Lucknow, Agra and Patna.
+        </p>
+    </div>
+
+</nav>

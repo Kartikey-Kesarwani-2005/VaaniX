@@ -1,32 +1,46 @@
-<section class="language-bar">
-	<!-- FROM LANGUAGE -->
-	<div class="language-selector">
-		<span class="selector-label">FROM</span>
-		<select id="fromLanguage" aria-label="From language">
-			<option value="english">🇬🇧 English</option>
-			<option value="hindi">🇮🇳 Hindi</option>
-			<option value="bhojpuri">🗣️ Bhojpuri</option>
-			<option value="maithili">🗣️ Maithili</option>
-			<option value="magahi">🗣️ Magahi</option>
-			<option value="awadhi">🗣️ Awadhi</option>
-			<option value="braj">🗣️ Braj</option>
-		</select>
-	</div>
+<section class="workspace-head">
 
-	<!-- Swap button flips the two languages -->
-	<button class="swap-btn" id="swapBtn" type="button" aria-label="Swap languages">⇄</button>
+    <div>
+        <h1 class="workspace-title">Translation Workspace</h1>
+        <p class="workspace-sub">Translate words into the way your region speaks.</p>
+    </div>
 
-	<!-- TO LANGUAGE -->
-	<div class="language-selector">
-		<span class="selector-label">TO</span>
-		<select id="toLanguage" aria-label="To language">
-			<option value="hindi">🇮🇳 Hindi</option>
-			<option value="english">🇬🇧 English</option>
-			<option value="bhojpuri">🗣️ Bhojpuri</option>
-			<option value="maithili">🗣️ Maithili</option>
-			<option value="magahi">🗣️ Magahi</option>
-			<option value="awadhi">🗣️ Awadhi</option>
-			<option value="braj">🗣️ Braj</option>
-		</select>
-	</div>
+    <div class="language-bar">
+        <!-- FROM LANGUAGE -->
+        <div class="language-selector">
+            <span class="selector-label">From</span>
+            <!--
+                Option text must stay on ONE line: js/language.js reads
+                fromLanguage.options[i].text straight into #detectedText, so any
+                newline inside the tag would be rendered there.
+            -->
+            <select id="fromLanguage" aria-label="From language">
+                <option value="english">🇬🇧 English</option>
+                <option value="hindi">🇮🇳 Hindi</option>
+                <option value="bhojpuri">🗣️ Bhojpuri</option>
+                <option value="maithili">🗣️ Maithili</option>
+                <option value="magahi">🗣️ Magahi</option>
+                <option value="awadhi">🗣️ Awadhi</option>
+                <option value="braj">🗣️ Braj</option>
+            </select>
+        </div>
+
+        <!-- Swap button flips the two languages -->
+        <button class="swap-btn" id="swapBtn" type="button" aria-label="Swap languages">⇄</button>
+
+        <!-- TO LANGUAGE -->
+        <div class="language-selector">
+            <span class="selector-label">To</span>
+            <select id="toLanguage" aria-label="To language">
+                <option value="hindi">🇮🇳 Hindi</option>
+                <option value="english">🇬🇧 English</option>
+                <option value="bhojpuri">🗣️ Bhojpuri</option>
+                <option value="maithili">🗣️ Maithili</option>
+                <option value="magahi">🗣️ Magahi</option>
+                <option value="awadhi">🗣️ Awadhi</option>
+                <option value="braj">🗣️ Braj</option>
+            </select>
+        </div>
+    </div>
+
 </section>

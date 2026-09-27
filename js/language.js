@@ -6,7 +6,6 @@ function initLanguage() {
 	const toLanguage = document.getElementById("toLanguage");
 	const swapButton = document.getElementById("swapBtn");
 	const region = document.getElementById("region");
-	const selectedRegion = document.getElementById("selectedRegion");
 	const intelligenceText = document.getElementById("intelligenceText");
 	const detected = document.getElementById("detectedText");
 
@@ -35,11 +34,12 @@ function initLanguage() {
 		updateLanguageInfo();
 	}
 
-	/* Update the selected region name in the intelligence card. */
+	/* Update the intelligence card to name the current region. This replaces
+	   the card's whole innerHTML, which is why the markup in
+	   components/region-selector.html is only a pre-boot placeholder. */
 	function updateRegion() {
 		if (!region) return;
 		const regionName = region.options[region.selectedIndex].text;
-		if (selectedRegion) selectedRegion.textContent = regionName;
 		if (intelligenceText) {
 			intelligenceText.innerHTML =
 				`VaaniX will adapt the translation to <strong>${regionName}</strong>.`;

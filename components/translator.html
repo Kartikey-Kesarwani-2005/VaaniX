@@ -1,49 +1,107 @@
 <section class="workspace">
-	<div class="translation-grid">
-		<!-- INPUT CARD -->
-		<div class="translation-card">
-			<div class="card-header">
-				<span class="card-title">Your words</span>
-				<span class="detected" id="detectedText">English selected</span>
-			</div>
 
-			<textarea id="inputText" maxlength="1000" aria-label="Text to translate" placeholder="Type something to translate..."></textarea>
+    <div class="translation-grid">
 
-			<div class="card-bottom">
-				<div class="input-tools">
-					<button class="round-tool" id="micBtn" type="button" title="Speak to translate" aria-label="Voice input">🎙</button>
-					<button class="round-tool" id="clearBtn" type="button" title="Clear text" aria-label="Clear text">×</button>
-				</div>
-				<div class="input-side">
-					<span class="counter" id="counter">0 / 1000</span>
-					<button class="translate-btn" id="translateBtn" type="button">
-						<span class="translate-icon">✦</span>
-						<span class="translate-label" id="translateLabel">Translate with VaaniX</span>
-						<span class="arrow">→</span>
-					</button>
-				</div>
-			</div>
-		</div>
+        <!-- ================= INPUT PANEL =================
+             The three action cards below are <div> wrappers holding decorative
+             spans. The real <button class="action-hit"> is stretched over the
+             whole card and is kept CHILDLESS on purpose, because
+             js/voice.js rewrites micBtn.textContent and js/clipboard.js
+             rewrites copyBtn.textContent - either one would wipe the icon and
+             the label if they lived inside the button.
+             Do not move the icon/title/desc into the button. -->
+        <div class="translation-card">
 
-		<!-- OUTPUT CARD -->
-		<div class="translation-card">
-			<div class="card-header">
-				<span class="card-title">Translation</span>
-				<span class="regional-badge">Regional</span>
-			</div>
+            <div class="card-header">
+                <span class="card-title">Your words</span>
+                <span class="detected" id="detectedText">English selected</span>
+            </div>
 
-			<div class="output-area" id="outputText" aria-live="polite">
-				<span class="output-placeholder">Your translation will appear here...</span>
-			</div>
+            <textarea id="inputText" maxlength="1000" aria-label="Text to translate" placeholder="Type your text here..."></textarea>
 
-			<div class="card-bottom">
-				<div class="input-tools">
-					<button class="round-tool" id="copyBtn" type="button" title="Copy translation" aria-label="Copy translation">⧉</button>
-					<button class="round-tool" id="speakBtn" type="button" title="Listen to translation" aria-label="Listen to translation">🔊</button>
-					<button class="round-tool" id="shareBtn" type="button" title="Share translation" aria-label="Share translation">↗</button>
-				</div>
-				<span class="regional-indicator"><span></span>Regional Translation</span>
-			</div>
-		</div>
-	</div>
+            <div class="card-foot">
+                <span class="counter" id="counter">0 / 1000</span>
+
+                <!-- clearBtn is never touched by JS, so it may hold real children -->
+                <button class="ghost-btn" id="clearBtn" type="button" title="Clear text">
+                    <span aria-hidden="true">×</span>
+                    Clear
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ================= OUTPUT PANEL ================= -->
+        <div class="translation-card">
+
+            <div class="card-header">
+                <span class="card-title">Translation</span>
+                <!-- shareBtn is never touched by JS, so it may hold real children -->
+                <button class="ghost-btn" id="shareBtn" type="button" title="Share translation">
+                    <span aria-hidden="true">↗</span>
+                    Share
+                </button>
+            </div>
+
+            <!-- translator.js replaces this element's innerHTML with either the
+                 translation text, an .output-hint, or an .output-placeholder.
+                 js/voice.js and js/clipboard.js both look for .output-placeholder,
+                 so that class name must keep existing in translator.css. -->
+            <div class="output-area" id="outputText" aria-live="polite">
+                <span class="output-placeholder">Translation will appear here...</span>
+            </div>
+
+            <div class="card-foot">
+                <span class="regional-indicator"><span aria-hidden="true"></span>Regional Translation</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= TRANSLATE =================
+         #translateLabel is what js/translator.js rewrites ("Translating..." then
+         back to "Translate with VaaniX"), so the arrow lives outside it. -->
+    <div class="translate-row">
+        <button class="translate-btn" id="translateBtn" type="button">
+            <span id="translateLabel">Translate</span>
+            <span class="translate-arrow" aria-hidden="true">→</span>
+        </button>
+    </div>
+
+    <!-- ================= ACTION CARDS ================= -->
+    <div class="action-row">
+
+        <!-- Voice input -->
+        <div class="action-card">
+            <span class="action-icon" aria-hidden="true">🎙</span>
+            <span class="action-text">
+                <span class="action-title">Voice Input</span>
+                <span class="action-desc">Speak to translate</span>
+            </span>
+            <button class="action-hit" id="micBtn" type="button" title="Speak to translate" aria-label="Voice input">🎙</button>
+        </div>
+
+        <!-- Copy -->
+        <div class="action-card">
+            <span class="action-icon" aria-hidden="true">⧉</span>
+            <span class="action-text">
+                <span class="action-title">Copy</span>
+                <span class="action-desc">Copy to clipboard</span>
+            </span>
+            <button class="action-hit" id="copyBtn" type="button" title="Copy translation" aria-label="Copy translation">⧉</button>
+        </div>
+
+        <!-- Listen -->
+        <div class="action-card">
+            <span class="action-icon" aria-hidden="true">🔊</span>
+            <span class="action-text">
+                <span class="action-title">Listen</span>
+                <span class="action-desc">Hear the translation</span>
+            </span>
+            <button class="action-hit" id="speakBtn" type="button" title="Listen to translation" aria-label="Listen to translation">🔊</button>
+        </div>
+
+    </div>
+
 </section>

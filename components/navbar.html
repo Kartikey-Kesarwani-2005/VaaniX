@@ -1,46 +1,20 @@
 <header class="navbar">
+	<div class="brand">
+		<div class="brand-mark" aria-hidden="true">व</div>
+		<div class="brand-info">
+			<div class="brand-name">VaaniX</div>
+			<div class="brand-tag">Regional Languages. Real Conversations.</div>
+		</div>
+	</div>
 
-    <div class="brand">
+	<div class="nav-actions">
+		<!-- Existing engine status, kept as-is. No profile/auth was invented. -->
+		<div class="engine-status">
+			<span class="status-dot" aria-hidden="true"></span>
+			Translation Engine
+		</div>
 
-        <div class="brand-mark">
-            <span>व</span>
-        </div>
-
-        <div class="brand-info">
-
-            <div class="brand-name">
-                VaaniX
-            </div>
-
-            <div class="brand-tag">
-                REGIONAL EXPRESSION
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="nav-actions">
-
-        <div class="engine-status">
-
-            <span class="status-dot"></span>
-
-            Translation Engine
-
-        </div>
-
-
-        <button
-            class="icon-btn"
-            id="themeBtn"
-            type="button"
-            aria-label="Toggle theme"
-        >
-            ☼
-        </button>
-
-    </div>
-
+		<!-- The glyph and title are both rewritten by js/theme.js on every click. -->
+		<button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme" title="Switch to light theme">☼</button>
+	</div>
 </header>

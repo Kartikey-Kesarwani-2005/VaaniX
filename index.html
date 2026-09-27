@@ -3,32 +3,58 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>VaaniX — Hyperlocal Language Translator</title>
+	<title>VaaniX — Regional Languages. Real Conversations.</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/base.css">
 	<link rel="stylesheet" href="css/navbar.css">
-	<link rel="stylesheet" href="css/hero.css">
+	<link rel="stylesheet" href="css/sidebar.css">
 	<link rel="stylesheet" href="css/language.css">
 	<link rel="stylesheet" href="css/translator.css">
 	<link rel="stylesheet" href="css/intelligence.css">
+	<link rel="stylesheet" href="css/region-visual.css">
 	<link rel="stylesheet" href="css/features.css">
 	<link rel="stylesheet" href="css/footer.css">
+	<link rel="stylesheet" href="css/drawer.css">
 	<link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-	<!-- Background -->
-	<div class="grid-bg"></div>
+	<!-- Cinematic background. Purely decorative, never interactive. -->
+	<div class="backdrop" aria-hidden="true">
+		<span class="orb orb-purple"></span>
+		<span class="orb orb-cyan"></span>
+		<span class="orb orb-blue"></span>
+		<div class="mesh"></div>
+		<div class="grain"></div>
+	</div>
 
-	<!-- Components (filled in by js/app.js) -->
-	<div id="navbar"></div>
-	<div id="hero"></div>
-	<div id="language-selector"></div>
-	<div id="region-selector"></div>
-	<div id="translator"></div>
-	<div id="intelligence"></div>
-	<div id="features"></div>
-	<div id="footer"></div>
+	<div class="app">
+		<!-- Components (filled in by js/app.js) -->
+		<div id="navbar"></div>
+
+		<div class="app-grid">
+			<aside class="col col-nav" aria-label="Primary">
+				<div id="sidebar"></div>
+			</aside>
+
+			<main class="col col-main">
+				<div id="language-selector"></div>
+				<div id="translator"></div>
+				<div id="features"></div>
+			</main>
+
+			<aside class="col col-region" aria-label="Regional mode">
+				<div id="intelligence"></div>
+				<div id="region-selector"></div>
+			</aside>
+		</div>
+
+		<div id="footer"></div>
+	</div>
+
+	<!-- History / Settings drawer. Fixed overlay, so it sits outside .app
+	     to stay out of the three-column grid. -->
+	<div id="drawer"></div>
 
 	<!-- JavaScript -->
 	<script src="js/language.js"></script>
@@ -36,6 +62,8 @@
 	<script src="js/voice.js"></script>
 	<script src="js/clipboard.js"></script>
 	<script src="js/theme.js"></script>
+	<script src="js/nav.js"></script>
+	<script src="js/region-art.js"></script>
 	<script src="js/app.js"></script>
 </body>
 </html>

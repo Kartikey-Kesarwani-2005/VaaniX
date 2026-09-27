@@ -1,57 +1,74 @@
-<section class="region-control">
+<section class="region-panel region-panel--pick">
 
-    <div class="region-chip" aria-hidden="true">
-        📍
+    <!--
+        Full-panel decorative background. Layers, back to front: the CSS
+        sky/hills/river gradient scene, the inline SVG landmark silhouette,
+        then the region photo if one is available. The photo degrades: if it is
+        missing or fails to load, its layer is removed and the SVG silhouette
+        shows through, so this never renders as an empty box.
+
+        This is absolutely positioned to fill .region-panel and sits behind all
+        the content, so the text below always has its own glass surface to sit
+        on rather than competing with the photo. js/region-art.js owns it all;
+        #intelligenceText reports the live region and the <select> names it.
+    -->
+    <div class="region-visual" id="regionVisual" data-region="prayagraj">
+        <div class="visual-sky"></div>
+        <div class="visual-hills"></div>
+        <div class="visual-river"></div>
+
+        <!-- The SVG is purely decorative; the select's option text names the region. -->
+        <div class="visual-art" id="regionArt" aria-hidden="true"></div>
+
+        <!-- Photo layer, shown only once an image has actually loaded. -->
+        <div class="visual-photo" id="regionPhoto" aria-hidden="true" hidden></div>
+
+        <div class="visual-grain"></div>
+        <div class="visual-scrim"></div>
     </div>
 
+    <!-- Option text is kept on one line each: js/language.js reads
+         region.options[i].text and drops it straight into #intelligenceText,
+         so leading/trailing newlines would show up there.
 
-    <div class="region-copy">
+         The landmark name is intentionally not rendered: the <select> option
+         already names the region, and a caption chip over the photo could not
+         be given a reliable contrast ratio. -->
+    <div class="region-picker">
+        <span class="region-label">Choose Your Region</span>
 
-        <span class="region-label">
-            YOUR REGION
-        </span>
+        <select id="region" aria-label="Region">
+            <option value="prayagraj" selected>Prayagraj, Uttar Pradesh</option>
+            <option value="standard">Standard Hindi</option>
+            <option value="varanasi">Varanasi · Purvanchal</option>
+            <option value="lucknow">Lucknow · Awadh</option>
+            <option value="agra">Agra · Braj</option>
+            <option value="patna">Patna · Bihar</option>
+        </select>
+    </div>
 
-
-        <select
-            id="region"
-            aria-label="Region"
+    <!--
+        #intelligenceText is rewritten by js/language.js on every region change
+        (innerHTML = "VaaniX will adapt the translation to <strong>...</strong>.").
+        What is inside it here is only what shows for the split second before
+        that runs, so it deliberately carries no ids.
+    -->
+    <div class="intelligence-card">
+        <div class="intelligence-title">Regional Expression</div>
+        <div
+            class="intelligence-text"
+            id="intelligenceText"
         >
 
-            <option value="prayagraj" selected>
+            VaaniX will adapt the translation
+            to
+
+            <strong>
                 Prayagraj, Uttar Pradesh
-            </option>
+            </strong>.
 
-            <option value="standard">
-                Standard Hindi
-            </option>
-
-            <option value="varanasi">
-                Varanasi · Purvanchal
-            </option>
-
-            <option value="lucknow">
-                Lucknow · Awadh
-            </option>
-
-            <option value="agra">
-                Agra · Braj
-            </option>
-
-            <option value="patna">
-                Patna · Bihar
-            </option>
-
-        </select>
-
+        </div>
     </div>
-
-
-    <div class="region-hint">
-
-        <span class="hint-dot"></span>
-
-        Regional expressions enabled
-
     </div>
 
 </section>
