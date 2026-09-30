@@ -5,8 +5,12 @@
         <p class="panel-sub">Get translations in your local dialect and region-specific tone.</p>
     </header>
 
-    <!-- regionalToggle: js/translator.js dims #intelligenceText to 0.45 opacity
-         when this is unchecked. That behaviour is untouched. -->
+    <!--
+        regionalToggle: js/translator.js dims this card to 0.45 opacity while the
+        switch is off, and restores it when it is on. The dimming tracks the
+        switch, not the result: with Regional mode on the card is fully
+        available even while Standard Hindi is the selected region.
+    -->
     <div class="region-toggle-control">
         <span class="region-toggle-label">Regional mode</span>
 
@@ -22,10 +26,15 @@
     </div>
 
     <!--
-        Shown only while #regionalToggle is off, so the Standard Hindi result is
-        an explained choice rather than a bug report. The region <select> is left
-        enabled on purpose: picking a region here is how a user sets it up for
-        when they switch Regional mode back on. js/translator.js toggles `hidden`.
+        Shown whenever no regional variant is actually being returned, which is
+        either of two states: the switch is off, or the switch is on but Standard
+        Hindi is the selected region. The text is written by js/translator.js,
+        which picks the wording that fits the reason; the markup here is the
+        starting text for the switch-off case.
+
+        While the switch is off this note also explains why the region select
+        below is disabled and forced to Standard Hindi, and that the user's own
+        region is kept and restored when the switch comes back on.
     -->
     <p class="region-off-note" id="regionOffNote" hidden>
         Regional flavour is off, so translations come back in Standard Hindi.

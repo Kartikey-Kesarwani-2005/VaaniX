@@ -31,10 +31,20 @@ function initTranslator() {
 
 	/* Remember the user's own pick, but never the forced Standard Hindi: this
 	   fires for the programmatic write below too, which is why the disabled
-	   check matters. */
+	   check matters.
+
+	   updateRegionalMode() runs after it so the output label follows the region
+	   the moment it changes. Without that the label still described the last
+	   toggle press, and picking Patna could leave it reading "Standard
+	   Translation" while Patna Hindi sat in the output.
+
+	   Re-entry is safe: setRegionLocked() only dispatches a change when the
+	   value actually moved, so this settles after one extra pass instead of
+	   looping. */
 	if (region) {
 		region.addEventListener("change", function () {
 			if (!region.disabled) chosenRegion = region.value;
+			updateRegionalMode();
 		});
 	}
 
@@ -78,15 +88,43 @@ function initTranslator() {
 	}
 
 	/* Regional mode is a real switch, not only a dimmer: it is what decides
-	   which variant getDemoTranslation returns. The output card's label follows
-	   it, and both wordings are the same shape ("<Flavour> Translation") so the
-	   swap reads as one pair changing rather than as a different kind of label. */
+	   which variant getDemoTranslation returns.
+
+	   The output label follows the RESULT, not the switch, because those are
+	   not the same thing. Standard Hindi is itself a region, so "Regional mode
+	   on" plus "Standard Hindi selected" is a real state the app boots into -
+	   and in it there is no variant to return, so the translation really is
+	   Standard Hindi. Reading the label off the switch made that state claim
+	   "Regional Translation" while handing back Standard Hindi, which is the
+	   one thing a result label must never do.
+
+	   Both wordings keep the same shape ("<Flavour> Translation") so the swap
+	   reads as one pair changing rather than as a different kind of label. */
 	function updateRegionalMode() {
 		const on = !!regionalToggle && regionalToggle.checked;
 
+		/* What actually came back: a regional variant only exists for a region
+		   that has one, and Standard Hindi never does. */
+		const regional = on && !!region && region.value !== "standard";
+
+		/* Dimmed on the switch, not on the result: with Regional mode on the
+		   card is fully available even while Standard Hindi is selected, and
+		   greying it out would read as "disabled" when it is not. */
 		if (intelligence) intelligence.style.opacity = on ? "1" : "0.45";
-		if (indicator) indicator.textContent = on ? "Regional Translation" : "Standard Translation";
-		if (offNote) offNote.hidden = on;
+		if (indicator) indicator.textContent = regional ? "Regional Translation" : "Standard Translation";
+
+		/* Two different reasons can mean "no regional flavour here", and they
+		   are not interchangeable: one is the user's switch, the other is a
+		   region that has no variant of its own. Saying which is the difference
+		   between a note that explains and a note that confuses. */
+		if (offNote) {
+			offNote.hidden = regional;
+			offNote.textContent = on
+				? "Regional mode is on, but Standard Hindi is the selected region. "
+					+ "Choose your region above for a local flavour."
+				: "Regional flavour is off, so translations come back in Standard Hindi. "
+					+ "Your region is kept and applies again the moment you switch it back on.";
+		}
 
 		setRegionLocked(!on);
 	}
