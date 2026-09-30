@@ -69,7 +69,7 @@ assets/regions/*.jpg          → one landmark photo per region
 
 - A local photo per region is loaded into a layer that fills the whole regional panel, so the landmark is the panel's backdrop rather than a card inside it. The photo is shown whole (never cropped), over a blurred copy of itself plus a dark scrim.
 - `Standard Hindi` has its own `assets/regions/standard.jpg` too, so it is a single photo like every other region.
-- Behind the photo sits a hand-written inline SVG landmark (`VAANIX_REGION_ART`). It is the fallback, so it is always built, and it takes over if an image fails to load. `Standard Hindi` has no single landmark, so its silhouette is a composite of all five, drawn in the order given by `VAANIX_STRIP`.
+- Behind the photo sits a hand-written inline SVG landmark (`VAANIX_LANDMARKS`). It is the fallback, so it is always built, and it takes over if an image fails to load. `Standard Hindi` has no single landmark, so its silhouette is a composite of all five, drawn in the order given by `VAANIX_STRIP`.
 - Nothing is requested from the network beyond the local files in `assets/`.
 
 ## Running Locally

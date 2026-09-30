@@ -20,7 +20,7 @@
 
 const VAANIX_LANDMARKS = {
 	/* --- Agra: the Taj. White marble, so the lightest silhouette. --- */
-	taj: `<g>
+	agra: `<g>
 		<rect x="-52" y="82" width="104" height="8"/>
 		<rect x="-32" y="60" width="64" height="22"/>
 		<rect x="-24" y="53" width="11" height="7"/>
@@ -41,7 +41,7 @@ const VAANIX_LANDMARKS = {
 	</g>`,
 
 	/* --- Lucknow: Bara Imambara. A wide hall between two minarets. --- */
-	imambara: `<g>
+	lucknow: `<g>
 		<rect x="-47" y="86" width="94" height="6"/>
 		<rect x="-43" y="47" width="86" height="39"/>
 		<rect x="-49" y="42" width="98" height="5"/>
@@ -59,7 +59,7 @@ const VAANIX_LANDMARKS = {
 	</g>`,
 
 	/* --- Prayagraj: Allahabad Fort. A long bastioned wall on a plinth. --- */
-	fort: `<g>
+	prayagraj: `<g>
 		<rect x="-58" y="80" width="116" height="10"/>
 		<rect x="-50" y="58" width="100" height="22"/>
 		<rect x="-47" y="44" width="17" height="36" rx="8.5"/>
@@ -76,7 +76,7 @@ const VAANIX_LANDMARKS = {
 	</g>`,
 
 	/* --- Varanasi: the ghats. A shikhara over stepped bathing terraces. --- */
-	ghat: `<g>
+	varanasi: `<g>
 		<rect x="-56" y="66" width="26" height="24"/>
 		<rect x="-46" y="58" width="18" height="32"/>
 		<rect x="-30" y="62" width="12" height="28"/>
@@ -95,7 +95,7 @@ const VAANIX_LANDMARKS = {
 	</g>`,
 
 	/* --- Patna: Gol Ghar. A round colonial clock tower. --- */
-	golghar: `<g>
+	patna: `<g>
 		<rect x="-30" y="80" width="60" height="10"/>
 		<ellipse cx="0" cy="80" rx="30" ry="5"/>
 		<rect x="-17" y="30" width="34" height="50"/>
@@ -114,19 +114,15 @@ const VAANIX_LANDMARKS = {
 
 /* Silhouettes are all light: the scene is lit from behind, and a dark
    silhouette would disappear into the hills behind it.
-   Maps a region id to the landmark drawn for it. Every <option> in
-   components/region-selector.html needs an entry here. */
-const VAANIX_REGION_ART = {
-	prayagraj: "fort",
-	varanasi: "ghat",
-	lucknow: "imambara",
-	agra: "taj",
-	patna: "golghar",
-	/* "Standard Hindi" has no single landmark, so its silhouette is a
-	   composite of all five. Its photo is its own standard.jpg, so the
-	   composite is only ever the fallback, never what the user sees. */
-	standard: "mix"
-};
+
+   The keys above are region ids, so one name is used everywhere: the <option>
+   values in components/region-selector.html, the photo filenames, and the
+   [data-region="..."] selectors in css/region-visual.css.
+
+   "standard" is deliberately not a key: it has no single landmark, so its
+   silhouette is a composite of all five, drawn in the order below. Its photo
+   is its own standard.jpg, so that composite is only ever the fallback, never
+   what the user sees. */
 
 /* Order the five landmarks are drawn in for the "Standard Hindi" silhouette. */
 const VAANIX_STRIP = ["varanasi", "patna", "lucknow", "agra", "prayagraj"];
@@ -153,7 +149,7 @@ function vaanixArtwork(piece) {
 		   apart; the x positions are index-aligned with it. */
 		const xs = [40, 100, 160, 222, 284];
 		body = VAANIX_STRIP
-			.map((region, i) => wrap(VAANIX_LANDMARKS[VAANIX_REGION_ART[region]], xs[i], 88, 0.34))
+			.map((region, i) => wrap(VAANIX_LANDMARKS[region], xs[i], 88, 0.34))
 			.join("");
 	} else {
 		/* One landmark, filling the frame.
@@ -228,9 +224,10 @@ function initRegionArt() {
 	let renderToken = 0;
 
 	/* The <select> is the only source of truth: it names the region, and its
-	   option values are the keys of VAANIX_REGION_ART. */
+	   option values are the keys of VAANIX_LANDMARKS. Only "standard" needs
+	   translating, to the "mix" that draws all five side by side. */
 	function currentPiece() {
-		return VAANIX_REGION_ART[select.value] || VAANIX_REGION_ART.standard;
+		return select.value === "standard" ? "mix" : select.value;
 	}
 
 	function showSilhouette(token) {

@@ -307,7 +307,10 @@ function initDrawer() {
 		body.replaceChildren(
 			appearanceGroup(),
 			translationGroup(),
-			engineGroup(),
+			group("Engine", [staticRow(
+				"Translation engine",
+				"Running on bundled demo phrases. No translation API is connected, so only the sample sentences return a regional variant."
+			)]),
 			dataGroup()
 		);
 	}
@@ -366,13 +369,6 @@ function initDrawer() {
 		);
 
 		return group("Translation", [row]);
-	}
-
-	function engineGroup() {
-		return group("Engine", [staticRow(
-			"Translation engine",
-			"Running on bundled demo phrases. No translation API is connected, so only the sample sentences return a regional variant."
-		)]);
 	}
 
 	function dataGroup() {

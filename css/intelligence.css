@@ -218,6 +218,15 @@ body.light-mode .region-panel--pick .intelligence-card {
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* The dropdown list itself: UA rules only partly allow this, and only where the
+   browser lets a page theme the option rows at all. It used to share one rule
+   with #fromLanguage and #toLanguage in css/language.css, which left this as the
+   only #region styling living outside this file. */
+#region option {
+	background: var(--surface-strong);
+	color: var(--text);
+}
+
 /* Theme-aware chevron. `select { appearance: none }` in css/base.css strips
    the native arrow, so it has to be drawn - the 34px right padding above
    reserves exactly this much room. Mirrors .language-selector::after. */

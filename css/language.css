@@ -89,10 +89,11 @@
 .language-selector:hover { border-color: var(--border-cyan); }
 .language-selector:hover::after { border-color: var(--cyan); }
 
-/* Native dropdown list - only lightly themed where the UA allows it. */
+/* Native dropdown list - only lightly themed where the UA allows it.
+   #region option is deliberately not here: it sits with the rest of #region in
+   css/intelligence.css. */
 #fromLanguage option,
-#toLanguage option,
-#region option {
+#toLanguage option {
 	background: var(--surface-strong);
 	color: var(--text);
 }
