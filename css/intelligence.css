@@ -177,11 +177,12 @@ body.light-mode .region-panel--pick .intelligence-card {
 	width: 100%;
 	height: var(--sel-h);
 	padding: 0 34px 0 14px;
-	/* Square corners, matching the full-bleed control bar. Rounded corners on a
-	   native <select> also leave the photo showing through the corner triangles,
-	   and a contrast audit that measures the element box (a <select> yields no
-	   range rects for its own text) reads those bright pixels as the backdrop. */
-	border-radius: 0;
+	/* Matches the language bar and the intelligence card below it, so the three
+	   stacked controls read as one set. Only this element is rounded, not the
+	   full-bleed bar it sits in, so the bar still meets the photo's top edge
+	   square. The corners clip against --surface-region-select (0.9 alpha) over
+	   the bar's own glass, not the bare photograph, so nothing bright leaks in. */
+	border-radius: var(--radius-sm);
 	font-size: 14px;
 	font-weight: 600;
 	color: var(--text);
