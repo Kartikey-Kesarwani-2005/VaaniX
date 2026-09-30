@@ -21,4 +21,15 @@
         </label>
     </div>
 
+    <!--
+        Shown only while #regionalToggle is off, so the Standard Hindi result is
+        an explained choice rather than a bug report. The region <select> is left
+        enabled on purpose: picking a region here is how a user sets it up for
+        when they switch Regional mode back on. js/translator.js toggles `hidden`.
+    -->
+    <p class="region-off-note" id="regionOffNote" hidden>
+        Regional flavour is off, so translations come back in Standard Hindi.
+        Your region is kept and applies again the moment you switch it back on.
+    </p>
+
 </section>

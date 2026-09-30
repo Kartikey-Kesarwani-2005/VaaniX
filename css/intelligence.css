@@ -43,6 +43,23 @@
 	color: var(--text);
 }
 
+/* Explains why the output is plain Standard Hindi while the toggle is off.
+   The [hidden] rule is not optional: without it the author `display` would
+   beat the user-agent [hidden] rule and the note could never be hidden.
+   Same reason .nav-badge[hidden] and .visual-photo[hidden] carry one. */
+.region-off-note {
+	margin-top: 10px;
+	padding: 10px 12px;
+	border-radius: var(--radius-sm);
+	background: var(--surface-deep);
+	border: 1px solid var(--border-soft);
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--text-muted);
+}
+
+.region-off-note[hidden] { display: none; }
+
 /* The label is the click target, so it is 44px tall while the visible track
    stays 26px - padding the whole switch would make the pill look chunky. */
 .switch {
@@ -225,6 +242,25 @@ body.light-mode .region-panel--pick .intelligence-card {
 #region:hover {
 	border-color: var(--border-cyan);
 	box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 0 25px rgba(34, 211, 238, 0.08);
+}
+
+/* Regional mode off: the picker is disabled and held on Standard Hindi, so it
+   is dimmed rather than left looking like a live control. The hover rule above
+   is neutralised too, or a disabled select still lights up on the pointer. */
+#region:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+#region:disabled:hover {
+	border-color: var(--border);
+	box-shadow: var(--inset-hairline);
+}
+
+/* The chevron is drawn on the wrapper, not the select, so the select cannot dim
+   it from here. js/translator.js puts this class on in step with `disabled`. */
+.region-picker.is-disabled::after {
+	border-color: var(--border-soft);
 }
 
 /* =============================================================

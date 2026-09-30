@@ -12,7 +12,7 @@
         on rather than competing with the photo. js/region-art.js owns it all;
         #intelligenceText reports the live region and the <select> names it.
     -->
-    <div class="region-visual" id="regionVisual" data-region="prayagraj">
+    <div class="region-visual" id="regionVisual" data-region="standard">
         <div class="visual-sky"></div>
         <div class="visual-hills"></div>
         <div class="visual-river"></div>
@@ -38,8 +38,17 @@
         <span class="region-label">Choose Your Region</span>
 
         <select id="region" aria-label="Region">
-            <option value="prayagraj" selected>Prayagraj, Uttar Pradesh</option>
-            <option value="standard">Standard Hindi</option>
+            <!--
+                Standard Hindi is the default, so the app opens on the plain
+                translation and a region is only applied once the user asks for
+                one. This also keeps the first screen honest: DEMO_TRANSLATIONS
+                has no Varanasi or Agra variant, so those would silently fall
+                back to Standard Hindi anyway. js/translator.js restores
+                whatever the user picks the moment Regional mode is switched off
+                and on again.
+            -->
+            <option value="standard" selected>Standard Hindi</option>
+            <option value="prayagraj">Prayagraj, Uttar Pradesh</option>
             <option value="varanasi">Varanasi · Purvanchal</option>
             <option value="lucknow">Lucknow · Awadh</option>
             <option value="agra">Agra · Braj</option>
@@ -64,7 +73,7 @@
             to
 
             <strong>
-                Prayagraj, Uttar Pradesh
+                Standard Hindi
             </strong>.
 
         </div>

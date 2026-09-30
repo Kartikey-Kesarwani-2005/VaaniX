@@ -52,7 +52,12 @@
             </div>
 
             <div class="card-foot">
-                <span class="regional-indicator"><span aria-hidden="true"></span>Regional Translation</span>
+                <!-- #regionalIndicatorText is rewritten by js/translator.js to
+                     "Regional Translation" or "Standard Translation", so the two
+                     states read as one pair. The dot keeps its own class: it was
+                     originally a bare "> span" selector, which turned this label
+                     into a second 6px cyan dot the moment it became a span. -->
+                <span class="regional-indicator"><span class="regional-dot" aria-hidden="true"></span><span id="regionalIndicatorText">Regional Translation</span></span>
             </div>
 
         </div>

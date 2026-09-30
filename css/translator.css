@@ -147,7 +147,11 @@
 	color: var(--text-muted);
 }
 
-.regional-indicator > span {
+/* Targets the dot by class, not by "> span": the indicator also holds the
+   label span, and a bare child selector turned the label into a second
+   6px cyan dot with the text spilling out of it. */
+.regional-dot {
+	flex-shrink: 0;
 	width: 6px;
 	height: 6px;
 	border-radius: 50%;
