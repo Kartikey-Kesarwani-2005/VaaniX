@@ -186,11 +186,22 @@ function initDrawer() {
 	}
 
 	/* Everything the user can Tab to inside the panel, skipping anything
-	   hidden. */
+	   hidden.
+
+	   Visibility is tested with getClientRects() rather than offsetParent:
+	   offsetParent is null for EVERY descendant of a position:fixed element,
+	   and this panel lives inside one (.drawer-root), so that test filtered out
+	   every control and the trap below silently did nothing. getClientRects()
+	   still returns nothing for display:none, and works for fixed and inline
+	   elements alike. */
 	function getFocusable() {
 		return [...panel.querySelectorAll(
 			'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
-		)].filter(function (item) { return item.offsetParent !== null; });
+		)].filter(function (item) {
+			if (item.hidden) return false;
+			if (item.getAttribute("aria-hidden") === "true") return false;
+			return item.getClientRects().length > 0;
+		});
 	}
 
 	/* ---------- History view ---------- */

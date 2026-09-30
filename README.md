@@ -1,6 +1,6 @@
 # VaaniX — Hyperlocal Language Translator
 
-Translate everyday English into natural Hindi, shaped by the regional expressions of Prayagraj, Varanasi, Lucknow, Agra and Patna.
+Translate everyday English into natural Hindi and 10 other Indian languages, with the output optionally shaped by the regional expressions of Prayagraj, Varanasi, Lucknow, Agra and Patna.
 
 ## About
 
@@ -9,7 +9,8 @@ VaaniX is a **component-based** vanilla JavaScript web app. The main HTML page i
 ## Features
 
 - **Regional Context** — adapt translations to regional expressions (Prayagraj, Varanasi, Lucknow, Agra, Patna, Standard Hindi).
-- **Multiple Languages** — English, Hindi, Bhojpuri, Maithili, Magahi, Awadhi, Braj.
+- **Multiple Languages** — English, Hindi, Bengali, Punjabi, Marathi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Odia, Assamese.
+- **Regional Mode** — one toggle switches the whole app between regional output and plain Standard Hindi; switching it off disables the region select and switching it back on restores whatever region was chosen.
 - **Natural Output** — translations that feel natural to people.
 - **Voice Input** — speak to translate (Web Speech API).
 - **Text-to-Speech** — listen to the translation.
@@ -47,8 +48,9 @@ js/
   app.js                      → loads components into slots, then runs every init
   nav.js                      → sidebar actions, history, settings drawer
   language.js                 → language dropdowns, swap, region update
+  language-data.js            → language catalogue + bundled phrase dictionary
   region-art.js               → landmark SVG artwork + photo loading
-  translator.js               → translation logic (demo language map)
+  translator.js               → translation logic, regional resolution, swap point for a real engine
   voice.js                    → speech input + text-to-speech
   clipboard.js                → copy + share
   theme.js                    → dark / light toggle
@@ -72,18 +74,31 @@ assets/regions/*.jpg          → one landmark photo per region
 
 ## Running Locally
 
-No build step needed. Open `index.html` in a browser:
+**VaaniX must be served over HTTP — opening `index.html` from disk will not work.**
+
+The page is a skeleton, and `js/app.js` fills the slots by `fetch()`-ing the files in `components/`. Browsers block that read under the `file:` scheme, so every component silently fails and you get a blank page. `js/app.js` now detects this and says so on the page instead of showing nothing.
+
+In the VaaniX folder:
 
 ```bash
-start index.html
+python -m http.server 8000
 ```
-or double-click `index.html`.
+
+then open <http://localhost:8000>. In VS Code, right-click `index.html` and choose **Open with Live Server** instead.
 
 > Note: voice exchange uses the Web Speech API, which requires a modern browser and an active (often Chrome) connection.
 
-## How Translation Works (Demo)
+## How Translation Works
 
-Translation is currently a **demo** driven by `js/translator.js`, which maps common phrases to their region-specific Hindi variants (e.g. Prayagraj vs. Patna). The structure is data-driven so a real translation API can be plugged in later.
+Translation is **not** connected to any service. `js/language-data.js` ships a small bundled dictionary of everyday phrases, each carrying one field per language plus an optional `regions` map of regional Hindi variants.
+
+- `getDemoTranslation(text, from, to, region, regional)` in `js/translator.js` looks the phrase up and returns the target language, preferring the chosen region's variant when Regional mode is on and the target is Hindi. A region with no variant of its own falls back to Standard Hindi.
+- The lookup is case-, spacing- and punctuation-insensitive, and regional variants are indexed under Hindi too, so pasted regional Hindi translates back.
+- A phrase outside the bundled set gets an honest "not bundled" message rather than a made-up translation.
+
+**This is the single swap point for a real engine.** Replace the body of `getDemoTranslation()` with a `fetch()` and every language pair keeps working: the dropdowns, the speech helpers and the Regional mode toggle are all driven by `VAANIX_LANGUAGES`, not by the lookup. Keep the contract — return a string — and nothing else has to move.
+
+Adding a language means adding one entry to `VAANIX_LANGUAGES` and one field to every phrase; both dropdowns, the BCP-47 speech tags and the detection text follow from that.
 
 ## License
 

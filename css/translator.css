@@ -160,6 +160,13 @@
 }
 
 /* ---------- Compact secondary controls ---------- */
+
+/* This rule is not optional. The author `display: inline-flex` below outranks
+   the user-agent [hidden] rule, so #drawerClear stayed visible in the drawer
+   even while js/nav.js was hiding it. Same reason .region-off-note[hidden]
+   and .nav-badge[hidden] each carry one in intelligence.css and navbar.css. */
+.ghost-btn[hidden] { display: none; }
+
 .ghost-btn {
 	display: inline-flex;
 	align-items: center;

@@ -341,3 +341,51 @@ body.light-mode .grain { opacity: 0.35; }
 		transition-duration: 0.001ms !important;
 	}
 }
+
+/* ---------- Opened from disk instead of a server ----------
+   Shown by js/app.js when location.protocol is file:, where every component
+   fetch fails and the page would otherwise be blank with no explanation.
+   Uses the app's own tokens, so it matches in both themes. */
+.file-warning {
+	max-width: 56ch;
+	margin: 0 auto;
+	padding: 32px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--surface);
+	backdrop-filter: blur(20px) saturate(1.4);
+	-webkit-backdrop-filter: blur(20px) saturate(1.4);
+	box-shadow: var(--shadow);
+}
+
+.file-warning h1 {
+	margin: 0 0 12px;
+	font-size: 22px;
+	color: var(--text);
+}
+
+.file-warning p {
+	margin: 0 0 12px;
+	color: var(--text-muted);
+	line-height: 1.6;
+}
+
+.file-warning ol {
+	margin: 0 0 16px;
+	padding-left: 20px;
+	color: var(--text-muted);
+	line-height: 1.9;
+}
+
+.file-warning code {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: var(--radius-xs);
+	background: var(--surface-deep);
+	color: var(--cyan);
+	font-size: 13px;
+}
+
+.file-warning a {
+	color: var(--cyan);
+}
