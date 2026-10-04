@@ -98,6 +98,27 @@
 #inputText::placeholder { color: var(--placeholder); }
 #inputText:focus { outline: none; }
 
+/* ---------- Right-to-left text ---------- */
+
+/* js/language.js sets `dir` on #inputText and #outputText from the catalogue's
+   `rtl` flag. The browser already resolves the starting edge against that
+   direction, so these rules change nothing in the common case - they are here
+   because .output-area is a flex container, where the child's side is decided
+   by `direction` rather than by text alignment, and that is worth stating
+   outright instead of leaving it implied. */
+#inputText[dir="rtl"],
+.output-area[dir="rtl"] {
+	text-align: right;
+}
+
+#inputText[dir="ltr"],
+.output-area[dir="ltr"] {
+	text-align: left;
+}
+
+.output-area[dir="rtl"] { justify-content: flex-end; }
+.output-area[dir="ltr"] { justify-content: flex-start; }
+
 /* ---------- Output ---------- */
 .output-area {
 	flex: 1;

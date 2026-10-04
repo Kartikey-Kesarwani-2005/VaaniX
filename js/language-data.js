@@ -14,13 +14,15 @@
    putting it in the upper bar would make the FROM/TO pair mean two different
    things. See region-selector.html.
 
-   Urdu is also absent, and that is a temporary omission rather than a judgement:
-   it is Arabic script and RTL, and the layout here (selects, output area, the
-   intelligence drawer) all assume left-to-right. It should be added together
-   with real RTL support, not on its own.
-
    `bcp` is the BCP-47 tag js/voice.js hands to the Web Speech API, so speech
    input and text-to-speech follow the dropdown instead of guessing.
+
+   `rtl` marks a language written right-to-left. Urdu is the only one so far, and
+   it is read here rather than handled globally: js/language.js sets `dir` on
+   the textarea and the output area alone, because the page chrome around them
+   - selects, region panel, action rail - is left-to-right in every case, and
+   mirroring that too would be worse than the mixed text. Anything without the
+   flag is left-to-right, so the next RTL language is a one-line data change.
 
    VAANIX_PHRASES is the bundled demo dictionary. Every phrase carries a text
    field per language, plus an optional `regions` map of regional Hindi
@@ -43,7 +45,8 @@ const VAANIX_LANGUAGES = [
 	{ code: "kannada", label: "Kannada", native: "ಕನ್ನಡ", bcp: "kn-IN", flag: "🇮🇳" },
 	{ code: "malayalam", label: "Malayalam", native: "മലയാളം", bcp: "ml-IN", flag: "🇮🇳" },
 	{ code: "odia", label: "Odia", native: "ଓଡ଼ିଆ", bcp: "or-IN", flag: "🇮🇳" },
-	{ code: "assamese", label: "Assamese", native: "অসমীয়া", bcp: "as-IN", flag: "🇮🇳" }
+	{ code: "assamese", label: "Assamese", native: "অসমীয়া", bcp: "as-IN", flag: "🇮🇳" },
+	{ code: "urdu", label: "Urdu", native: "اردو", bcp: "ur-PK", flag: "🇵🇰", rtl: true }
 ];
 
 /* The one source of truth for which language a phrase must carry. Checked by
@@ -51,7 +54,7 @@ const VAANIX_LANGUAGES = [
    in a phrase is caught immediately instead of showing up as an undefined. */
 const VAANIX_PHRASE_LANGUAGES = [
 	"english", "hindi", "bengali", "punjabi", "marathi", "gujarati",
-	"tamil", "telugu", "kannada", "malayalam", "odia", "assamese"
+	"tamil", "telugu", "kannada", "malayalam", "odia", "assamese", "urdu"
 ];
 
 /* Everyday English -> Indian languages, plus regional Hindi flavours.
@@ -71,6 +74,7 @@ const VAANIX_PHRASES = [
 		malayalam: "നീ എവിടേക്കാണ് പോകുന്നത്?",
 		odia: "ଆପଣ କେଉଁକୁ ଯାଉଛନ୍ତି?",
 		assamese: "আপুনি ক'তালৈ যাব?",
+		urdu: "آپ کہاں جا رہے ہیں؟",
 		regions: {
 			patna: "कहाँ जा रहल बाड़ऽ?",
 			prayagraj: "कहाँ चले भइल?",
@@ -89,7 +93,8 @@ const VAANIX_PHRASES = [
 		kannada: "ನೀವು ಏನು ಮಾಡುತ್ತಿದ್ದೀರಿ?",
 		malayalam: "നീ എന്താണ് ചെയ്യുന്നത്?",
 		odia: "ଆପଣ କ'ଣ କରୁଛନ୍ତି?",
-		assamese: "আপুনি কি কৰিছে?"
+		assamese: "আপুনি কি কৰিছে?",
+		urdu: "آپ کیا کر رہے ہیں؟"
 	},
 	{
 		english: "How are you?",
@@ -104,6 +109,7 @@ const VAANIX_PHRASES = [
 		malayalam: "നീ എങ്ങനെയുണ്ട്?",
 		odia: "ଆପଣ କେମି ଅଛନ୍ତି?",
 		assamese: "আপুনি কেনেকৈ আছে?",
+		urdu: "آپ کیسے ہیں؟",
 		regions: {
 			patna: "कैसन बाड़ऽ?"
 		}
@@ -120,7 +126,8 @@ const VAANIX_PHRASES = [
 		kannada: "ತುಂಬಾ ತುಂಬಾ ಧನ್ಯವಾದಗಳು",
 		malayalam: "വളരെ വളരെ നന്ദി",
 		odia: "ବହୁତ ବହୁତ ଧନ୍ୟବାଦ",
-		assamese: "বহুত বহুত ধন্যবাদ"
+		assamese: "বহুত বহুত ধন্যবাদ",
+		urdu: "بہت بہت شکریہ"
 	},
 	{
 		english: "See you tomorrow",
@@ -134,7 +141,8 @@ const VAANIX_PHRASES = [
 		kannada: "ನಾಳೆ ಭೇಟಿಯಾಗುತ್ತೇವೆ",
 		malayalam: "നാളെ കാണാം",
 		odia: "ଆସନ୍ତାମାନ ଦେଖିବା",
-		assamese: "আজিৰে দেখা হ'ব"
+		assamese: "আজিৰে দেখা হ'ব",
+		urdu: "کل ملیں گے"
 	}
 ];
 
@@ -188,12 +196,27 @@ function vaanixFindPhrase(from, text) {
 }
 
 /* Case-, spacing- and punctuation-insensitive key, so "How are you?",
-   "how are you" and "  How  are you ?  " all find the same entry. */
+   "how are you" and "  How  are you ?  " all find the same entry.
+
+   Spacing is settled BEFORE punctuation is stripped, and the order matters:
+   stripping first left "how are you ?" untouched, because the string ended in
+   a space rather than in punctuation. The leading \s* in the pattern matters
+   just as much - "How are you ?" carries a space before its question mark, and
+   without it the mark comes off and the space behind it is promoted to the end
+   of the key, which then fails to match the plain "how are you" entry.
+
+   The trailing-punctuation class carries the Devanagari danda (।) and the two
+   Arabic marks Urdu uses (؟ and ،) alongside the ASCII ones. Without them the
+   same guarantee quietly stops holding for Urdu: "How are you" and "How are
+   you?" are one entry in every other language here, but an Urdu phrase typed
+   with and without its question mark would be two - a difference invisible in
+   the catalogue and only felt by someone pasting text back into the app. */
 function normalisePhrase(text) {
 	return String(text)
 		.toLowerCase()
-		.replace(/[.!?।,]+$/g, "")
 		.replace(/\s+/g, " ")
+		.trim()
+		.replace(/\s*[.!?।,؟،]+$/, "")
 		.trim();
 }
 

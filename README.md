@@ -9,7 +9,7 @@ VaaniX is a **component-based** vanilla JavaScript web app. The main HTML page i
 ## Features
 
 - **Regional Context** — adapt translations to regional expressions (Prayagraj, Varanasi, Lucknow, Agra, Patna, Standard Hindi).
-- **Multiple Languages** — English, Hindi, Bengali, Punjabi, Marathi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Odia, Assamese.
+- **Multiple Languages** — English, Hindi, Bengali, Punjabi, Marathi, Gujarati, Tamil, Telugu, Kannada, Malayalam, Odia, Assamese, Urdu.
 - **Regional Mode** — one toggle switches the whole app between regional output and plain Standard Hindi; switching it off disables the region select and switching it back on restores whatever region was chosen.
 - **Natural Output** — translations that feel natural to people.
 - **Voice Input** — speak to translate (Web Speech API).
@@ -99,6 +99,14 @@ Translation is **not** connected to any service. `js/language-data.js` ships a s
 **This is the single swap point for a real engine.** Replace the body of `getDemoTranslation()` with a `fetch()` and every language pair keeps working: the dropdowns, the speech helpers and the Regional mode toggle are all driven by `VAANIX_LANGUAGES`, not by the lookup. Keep the contract — return a string — and nothing else has to move.
 
 Adding a language means adding one entry to `VAANIX_LANGUAGES` and one field to every phrase; both dropdowns, the BCP-47 speech tags and the detection text follow from that.
+
+## Right-to-left Text
+
+Urdu is the only right-to-left language in the catalogue, and it is marked with `rtl: true` in `VAANIX_LANGUAGES`. `js/language.js` reads that flag and sets `dir` on two elements only: the input textarea, which holds the FROM language, and the output area, which holds the TO language. They are set separately because those two can differ — Urdu as the source is right-to-left typing, Urdu as the target is right-to-left output, and Urdu on one side with English on the other is the ordinary case.
+
+Only the text areas are mirrored. The selects, region panel, action rail and footer stay left-to-right in every combination, because mirroring the chrome as well would move controls the user has already learned the position of. Two mirrored text areas cost less than a mirrored page.
+
+A new right-to-left language needs no code change: add the entry with `rtl: true` and give every phrase a field for it. Anything without the flag is left-to-right, which is the correct answer for every language not marked.
 
 ## License
 
