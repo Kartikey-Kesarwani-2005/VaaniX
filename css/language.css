@@ -99,6 +99,9 @@
 }
 
 /* ---------- Swap ---------- */
+/* --border-control overrides the shared glass primitive below it: this is a bare
+   circle around a bare glyph, so its outline is the only thing marking it as a
+   control. */
 .swap-btn {
 	display: grid;
 	place-items: center;
@@ -109,6 +112,7 @@
 	border-radius: 50%;
 	font-size: 17px;
 	color: var(--text);
+	border-color: var(--border-control);
 	box-shadow: var(--shadow-sm), var(--inset-hairline);
 	transition:
 		color 0.22s ease,
@@ -119,9 +123,9 @@
 
 .swap-btn:hover {
 	color: var(--accent-ink);
-	border-color: rgba(139, 92, 246, 0.45);
+	border-color: var(--tint-active-line);
 	box-shadow:
-		0 0 26px rgba(124, 58, 237, 0.32),
+		0 0 26px var(--glow-brand),
 		var(--inset-hairline);
 	transform: scale(1.07);
 }

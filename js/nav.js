@@ -491,9 +491,13 @@ function initSidebar() {
 
 /* Records every translation that lands in the workspace.
 
-   js/translator.js swaps #outputText's children when a translation appears and
-   puts a .output-placeholder or .output-hint span back when it is cleared, so
-   those two classes are how a real result is told apart from the rest. */
+   js/translator.js swaps #outputText's children when a translation appears, and
+   those classes are how a real result is told apart from the rest: a
+   .output-placeholder when it is cleared, and a .output-empty block when the
+   phrase is outside the bundled set. A miss is skipped on purpose - history is
+   a list of translations the user asked for, and an entry reading "not in the
+   offline sample set" is not one. It would also come back out of restore() as
+   if it were a result. */
 function watchForTranslations() {
 	const output = document.getElementById("outputText");
 	if (!output) return;
@@ -507,7 +511,7 @@ function watchForTranslations() {
 
 	new MutationObserver(function () {
 		if (window.vaanixSuppressHistory) return;
-		if (output.querySelector(".output-placeholder, .output-hint")) return;
+		if (output.querySelector(".output-placeholder, .output-empty")) return;
 
 		const result = output.textContent.trim();
 		if (!result || result === lastResult) return;

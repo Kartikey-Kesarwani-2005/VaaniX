@@ -5,10 +5,11 @@
         <!-- ================= INPUT PANEL =================
              The three action cards below are <div> wrappers holding decorative
              spans. The real <button class="action-hit"> is stretched over the
-             whole card and is kept CHILDLESS on purpose, because
-             js/voice.js rewrites micBtn.textContent and js/clipboard.js
-             rewrites copyBtn.textContent - either one would wipe the icon and
-             the label if they lived inside the button.
+             whole card and is kept CHILDLESS on purpose: the icon and the
+             label are drawn by the sibling spans, and the button's own text is
+             rendered at font-size:0, so it must not be used to carry either.
+             js/voice.js and js/clipboard.js both report a message through the
+             card's .action-desc instead - see the note in js/voice.js.
              Do not move the icon/title/desc into the button. -->
         <div class="translation-card">
 
@@ -17,7 +18,31 @@
                 <span class="detected" id="detectedText">English selected</span>
             </div>
 
-            <textarea id="inputText" maxlength="1000" aria-label="Text to translate" placeholder="Type your text here..."></textarea>
+            <!-- aria-describedby is here rather than added by js, because the
+                 relationship between the field and its message does not depend
+                 on whether the message is currently showing - it points at an
+                 empty, hidden element in the resting state, which describes
+                 nothing. -->
+            <textarea id="inputText" maxlength="1000" aria-label="Text to translate"
+                      aria-describedby="inputNote" placeholder="Type your text here..."></textarea>
+
+            <!-- js/translator.js fills this in when Translate is pressed with an
+                 empty or whitespace-only box, and empties it again the moment
+                 there is something to translate.
+
+                 It sits under the field rather than in the output panel: the
+                 complaint belongs next to the box that caused it, and a valid
+                 translation already on screen should not be overwritten by a
+                 note about the input.
+
+                 aria-invalid on the textarea plus this id is the whole
+                 accessible half. Focus returns to the textarea on failure, so
+                 the message is announced with the field it describes - which
+                 works without a live region, and cannot double up with one.
+                 The [hidden] attribute is load-bearing: .input-note sets
+                 display, which would otherwise beat the user-agent [hidden]
+                 rule, exactly like .region-off-note and .ghost-btn. -->
+            <p class="input-note" id="inputNote" hidden></p>
 
             <div class="card-foot">
                 <span class="counter" id="counter">0 / 1000</span>
@@ -36,27 +61,36 @@
 
             <div class="card-header">
                 <span class="card-title">Translation</span>
-                <!-- shareBtn is never touched by JS, so it may hold real children -->
+                <!-- The arrow is a child so it survives the label swap, and the
+                     label lives in its own span because js/clipboard.js
+                     rewrites it to "Shared" / "Failed" / "Nothing yet". Setting
+                     textContent on the button itself would delete the arrow. -->
                 <button class="ghost-btn" id="shareBtn" type="button" title="Share translation">
                     <span aria-hidden="true">↗</span>
-                    Share
+                    <span class="ghost-btn-label">Share</span>
                 </button>
             </div>
 
-            <!-- translator.js replaces this element's innerHTML with either the
-                 translation text, an .output-hint, or an .output-placeholder.
-                 js/voice.js and js/clipboard.js both look for .output-placeholder,
-                 so that class name must keep existing in translator.css. -->
+            <!-- translator.js replaces this element's contents with either the
+                 translation text, a .output-placeholder, or an .output-empty
+                 block when the phrase is outside the bundled set. js/voice.js,
+                 js/clipboard.js and js/nav.js all look for those two classes to
+                 tell a real result from the rest, so they must keep existing in
+                 translator.css. -->
             <div class="output-area" id="outputText" aria-live="polite">
                 <span class="output-placeholder">Translation will appear here...</span>
             </div>
 
             <div class="card-foot">
                 <!-- #regionalIndicatorText is rewritten by js/translator.js to
-                     "Regional Translation" or "Standard Translation", so the two
-                     states read as one pair. The dot keeps its own class: it was
-                     originally a bare "> span" selector, which turned this label
-                     into a second 6px cyan dot the moment it became a span. -->
+                     "Regional Translation" or "Standard Translation", so the
+                     states read as one pair. It says Standard whenever no
+                     variant is actually returned: the switch off, Standard
+                     Hindi selected, or a target language that takes no regional
+                     flavour - which is the state a swap lands in. The dot keeps
+                     its own class: it was originally a bare "> span" selector,
+                     which turned this label into a second 6px cyan dot the
+                     moment it became a span. -->
                 <span class="regional-indicator"><span class="regional-dot" aria-hidden="true"></span><span id="regionalIndicatorText">Regional Translation</span></span>
             </div>
 

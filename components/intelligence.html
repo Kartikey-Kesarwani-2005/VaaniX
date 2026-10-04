@@ -5,11 +5,16 @@
         <p class="panel-sub">Get translations in your local dialect and region-specific tone.</p>
     </header>
 
-    <!--
-        regionalToggle: js/translator.js dims this card to 0.45 opacity while the
-        switch is off, and restores it when it is on. The dimming tracks the
-        switch, not the result: with Regional mode on the card is fully
-        available even while Standard Hindi is the selected region.
+<!--
+        regionalToggle: js/translator.js adds .is-inactive to #intelligenceText
+        whenever the region cannot reach the output - the switch being off, or
+        the target language being one that takes no regional flavour, since every
+        variant in the bundled table is a Hindi string. It removes it when
+        Regional mode is on AND the target is Hindi, and stays fully available
+        then even while Standard Hindi is the selected region.
+
+        The dimming is two theme-aware colours, not an opacity: see
+        css/intelligence.css.
     -->
     <div class="region-toggle-control">
         <span class="region-toggle-label">Regional mode</span>
@@ -27,14 +32,21 @@
 
     <!--
         Shown whenever no regional variant is actually being returned, which is
-        either of two states: the switch is off, or the switch is on but Standard
-        Hindi is the selected region. The text is written by js/translator.js,
-        which picks the wording that fits the reason; the markup here is the
-        starting text for the switch-off case.
+        any of three states: the switch is off, the switch is on but Standard
+        Hindi is the selected region, or the target language is not Hindi. The
+        text is written by js/translator.js, which picks the wording that fits
+        the reason; the markup here is only the starting text for the switch-off
+        case.
+
+        The third state is the one a swap lands in - swapping English for Tamil
+        makes Tamil the target, and no regional Tamil exists - so it gets its own
+        sentence rather than silence.
 
         While the switch is off this note also explains why the region select
         below is disabled and forced to Standard Hindi, and that the user's own
-        region is kept and restored when the switch comes back on.
+        region is kept and restored when the switch comes back on. A non-Hindi
+        target does NOT disable the picker: the region is still theirs, and it
+        applies the moment the target is Hindi again.
     -->
     <p class="region-off-note" id="regionOffNote" hidden>
         Regional flavour is off, so translations come back in Standard Hindi.

@@ -1,41 +1,173 @@
 /* =============================================================
    VAANIX - REGION VISUAL
-   The only stylesheet allowed to use raw hex values: these ARE the
-   illustration. The scene is layered gradients (sky, hills, river)
-   plus an inline SVG landmark injected by js/region-art.js, so there
-   is no image request, no asset to preload and nothing that can fail
-   to load. Per-region identity comes from --art-glow / --art-ink,
-   switched by the data-region attribute on .region-visual.
+   The only stylesheet allowed to use raw hex values: this IS the
+   landmark band, and the region palettes below are the identity system
+   for it. Three things are layered, back to front:
+
+     1. a CSS sky/hills/river scene plus an inline SVG landmark
+        injected by js/region-art.js - no request, no asset, so
+        there is nothing here that can fail to load;
+     2. the region photo, mounted as a plate in the middle of the
+        band over a blurred, colour-tinted bed;
+     3. .visual-grade, which washes all of it in the SELECTED
+        region's colour and rims the band in it.
+
+   Layer 3 is the part that matters for identity. Until it existed
+   the per-region palette only ever tinted the gradient scene, which
+   sits UNDER the photo - so with all six photos loading, every
+   region rendered as the same dark rectangle and the whole palette
+   was invisible. js/region-art.js writes data-region on
+   #regionVisual on every change, and that one attribute now repaints
+   the bed, the wash, the band's frame, and (via the :has() companion
+   selectors below) the select's own accent.
    ============================================================= */
 
-/* Fills .region-panel edge to edge and sits behind the panel's content, so
-   the landmark photo is the panel's backdrop rather than a card inside it.
+/* The landmark band: the middle of .region-panel--pick, between the control bar
+   above and the information card below.
+
+   It is a flex child rather than the absolutely positioned full-panel backdrop it
+   used to be, and that is the fix for a real problem. As an overlay it could not
+   know how tall the two glass surfaces above and below it were, so at the widths
+   where the regional column becomes a full row (css/responsive.css, 1180px and
+   under) the fitted photograph grew to 400px in a 430px panel and slid underneath
+   both of them. As a band it is exactly the space that is left over, so the
+   plate is centred in it at every width and can never end up half-covered.
+
    Only one .region-visual exists in the app (components/region-selector.html),
    and it is always inside .region-panel--pick, so these values are final. */
 .region-visual {
 	--art-glow: rgba(34, 211, 238, 0.30);
 	--art-glow-2: rgba(124, 58, 237, 0.44);
-	--art-ink: #C7D2FE;
+	--art-ink: #DDD6FE;
+	--art-line: #22D3EE;
 
-	position: absolute;
-	inset: 0;
+	/* In the flow, so it takes the leftover height. min-height:0 is what lets it
+	   shrink at all - without it a flex item refuses to go below its content,
+	   and the 170px floor is what stops it collapsing entirely. */
+	position: relative;
+	flex: 1 1 auto;
+	min-height: 170px;
+
 	z-index: 0;
 	overflow: hidden;
-	/* No radius and no shadow: the panel's own border-radius clips it. */
+	/* No radius, no shadow, no border and no glass of its own: the band runs
+	   full-bleed into the square edge of the control bar above it, and
+	   .visual-grade draws the one hairline this needs in the selected region's
+	   colour. It is also off the shared glass primitive in css/base.css, so
+	   none of these three are cancelling anything - `background: none` in
+	   particular is what keeps the page from showing through at the edges, and
+	   dropping it would be a real hole rather than a redundant line. */
+	border: 0;
 	border-radius: 0;
 	box-shadow: none;
+	background: none;
+	/* Stated rather than inherited: the primitive used to hand this band a
+	   blur(20px) backdrop filter. There is nothing behind it to sample (see the
+	   note on the primitive), so it is a per-frame cost for no pixels - and this
+	   property is the one thing in this block that is not simply restating what
+	   the primitive already gave it. */
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
 }
 
 /* ---------- Per-region grading ----------
-   --art-glow / --art-glow-2 tint the sky, --art-ink is the landmark
-   silhouette. Every ink is light: the city is lit from behind, and a
-   dark silhouette would sink into the hills behind it. */
-.region-visual[data-region="prayagraj"] { --art-glow: rgba(252, 175, 120, 0.34); --art-glow-2: rgba(190, 92, 60, 0.40); --art-ink: #FCD9B6; }
-.region-visual[data-region="varanasi"] { --art-glow: rgba(251, 146, 60, 0.34); --art-glow-2: rgba(190, 70, 90, 0.38); --art-ink: #FED7AA; }
-.region-visual[data-region="lucknow"] { --art-glow: rgba(192, 132, 252, 0.32); --art-glow-2: rgba(45, 122, 160, 0.38); --art-ink: #E9D5FF; }
-.region-visual[data-region="agra"] { --art-glow: rgba(251, 191, 36, 0.32); --art-glow-2: rgba(120, 90, 200, 0.34); --art-ink: #F1F5F9; }
-.region-visual[data-region="patna"] { --art-glow: rgba(125, 211, 252, 0.34); --art-glow-2: rgba(80, 110, 190, 0.36); --art-ink: #E0F2FE; }
-.region-visual[data-region="standard"] { --art-glow: rgba(34, 211, 238, 0.30); --art-glow-2: rgba(124, 58, 237, 0.44); --art-ink: #DDD6FE; }
+   --art-glow / --art-glow-2 tint the scene AND wash the photo (see
+   .visual-grade and .photo-scrim), --art-ink is the landmark silhouette, and
+   --art-line is the accent proper: the panel's inner rim and the select's rail.
+   Every ink is light and every line is bright: the city is lit from behind, and
+   a dark silhouette would sink into the hills behind it.
+
+   The keys are the same region ids js/region-art.js uses as its option values,
+   photo filenames and [data-region] selectors.
+
+   Each rule is written twice on purpose. .region-visual[data-region=...]
+   scopes the backdrop, which is all this file needs - but the picker and the
+   information card are SIBLINGS of .region-visual, not descendants, so custom
+   properties do not reach them. The :has() half of each selector lifts the same
+   four values onto .region-panel--pick, which is their parent, so the control
+   can wear the selected region's colour.
+
+   :has() is the only thing in this stylesheet that a 2023 browser would miss,
+   and nothing depends on it: drop it and the backdrop still repaints per region
+   (the visible part of the effect) while the select falls back to its unaccented
+   state in css/intelligence.css. The region values themselves are declared once,
+   so the two halves can never drift apart. */
+.region-visual[data-region="prayagraj"],
+.region-panel--pick:has(.region-visual[data-region="prayagraj"]) {
+	--art-glow: rgba(252, 175, 120, 0.34);
+	--art-glow-2: rgba(190, 92, 60, 0.40);
+	--art-ink: #FCD9B6;
+	--art-line: #FDBA74;
+}
+.region-visual[data-region="varanasi"],
+.region-panel--pick:has(.region-visual[data-region="varanasi"]) {
+	--art-glow: rgba(251, 146, 60, 0.34);
+	--art-glow-2: rgba(190, 70, 90, 0.38);
+	--art-ink: #FED7AA;
+	--art-line: #FB923C;
+}
+.region-visual[data-region="lucknow"],
+.region-panel--pick:has(.region-visual[data-region="lucknow"]) {
+	--art-glow: rgba(192, 132, 252, 0.32);
+	--art-glow-2: rgba(45, 122, 160, 0.38);
+	--art-ink: #E9D5FF;
+	--art-line: #C084FC;
+}
+.region-visual[data-region="agra"],
+.region-panel--pick:has(.region-visual[data-region="agra"]) {
+	--art-glow: rgba(251, 191, 36, 0.32);
+	--art-glow-2: rgba(120, 90, 200, 0.34);
+	--art-ink: #F1F5F9;
+	--art-line: #FACC15;
+}
+.region-visual[data-region="patna"],
+.region-panel--pick:has(.region-visual[data-region="patna"]) {
+	--art-glow: rgba(125, 211, 252, 0.34);
+	--art-glow-2: rgba(80, 110, 190, 0.36);
+	--art-ink: #E0F2FE;
+	--art-line: #7DD3FC;
+}
+.region-visual[data-region="standard"],
+.region-panel--pick:has(.region-visual[data-region="standard"]) {
+	--art-glow: rgba(34, 211, 238, 0.30);
+	--art-glow-2: rgba(124, 58, 237, 0.44);
+	--art-ink: #DDD6FE;
+	--art-line: #22D3EE;
+}
+
+/* Light mode is a different set of values, not the same hues at a lower alpha.
+   The dark palette is built to ADD light (it is screened over a dark photo), so
+   reusing it here would tint toward black. These are the same hues read as
+   pigment: multiply, so they darken the pale field instead - which is why the
+   alphas here are higher, to land at a similar strength. --art-ink and
+   --art-line are darker for the same reason the light-theme tokens in
+   css/base.css are darker: on a near-white surface they have to carry contrast,
+   not glow.
+
+   Each rule repeats the :has() half of its dark-theme counterpart, and it has
+   to: without it the panel would keep the dark theme's bright accent lines in
+   light mode, which is the one place the two palettes must never mix. */
+body.light-mode .region-visual,
+body.light-mode .region-panel--pick:has(.region-visual) {
+	--art-glow: rgba(8, 145, 178, 0.24);
+	--art-glow-2: rgba(109, 40, 217, 0.20);
+	--art-ink: #4C1D95;
+	--art-line: #0E7490;
+}
+body.light-mode .region-visual[data-region="prayagraj"],
+body.light-mode .region-panel--pick:has(.region-visual[data-region="prayagraj"]) { --art-glow: rgba(217, 119, 6, 0.30); --art-glow-2: rgba(180, 83, 9, 0.22); --art-ink: #7C2D12; --art-line: #B45309; }
+body.light-mode .region-visual[data-region="varanasi"],
+body.light-mode .region-panel--pick:has(.region-visual[data-region="varanasi"]) { --art-glow: rgba(234, 88, 12, 0.28); --art-glow-2: rgba(190, 24, 93, 0.18); --art-ink: #7C2D12; --art-line: #C2410C; }
+body.light-mode .region-visual[data-region="lucknow"],
+body.light-mode .region-panel--pick:has(.region-visual[data-region="lucknow"]) { --art-glow: rgba(124, 58, 237, 0.26); --art-glow-2: rgba(14, 116, 144, 0.18); --art-ink: #4C1D95; --art-line: #7C3AED; }
+body.light-mode .region-visual[data-region="agra"],
+body.light-mode .region-panel--pick:has(.region-visual[data-region="agra"]) { --art-glow: rgba(202, 138, 4, 0.26); --art-glow-2: rgba(91, 33, 182, 0.18); --art-ink: #44403C; --art-line: #A16207; }
+body.light-mode .region-visual[data-region="patna"],
+body.light-mode .region-panel--pick:has(.region-visual[data-region="patna"]) { --art-glow: rgba(2, 132, 199, 0.26); --art-glow-2: rgba(30, 58, 138, 0.18); --art-ink: #0C4A6E; --art-line: #0369A1; }
+
+/* =============================================================
+   SCENE (the no-asset fallback path)
+   ============================================================= */
 
 .visual-sky {
 	position: absolute;
@@ -71,17 +203,6 @@
 	box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.24);
 }
 
-/* Dark gradient overlay + fine grain, so the scene reads as a photograph
-   rather than as flat CSS shapes. */
-.visual-grain {
-	position: absolute;
-	inset: 0;
-	background:
-		linear-gradient(180deg, rgba(5, 8, 22, 0.35) 0%, rgba(5, 8, 22, 0.72) 100%),
-		radial-gradient(rgba(248, 250, 252, 0.06) 0.5px, transparent 0.5px);
-	background-size: auto, 3px 3px;
-}
-
 /* ---------- Light Glass version ---------- */
 body.light-mode .visual-sky {
 	background:
@@ -102,13 +223,6 @@ body.light-mode .visual-river {
 		linear-gradient(180deg, rgba(8, 145, 178, 0.18) 0%, rgba(8, 145, 178, 0.05) 100%),
 		linear-gradient(180deg, #C7D2FE 0%, #DBE3FA 100%);
 	box-shadow: inset 0 1px 0 rgba(8, 145, 178, 0.3);
-}
-
-body.light-mode .visual-grain {
-	background:
-		linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(30, 41, 82, 0.16) 100%),
-		radial-gradient(rgba(30, 41, 82, 0.07) 0.5px, transparent 0.5px);
-	background-size: auto, 3px 3px;
 }
 
 /* =============================================================
@@ -139,46 +253,83 @@ body.light-mode .visual-art { opacity: 0.74; }
 /* =============================================================
    PHOTO LAYER (injected by js/region-art.js)
 
-   The source photos are 3:2 but this slot is far wider (~2.6:1), so a plain
-   object-fit:cover would cut ~43% of the height and slice the top off tall
-   landmarks. Instead the photo is fitted whole (object-fit:contain) over a
-   blurred, cover-scaled copy of itself, which fills the bars without cropping
-   anything. The layer is hidden by default and only shown once an image has
-   actually loaded, so the SVG silhouette remains the fallback.
+   The source photos are 3:2 and this slot is far taller than that
+   (roughly 2.6:1 wide), so a plain object-fit:cover would scale to
+   the panel's height, throw away more than half the width, and slice
+   the top off exactly the tall landmarks worth showing. The photo is
+   therefore fitted WHOLE (object-fit:contain) as a plate floating over
+   a blurred copy of itself, which fills the bars without cropping.
+
+   The bars are not treated as leftover space: .photo-blur is the field
+   the plate is mounted on, and .photo-scrim tints that field with the
+   region's own hue, so the colour around a landmark is derived from the
+   landmark itself. The layer is hidden by default and only shown once
+   an image has actually loaded, so the SVG silhouette stays the
+   fallback. Nothing can be cropped and nothing can fail to an empty box.
    ============================================================= */
 
 .visual-photo {
 	position: absolute;
 	inset: 0;
 	overflow: hidden;
+	/* Confines the scrim's blend below to the photo layer, so the region
+	   tint reaches the field and not whatever is underneath .region-visual. */
+	isolation: isolate;
+	/* js/region-art.js already does the two-frame dance this needs - it parks
+	   the layer at opacity 0 and clears it on the next frame so the browser has a
+	   start value to fade from - but nothing here declared a transition for that
+	   to act on, so the reveal was landing as an instant cut. This is the
+	   transition that makes that intent work.
+
+	   Opacity only, and that is deliberate. A settling transform would need a
+	   "from" value to move away from, and the layer's resting computed value is
+	   whatever is written here - so a transform transition on it would never run,
+	   and offsetting the base value would just leave the plate permanently
+	   misaligned. The layer is display:none until a load succeeds, and elements
+	   coming out of display:none do not transition, so the entrance is not
+	   available to CSS either. js/region-art.js is left alone and the cross-fade
+	   it already asks for is what is delivered. */
+	transition: opacity 0.45s ease;
 }
 
 .visual-photo[hidden] { display: none; }
 
 .photo-blur {
 	position: absolute;
+	/* -7% on every side, so the plate settling does not expose an edge. */
 	inset: -7%;
 	background-position: center;
 	background-size: cover;
-	filter: blur(15px) saturate(1.15);
-	opacity: 0.6;
+	filter: blur(22px) saturate(1.25);
+	opacity: 0.72;
 	transform: scale(1.04);
 }
 
+/* The field tint. Radial rather than flat, so the colour pools around the
+   plate and the corners stay deep - which is what makes the bars read as a
+   mount rather than as a gap. Screened in the dark theme, multiplied in the
+   light one, because a tint that adds light cannot be reused as one that
+   removes it (see the light palette note above). */
 .photo-scrim {
 	position: absolute;
 	inset: 0;
 	background:
-		linear-gradient(180deg, rgba(5, 8, 22, 0.10) 0%, rgba(5, 8, 22, 0.30) 58%, rgba(5, 8, 22, 0.55) 100%);
+		radial-gradient(88% 62% at 50% 42%, var(--art-glow) 0%, transparent 70%),
+		linear-gradient(180deg, transparent 46%, var(--art-glow-2) 100%);
+	mix-blend-mode: screen;
+	opacity: 0.9;
 }
 
+/* The mount. The padding is what turns the photo from a full-bleed backdrop
+   into a plate floating on the field, and it is the only reason the bars
+   around a 3:2 image in a 2.6:1 slot read as deliberate. */
 .photo-fit {
 	position: absolute;
 	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0;
+	padding: 12px 14px;
 }
 
 .photo-img {
@@ -188,28 +339,132 @@ body.light-mode .visual-art { opacity: 0.74; }
 	width: auto;
 	height: auto;
 	object-fit: contain;
+	border-radius: var(--radius-xs);
+	/* A hairline of the landmark's own highlights along the top edge and a
+	   drop shadow under it, so the plate sits ON the field rather than
+	   dissolving into it. The grade is deliberately mild: these six photos
+	   were not shot as one set, and this has to unify them without visibly
+	   re-grading any of them. */
+	box-shadow:
+		0 0 0 1px rgba(255, 255, 255, 0.14),
+		0 1px 0 0 rgba(255, 255, 255, 0.16) inset,
+		0 16px 34px rgba(3, 6, 15, 0.5);
+	filter: saturate(1.08) contrast(1.05);
 }
 
 body.light-mode .photo-blur { opacity: 0.5; }
 
-/* ---------- Panel scrim ----------
-	Sits above the photo and darkens it where the glass cards sit, so the panel
-	edges never wash out against the page. It is atmosphere, not the contrast
-	guarantee: the cards carry that. */
-.visual-scrim {
+body.light-mode .photo-scrim { mix-blend-mode: multiply; opacity: 0.62; }
+
+body.light-mode .photo-img {
+	box-shadow:
+		0 0 0 1px rgba(11, 18, 32, 0.10),
+		0 1px 0 0 rgba(255, 255, 255, 0.7) inset,
+		0 14px 30px rgba(30, 41, 82, 0.18);
+	filter: saturate(1.04) contrast(1.02);
+}
+
+/* =============================================================
+   REGION GRADE
+
+   The layer that makes the panel read as one region rather than as a
+   photo in a card. Two passes, both in the region's own hues:
+
+     ::before  the wash. A bloom from the top corner, the region hue pooled
+               behind the plate, and the secondary hue rising from the
+               bottom, so light enters the band from the same corner the
+               scene gradients already use.
+     ::after   the vignette. The band is already framed by the glass control
+               bar above it and the information card below it, so this does
+               not have to darken under either the way it had to when it was
+               a full-panel overlay - it only has to sink the band's own
+               edges, which is enough to seat the plate in the middle.
+   ============================================================= */
+
+.visual-grade {
+	position: absolute;
+	inset: 0;
+	/* The band's frame, in the selected region's colour: a hairline plus the
+	   same hue leaking a little way inward. It is the first thing that changes
+	   when the region changes. Deliberately not a box-shadow on .region-panel
+	   itself, which js/nav.js's "My Region" spotlight animates and would
+	   overwrite. */
+	box-shadow:
+		inset 0 0 0 1px var(--art-line),
+		inset 0 0 34px -12px var(--art-line);
+}
+
+.visual-grade::before {
+	content: "";
 	position: absolute;
 	inset: 0;
 	background:
-		linear-gradient(180deg, rgba(5, 8, 22, 0.34) 0%, rgba(5, 8, 22, 0.10) 34%, rgba(5, 8, 22, 0.52) 100%);
+		radial-gradient(74% 52% at 80% 4%, var(--art-glow) 0%, transparent 64%),
+		radial-gradient(66% 46% at 50% 48%, var(--art-glow) 0%, transparent 68%),
+		radial-gradient(86% 58% at 12% 100%, var(--art-glow-2) 0%, transparent 66%);
+	mix-blend-mode: screen;
+}
+
+.visual-grade::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(180deg,
+			rgba(5, 8, 22, 0.46) 0%,
+			rgba(5, 8, 22, 0.06) 24%,
+			rgba(5, 8, 22, 0.00) 50%,
+			rgba(5, 8, 22, 0.14) 78%,
+			rgba(5, 8, 22, 0.40) 100%),
+		radial-gradient(118% 104% at 50% 48%, transparent 46%, rgba(5, 8, 22, 0.46) 100%);
+}
+
+body.light-mode .visual-grade::before { mix-blend-mode: multiply; }
+
+body.light-mode .visual-grade::after {
+	background:
+		linear-gradient(180deg,
+			rgba(255, 255, 255, 0.44) 0%,
+			rgba(255, 255, 255, 0.08) 24%,
+			rgba(255, 255, 255, 0.00) 50%,
+			rgba(255, 255, 255, 0.14) 78%,
+			rgba(255, 255, 255, 0.38) 100%),
+		radial-gradient(118% 104% at 50% 48%, transparent 48%, rgba(109, 40, 217, 0.16) 100%);
+}
+
+/* =============================================================
+   GRAIN
+   Last, so it sits over the wash and the vignette too and the whole
+   panel shares one grain instead of each layer having its own. Kept
+   fainter than it was: it now reads against a graded field rather
+   than against a flat dark one, where the same density looked like
+   noise on the photograph.
+   ============================================================= */
+
+.visual-grain {
+	position: absolute;
+	inset: 0;
+	opacity: 0.5;
+	background:
+		radial-gradient(rgba(248, 250, 252, 0.07) 0.5px, transparent 0.5px);
+	background-size: 3px 3px;
+}
+
+body.light-mode .visual-grain {
+	opacity: 0.4;
+	background:
+		radial-gradient(rgba(30, 41, 82, 0.08) 0.5px, transparent 0.5px);
 }
 
 /* =============================================================
    LANDMARK NAME
    Intentionally absent. It used to be a chip here, but the <select> option
-   already names the region, and text sitting directly on a photograph cannot
-   be given a reliable contrast ratio. Removing it also frees the panel for
-   the photo.
+   already names the region - in larger type, on its own glass surface, and
+   repainted in that region's colour - and text sitting directly on a
+   photograph cannot be given a reliable contrast ratio.
    ============================================================= */
 
 /* Reduced motion is handled globally in css/base.css
-   (@media prefers-reduced-motion sets transition-duration to ~0). */
+   (@media prefers-reduced-motion sets transition-duration to ~0), which covers
+   the plate's settle in .visual-photo as well as the silhouette cross-fade
+   js/region-art.js drives. */

@@ -26,58 +26,99 @@
 	border-radius: var(--radius);
 	/* Very subtle inner gradient so the glass is not perfectly flat. */
 	background-image:
-		linear-gradient(160deg, rgba(139, 92, 246, 0.07) 0%, transparent 46%),
-		linear-gradient(0deg, rgba(34, 211, 238, 0.045) 0%, transparent 40%);
+		linear-gradient(160deg, var(--wash-purple) 0%, transparent 46%),
+		linear-gradient(0deg, var(--wash-cyan) 0%, transparent 40%);
 }
 
+/* Focus belongs to the textarea, but #inputText deliberately has no outline of
+   its own, so the card is where it is shown - two cues, not one: the border
+   steps to --border-cyan and a 1px ring lands inside it.
+
+   The ring and the border together are the whole indicator, which is why the
+   halo under them is tight. It used to be a 25px bloom, and because
+   :focus-within is true for essentially the whole time anyone is typing, that
+   bloom was not a focus state - it was the card's permanent appearance, glowing
+   at whatever was being typed into. A 10px halo on a negative spread keeps the
+   edge lift that separates the card from the page without lighting the panel.
+
+   Both cues are kept well clear of the 3:1 that WCAG 2.2 asks of a focus
+   indicator; the ring is the part doing that work, and it is unchanged. */
 .translation-card:focus-within {
 	border-color: var(--border-cyan);
 	box-shadow:
-		0 0 0 1px rgba(34, 211, 238, 0.25),
-		0 0 25px rgba(34, 211, 238, 0.08),
+		0 0 0 1px var(--border-cyan),
+		0 0 10px -4px var(--glow-accent),
 		var(--shadow),
 		var(--inset-hairline);
 }
 
-/* Header and footer rows are pinned to the same height on BOTH cards. The input
-   card's header holds a small pill and its footer a button, while the output
-   card's header holds that button and its footer a bare label - without this the
-   two panels drift apart in height whenever they stack. The floor is the tallest
-   a chrome row can get: the 40px control plus the foot's 12px padding and 1px
-   rule. min-height does not cap, so leaving it lower lets the button stretch the
-   input card's footer past the output card's. */
-.card-header,
-.card-foot {
-	min-height: calc(40px + 12px + 1px);
-}
+/* Header and footer rows are pinned to the same height on BOTH cards, or the two
+   panels drift apart whenever they stack. They are NOT the same height as each
+   other, though, and that distinction was the bug: both were set to the tallest
+   chrome row in the card (53px), so the input card's header - which holds a 10.5px
+   label and nothing else - was reserving room for a 40px button that only the
+   output card's header has. That is 13px of the translation's own height spent
+   on an empty label row.
 
+   The header's floor is the 40px control (the Share button). The foot's is that
+   same control plus its own 12px padding and 1px rule, because the rule has to
+   sit below the button rather than through it. min-height does not cap, so the
+   input card's footer still grows past this when Clear needs the room. */
 .card-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
+	min-height: 40px;
 	margin-bottom: 12px;
 }
 
+/* The field label, not a heading.
+
+   This was 13.5px/700 in --text, which is only 2px below the 15.5px body text it
+   frames and measured 16.6:1 against it - so "Your words" and "Translation" were
+   almost as loud as the words inside them, and the card had two things shouting
+   at the same volume. At 10.5px tracked and muted it does what a label is for:
+   it names the field and gets out of the way, and the translation is the only
+   thing on the card at full size.
+
+   The 10.5/700/0.09em/uppercase recipe is .selector-label in css/language.css
+   and .region-label in css/intelligence.css, on purpose - the three panels in
+   this app now label their fields the same way, which is most of what makes a
+   set of screens read as one product rather than three. It stays --text-muted,
+   not a dimmer step: muted measures ~7:1 here, so it is still comfortably a
+   label rather than a decoration.
+
+   base.css lists .card-title in a group that sets letter-spacing: -0.01em; the
+   tracking below outranks it, which is the point. */
 .card-title {
-	font-size: 13.5px;
+	font-size: 10.5px;
 	font-weight: 700;
-	letter-spacing: 0.01em;
-	color: var(--text);
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--text-muted);
 }
 
+/* The value beside the label, so the header is a label/value pair rather than
+   two competing strings: 11.5px against the label's 10.5px puts the language
+   one step above the field name without promoting it to body size.
+
+   58% clipped "🇬🇧 English selected" to an ellipsis on any but the widest
+   column, and this string is written by js/language.js from the FROM <select>'s
+   option text - it is never short. 66% is where it stops clipping before the
+   label starts, which is the only width that matters here. */
 .detected {
-	padding: 4px 10px;
+	padding: 3px 9px;
 	border-radius: var(--radius-pill);
-	background: rgba(124, 58, 237, 0.14);
-	border: 1px solid rgba(139, 92, 246, 0.24);
-	font-size: 11px;
+	background: var(--tint-chip);
+	border: 1px solid var(--tint-chip-line);
+	font-size: 11.5px;
 	font-weight: 600;
 	color: var(--accent-ink);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 58%;
+	max-width: 66%;
 }
 
 /* ---------- Textarea ---------- */
@@ -97,6 +138,51 @@
 
 #inputText::placeholder { color: var(--placeholder); }
 #inputText:focus { outline: none; }
+
+/* ---------- Inline validation ---------- */
+
+/* The one thing wrong with the input right now, said next to the input.
+   js/translator.js writes the words; the dot and the type are here.
+
+   A 12px note in muted text with the app's own cyan dot, matching
+   .regional-dot beside the translation: the same quiet "something to know"
+   language the rest of the workspace already uses, rather than a red panel for
+   something the user can fix by typing. There is deliberately no border or tint
+   on the textarea or the card for this - .translation-card:focus-within owns
+   the focus ring, and a second frame colour competing with it would be louder
+   than the message it is dressing.
+
+   margin-top only: the space above the note is the gap after the text, and
+   .card-foot brings its own 12px padding plus its rule below it, so there is
+   no margin to collapse against and no reserved height while the note is
+   hidden.
+
+   The [hidden] rule is not optional - see the note in components/translator.html.
+   Same reason .region-off-note[hidden] and .ghost-btn[hidden] carry one. */
+.input-note {
+	display: flex;
+	align-items: baseline;
+	gap: 7px;
+	margin-top: 9px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--text-muted);
+}
+
+.input-note[hidden] { display: none; }
+
+/* The ::before dot rather than an icon element, so js/translator.js only ever
+   writes this node's textContent. Same treatment as .regional-dot. */
+.input-note::before {
+	content: "";
+	flex-shrink: 0;
+	align-self: center;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--cyan);
+	box-shadow: 0 0 8px var(--border-cyan);
+}
 
 /* ---------- Right-to-left text ---------- */
 
@@ -132,14 +218,124 @@
 }
 
 /* Class names are load-bearing: js/clipboard.js and js/voice.js both do
-   output.querySelector(".output-placeholder") to detect "nothing yet",
-   and js/translator.js re-creates both of these on clear / empty input. */
+   output.querySelector(".output-placeholder") to detect "nothing yet", and
+   js/translator.js re-creates it on clear. */
 .output-placeholder {
 	color: var(--placeholder);
 	font-style: italic;
 }
 
-.output-hint { color: var(--text-muted); }
+/* ---------- Not-available state ---------- */
+
+/* Drawn by js/translator.js in place of the plain sentence a miss used to write
+   into the output box. An inset note in muted text rather than a warning panel:
+   a phrase outside the bundled set is the expected behaviour of an offline
+   demo, not a failure, and styling it like an error would make the app look
+   broken for a limitation it states plainly.
+
+   Only theme tokens are used, so this needs nothing of its own for light mode.
+
+   .output-empty is load-bearing in the same way .output-placeholder is -
+   js/clipboard.js, js/voice.js and js/nav.js all query for it so the notice is
+   never copied, spoken or logged as though it were a translation. */
+/* A note in the card, not a panel inside it.
+
+   This was a 1px --border-soft box on a --surface-deep fill, sitting inside a
+   .translation-card that is itself a 1px --border box on a --surface fill. Two
+   stacked surfaces for one sentence of copy is the clearest "generic dashboard"
+   tell in the workspace: it reads as a component rather than as information,
+   and it also cost the copy a darker background to be legible against, which is
+   the only reason it had ever needed one.
+
+   A 2px rule on the leading edge does the same job - it marks the note off from
+   the card's own text without enclosing anything, so the eye goes card -> note
+   -> card instead of card -> box -> copy. --tint-active-line is the same accent
+   the hovered action card uses, which is why the mark reads as part of the app's
+   own vocabulary rather than as a new part.
+
+   The horizontal padding is gone with the box and the left inset replaced by it;
+   max-width on the paragraphs below keeps the measure at 56ch either way. */
+.output-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 7px;
+	/* The output area is a flex row, so the block is sized here rather than
+	   left to the container: full width keeps it identical in both directions,
+	   which the RTL rules above switch with justify-content. */
+	width: 100%;
+	padding: 3px 0 3px 14px;
+	border-left: 2px solid var(--tint-active-line);
+}
+
+/* Overriding the output area's own 15.5px, which is sized for a translation and
+   is too loud for a note, is done on each paragraph below rather than on a
+   blanket `.output-empty p`: a descendant rule like that outranks the classes
+   here on specificity and would flatten the title and the hint back to one
+   size. */
+.output-empty-glyph {
+	font-size: 16px;
+	line-height: 1;
+	color: var(--accent-ink);
+}
+
+/* One real failure among the three notices: js/language-data.js did not load,
+   which is a broken install rather than a limit of the dataset. One class, so
+   the common states stay deliberately quiet and this one is still only a
+   different hue of the same note rather than a red panel. */
+.output-empty-glyph.is-warning {
+	color: var(--text-muted);
+}
+
+.output-empty-title {
+	margin: 0;
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--text);
+}
+
+.output-empty-text {
+	margin: 0;
+	max-width: 56ch;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--text-muted);
+}
+
+/* The action line, dimmer than the explanation above it: it is what the user
+   does next, and it should not compete with the reason for the state. This is
+   real copy rather than a placeholder, so it takes --text-subtle - the same
+   value --placeholder is defined from, for the same reason it has to be a step
+   below --text-muted. */
+.output-empty-hint {
+	margin: 0;
+	max-width: 56ch;
+	font-size: 12.5px;
+	line-height: 1.6;
+	color: var(--text-subtle);
+}
+
+/* The bundled phrases, as quoted text rather than as chips. They are not
+   clickable and nothing here is, so a pill-shaped button would promise an
+   interaction the page does not have. */
+.output-empty-samples {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 3px 12px;
+	margin: 3px 0 0;
+	max-width: 56ch;
+	font-size: 12.5px;
+	line-height: 1.7;
+}
+
+.output-empty-samples-label {
+	color: var(--text-subtle);
+}
+
+.output-empty-sample {
+	color: var(--text);
+}
 
 /* ---------- Card footer ---------- */
 .card-foot {
@@ -147,9 +343,20 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
+	min-height: calc(40px + 12px + 1px);
 	margin-top: 12px;
 	padding-top: 12px;
 	border-top: 1px solid var(--border-soft);
+}
+
+/* "0 / 1000" is a fact about text that does not exist yet, so in the resting
+   state it is the loudest thing in a footer that also holds a real button.
+   :placeholder-shown matches an empty field that is not being typed into, and
+   needs no class and no JS - translator.js only ever writes #counter's
+   textContent, so there is nothing for it to tell. It comes back the moment
+   there is a character to count. */
+.translation-card:has(#inputText:placeholder-shown) .counter {
+	color: var(--text-subtle);
 }
 
 .counter {
@@ -200,7 +407,7 @@
 	font-weight: 600;
 	color: var(--text-muted);
 	background: var(--surface-deep);
-	border: 1px solid var(--border-soft);
+	border: 1px solid var(--border-control);
 	box-shadow: none;
 	transition:
 		color 0.2s ease,
@@ -212,7 +419,7 @@
 .ghost-btn:hover {
 	color: var(--text);
 	border-color: var(--border-cyan);
-	box-shadow: 0 0 18px rgba(34, 211, 238, 0.14);
+	box-shadow: 0 0 18px var(--glow-accent);
 	transform: translateY(-1px);
 }
 
@@ -221,9 +428,21 @@
 /* =============================================================
    TRANSLATE BUTTON
    ============================================================= */
+/* The primary action, so it is allowed more air than the rows around it.
+
+   Every gap in this workspace was 16px, which left the 50px Translate button
+   with exactly as much space above and below as the gap between two action cards
+   - a hierarchy expressed nowhere. .workspace is a flex column at 16px, so 8px
+   of margin here steps both sides to 24px, a clean 1.5x against the base gap,
+   and the button reads as the step between typing and acting rather than as the
+   third row of a stack. It also stops its glow from crowding the card edges.
+
+   The button is centred and nothing else is in this row, so the margin cannot
+   shift anything off-axis. */
 .translate-row {
 	display: flex;
 	justify-content: center;
+	margin: 8px 0;
 }
 
 .translate-btn {
@@ -243,7 +462,7 @@
 	font-size: 15px;
 	font-weight: 700;
 	letter-spacing: 0.01em;
-	box-shadow: 0 0 25px rgba(124, 58, 237, 0.30);
+	box-shadow: 0 0 25px var(--glow-brand);
 	transition:
 		transform 0.2s ease,
 		box-shadow 0.25s ease,
@@ -255,6 +474,10 @@
 	dull the whole button, a soft dark band sits behind the label only - the
 	outer thirds stay bright neon. Lifts white to ~5.4:1 at the arrow and
 	~7:1 behind the words.
+
+	The band is dark in the light theme too, and that is not an oversight: it is
+	there to buy contrast against a neon gradient that both themes share, and
+	darkening it for light mode would put the label back at 1.8:1.
 */
 .translate-btn::after {
 	content: "";
@@ -268,12 +491,23 @@
 	pointer-events: none;
 }
 
+/* Hover deepens the one glow the button already has, rather than adding a
+   second. It used to reach for a 34px brand bloom AND a 60px accent one, which
+   is a lit sign rather than a raised control, and the 60px spread is what made
+   the workspace look like a dashboard. The accent is still here but on a -16px
+   spread, so it stays as the wide faint halo the resting state implies instead
+   of a second lamp.
+
+   brightness() is dialled back to 1.06 because it multiplies the ::after band
+   under the label as well as the gradient, and every point of that band is a
+   point of contrast the white text is spending. 1.08 was measurable; 1.06 is
+   not. */
 .translate-btn:hover {
 	transform: translateY(-2px);
-	filter: brightness(1.08);
+	filter: brightness(1.06);
 	box-shadow:
-		0 0 34px rgba(124, 58, 237, 0.46),
-		0 0 60px rgba(34, 211, 238, 0.18);
+		0 0 30px var(--glow-brand),
+		0 0 48px -16px var(--glow-accent);
 }
 
 .translate-btn:active { transform: translateY(0); }
@@ -310,7 +544,7 @@
 	padding: 13px 14px;
 	overflow: hidden;
 	border-radius: var(--radius-sm);
-	background-image: linear-gradient(150deg, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+	background-image: linear-gradient(150deg, var(--wash-purple) 0%, transparent 60%);
 	transition:
 		transform 0.2s ease,
 		border-color 0.2s ease,
@@ -318,11 +552,20 @@
 		background-color 0.2s ease;
 }
 
+/* Hover is a lift and a border step, not a lamp.
+
+   This was a 30px --glow-brand bloom on each of the three cards - the same
+   treatment the Translate button uses, on three secondary controls sitting
+   below it. That is how a row of ordinary shortcuts ends up shouting over the
+   one button the page exists to be pressed, and it is most of the "AI
+   dashboard" read. The lift and the border step still make the card obviously
+   pressable; the accent is now a 16px halo on a -8px spread, which lifts the
+   edge off the page without lighting the card. */
 .action-card:hover {
 	transform: translateY(-2px);
-	border-color: rgba(139, 92, 246, 0.4);
+	border-color: var(--tint-active-line);
 	box-shadow:
-		0 0 30px rgba(124, 58, 237, 0.12),
+		0 0 16px -8px var(--glow-accent),
 		var(--shadow),
 		var(--inset-hairline);
 }
@@ -353,13 +596,21 @@
 	line-height: 1.3;
 }
 
+/* Wraps rather than ellipsising. nowrap + ellipsis meant "Copy to clipb…" the
+   moment the workspace column got narrow enough, which is the width range
+   between the 620px breakpoint and a desktop column - and the description is
+   the only thing telling the user what Copy actually does.
+
+   Two lines is the real maximum here, and nothing needs to clamp them: the
+   cards are grid items in a stretched row, so a card whose description wraps to
+   two lines makes the whole row taller and the other two stay level with it.
+   css/responsive.css also sets white-space: normal at 620px, which is now
+   redundant but harmless. */
 .action-desc {
 	font-size: 11.5px;
 	color: var(--text-muted);
 	line-height: 1.35;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	overflow-wrap: break-word;
 }
 
 /* The hit target. No children, no visible glyph - it is purely a hit area. */
@@ -382,10 +633,14 @@
 	outline-offset: -3px;
 }
 
-/* ---------- JS-driven states (voice.js .recording, clipboard.js .copied) ---- */
+/* ---------- JS-driven states (voice.js .recording, clipboard.js .copied) ----
+   These borders announce a state, so they clear 3:1 against the card rather
+   than being a tint. At the 0.45 alpha they used to carry, the recording ring
+   measured 2.3:1 in dark and 1.5:1 in light, and "Copied" was the worst of the
+   three at 1.3:1 - a state change that could not be seen. */
 .action-card:has(.action-hit.recording) {
-	border-color: rgba(251, 113, 133, 0.45);
-	box-shadow: 0 0 24px rgba(251, 113, 133, 0.18), var(--inset-hairline);
+	border-color: var(--state-danger);
+	box-shadow: 0 0 24px var(--state-danger-glow), var(--inset-hairline);
 }
 
 .action-card:has(.action-hit.recording) .action-icon {
@@ -400,8 +655,8 @@
 
 /* voice.js sets .speaking while the browser is reading the translation. */
 .action-card:has(.action-hit.speaking) {
-	border-color: rgba(34, 211, 238, 0.45);
-	box-shadow: 0 0 24px rgba(34, 211, 238, 0.18), var(--inset-hairline);
+	border-color: var(--state-accent);
+	box-shadow: 0 0 24px var(--state-accent-glow), var(--inset-hairline);
 }
 
 .action-card:has(.action-hit.speaking) .action-icon {
@@ -410,11 +665,118 @@
 }
 
 .action-card:has(.action-hit.copied) {
-	border-color: rgba(52, 211, 153, 0.45);
-	box-shadow: 0 0 24px rgba(52, 211, 153, 0.18), var(--inset-hairline);
+	border-color: var(--state-success);
+	box-shadow: 0 0 24px var(--state-success-glow), var(--inset-hairline);
 }
 
 .action-card:has(.action-hit.copied) .action-title::after {
 	content: " ✓";
 	color: var(--success);
+}
+
+/* ---------- Inline feedback from js/voice.js ----------
+   voice.js writes a failure into the owning card's .action-desc and marks it
+   with data-tone="error", so a voice problem is reported beside the button
+   that caused it instead of in an alert().
+
+   The text is lifted to --text rather than left at --text-muted because this
+   is the one case in the card where the description IS the message, and it
+   has to be readable at a glance. Colour is not the signal here anyway - the
+   wording carries the meaning, so the tone change is only reinforcement. */
+.action-desc[data-tone="error"] {
+	color: var(--text);
+}
+
+/* "Copied" and "Nothing to copy yet" come through the same slot from
+   js/clipboard.js, so the wording carries the meaning in both cases. The tone
+   only reinforces it: success takes the accent, and the neutral hint is left
+   muted on purpose - nothing went wrong, and colouring it like a warning would
+   say otherwise. */
+.action-desc[data-tone="success"] {
+	color: var(--success);
+}
+
+.action-desc[data-tone="hint"] {
+	color: var(--text-muted);
+}
+
+/* ---------- share button states (js/clipboard.js) ----------
+   data-state is set only while a share is in progress or has just resolved, and
+   removed when the label reverts. Like the .recording and .copied rings above,
+   these are state announcements, so they clear 3:1 against the card rather
+   than reading as a tint. */
+.ghost-btn[data-state="done"] {
+	color: var(--success);
+	border-color: var(--state-success);
+}
+
+.ghost-btn[data-state="error"] {
+	color: var(--state-danger);
+	border-color: var(--state-danger);
+}
+
+/* Set when navigator.share is missing. aria-disabled rather than disabled, for
+   the same reason as .action-hit.is-unavailable: the button stays in the tab
+   order so it can be reached and read, instead of vanishing from the keyboard
+   with nothing to explain why. The hover lift is suppressed so a control that
+   is known to be dead does not invite the click it will refuse. */
+.ghost-btn.is-unavailable {
+	color: var(--text-muted);
+	border-color: var(--border-soft);
+	cursor: not-allowed;
+}
+
+.ghost-btn.is-unavailable:hover {
+	color: var(--text-muted);
+	border-color: var(--border-soft);
+	box-shadow: none;
+	transform: none;
+}
+
+/* ---------- polite status region (js/clipboard.js) ----------
+   The visible feedback for copy and share is a text swap on a card description
+   or a button label, and a screen reader does not reliably announce either one
+   mid-interaction. This region carries the same words for assistive tech.
+
+   Clipped to a 1px box rather than display:none or visibility:hidden - both of
+   those remove an element from the accessibility tree, and a live region that
+   is not in the tree announces nothing at all. */
+.clipboard-status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* aria-disabled, not disabled: the button stays in the tab order so a
+   screen-reader user can reach the control that explains the limitation.
+   js/voice.js ignores clicks on it. The dimming and the crossed cursor are
+   the whole affordance - no layout change, so the rail does not reflow. */
+.action-hit.is-unavailable {
+	cursor: not-allowed;
+}
+
+.action-card:has(.action-hit.is-unavailable) {
+	border-color: var(--border-soft);
+	box-shadow: none;
+	opacity: 0.6;
+}
+
+/* Beats `.action-card:hover` on specificity (0,3,0 against 0,2,0), so a
+   disabled card cannot light up and invite the click it will refuse. */
+.action-card:has(.action-hit.is-unavailable):hover {
+	border-color: var(--border-soft);
+	box-shadow: none;
+	transform: none;
+}
+
+.action-card:has(.action-hit.is-unavailable) .action-icon {
+	filter: none;
+	animation: none;
 }

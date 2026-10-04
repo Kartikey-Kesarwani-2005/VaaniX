@@ -88,8 +88,8 @@
 	height: 26px;
 	transform: translateY(-50%);
 	border-radius: var(--radius-pill);
-	background: rgba(100, 116, 139, 0.32);
-	border: 1px solid var(--border-soft);
+	background: var(--switch-track);
+	border: 1px solid var(--border-control);
 	transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
 }
 
@@ -102,14 +102,14 @@
 	height: 18px;
 	border-radius: 50%;
 	background: var(--on-accent);
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+	box-shadow: var(--shadow-knob);
 	transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .switch input:checked + .slider {
 	background: var(--gradient-primary);
-	border-color: rgba(139, 92, 246, 0.4);
-	box-shadow: 0 0 18px rgba(124, 58, 237, 0.32);
+	border-color: var(--tint-active-line);
+	box-shadow: 0 0 18px var(--glow-brand);
 }
 
 .switch input:checked + .slider::before { transform: translateX(20px); }
@@ -120,25 +120,76 @@
 }
 
 /* ---------- Region select ---------- */
+
+/* The eyebrow, as a rule rather than as loose capitals: a short dash in the
+   SELECTED region's colour, then the label. It is the first thing in the panel
+   and the thing that changes colour first, so the bar reads as belonging to the
+   region shown in it.
+
+   The fallback is deliberate and is used in two places below. --art-line is set
+   on .region-panel--pick by the :has() companions in css/region-visual.css, and
+   that is the only thing that carries a region's colour out of .region-visual and
+   down here. Where it is missing the dash falls back to --cyan rather than to
+   nothing, so a browser without :has() gets an unaccented-but-still-branded
+   panel instead of a broken one. */
 .region-label {
-	display: block;
-	margin-bottom: 8px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 9px;
 	font-size: 10.5px;
 	font-weight: 700;
-	letter-spacing: 0.09em;
+	letter-spacing: 0.11em;
 	text-transform: uppercase;
 	color: var(--text-muted);
 }
 
-/* =============================================================
-   REGION PANEL: PHOTO AS THE PANEL BACKGROUND
+.region-label::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 15px;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--art-line, var(--cyan));
+	box-shadow: 0 0 10px -1px var(--art-line, transparent);
+}
 
-   .region-visual is stretched to fill the whole panel, so the landmark photo
-   is the backdrop for the entire column rather than a strip inside it. The
-   content then sits on its own glass surface, which is what keeps the text
-   readable: a photo behind body text cannot be given a guaranteed contrast
-   ratio, whereas a fixed-alpha glass panel over it can. Both themes are
-   verified against real rendered pixels, not just computed styles.
+/* =============================================================
+   REGION PANEL: THE REGION AS THE PANEL'S MIDDLE
+
+   Three stacked zones, and the panel is a flex column so that the middle
+   one is exactly the leftover height rather than an overlay that has to
+   guess it:
+
+     .region-picker      the control bar, full-bleed on the top edge
+     .region-visual      the region itself - the band, between the two glass
+                         surfaces, never underneath them
+     .intelligence-card  the confirmation, inset at the bottom
+
+   Everything inside .region-visual is switched by the one data-region
+   attribute js/region-art.js writes on every change - the photograph
+   mounted as a plate on a blurred, region-tinted bed, the region wash, and
+   the band's own hairline frame. All of it is in css/region-visual.css.
+
+   That band is why the composition below. The content sits on its own glass
+   surface, which is what keeps the text readable: a photo behind body text
+   cannot be given a guaranteed contrast ratio, whereas a fixed-alpha glass
+   panel over it can. That surface is --surface-over-media, which is
+   deliberately more opaque than --surface-deep in BOTH themes: light glass over
+   a photograph is not dark enough for --text-muted (measured 4.04:1 against the
+   real pixels behind it), and the dark theme's own 0.72 only held 5.5:1 against
+   the brightest of the six photos. Lifting the card rather than darkening the
+   text token keeps every other panel on the token it already depends on. With
+   the band no longer reaching underneath them, both surfaces are also free of
+   whatever the photograph happens to be doing at that edge.
+
+   Hierarchy, top to bottom, and each step is a deliberate step:
+
+     eyebrow      "Choose Your Region", the region's colour as a rule
+     control      the region name itself, at display size - it is the answer,
+                  so it is the largest thing in the panel
+     the landmark everything else is arranged around
+     status       the dot and the confirmation line, smallest and last
    ============================================================= */
 .region-panel--pick {
 	position: relative;
@@ -146,18 +197,24 @@
 	isolation: isolate;
 	display: flex;
 	flex-direction: column;
-	/* The controls sit in a full-bleed bar on the photo's top edge, the photo
-	   runs as an uninterrupted hero band through the middle, and the
-	   intelligence card is inset at the bottom. Composition over a card-in-a-
-	   card look, and the label lands on the image rather than below it.
-	   padding:0 cancels .region-panel's inset for the top bar to bleed. */
+	/* overflow:hidden is what rounds the control bar's top corners against the
+	   panel's own radius; padding:0 cancels .region-panel's inset so the bar can
+	   bleed full-bleed.
+
+	   430 is a floor, not a height. The bar and the card are content-sized
+	   (~99px and ~73-93px depending on how the sentence wraps), and the band
+	   takes whatever is left - about 220px. That is the space the fitted
+	   photograph is mounted in at every width, which is why the plate keeps its
+	   proportions whether the regional column is a 300px sidebar or a full row. */
 	padding: 0;
 	min-height: 430px;
 }
 
-/* The control bar: full-bleed against the photo's top edge, so "Choose Your
-   Region" and the select sit ON the image instead of floating in a padded box.
-   Kept on glass so the label never has to fight the photograph for contrast. */
+/* The control bar: full-bleed against the panel's top edge, so "Choose Your
+   Region" and the select sit ON the band instead of floating in a padded box.
+   On --surface-over-media rather than --surface-deep, so the two glass surfaces
+   either side of the band match each other and the select inside this one is
+   the most solid thing in the panel. */
 .region-picker {
 	--sel-h: 44px;
 	position: relative;
@@ -165,57 +222,119 @@
 	flex: 0 0 auto;
 	padding: 15px 16px 14px;
 	border-radius: 0;
-	background: var(--surface-deep);
+	background: var(--surface-over-media);
 	backdrop-filter: blur(20px) saturate(1.4);
 	-webkit-backdrop-filter: blur(20px) saturate(1.4);
 	border: 0;
 	border-bottom: 1px solid var(--border);
-	box-shadow: 0 10px 24px rgba(2, 5, 18, 0.28);
+	box-shadow: var(--shadow-sm);
 }
 
-/* Pushed to the bottom and inset on the sides, so the photo reads as one
-   continuous band between the control bar and this card. */
+/* The selected region's mark: a short rail inside the control, in that region's
+   colour, directly beside the value it belongs to.
+
+   Drawn here rather than on #region itself for the same reason the chevron below
+   is: `appearance: none` and the UA's own select rendering make pseudo-elements
+   on the element unreliable, so anything drawn next to the value has to live on
+   this wrapper. The geometry is derived from the bar's own padding and --sel-h,
+   exactly as ::after below is, so the two stay aligned if the bar's padding
+   changes. */
+.region-picker::before {
+	content: "";
+	position: absolute;
+	/* 8px inside the select's left edge: the bar's 16px inset, then 8px in,
+	   which is inside the 22px the select reserves on its own left. */
+	left: 24px;
+	/* Centred on the select: the bar's bottom padding, plus half the select's
+	   height, less half the rail. */
+	bottom: calc(14px + var(--sel-h) / 2 - 10px);
+	width: 3px;
+	height: 20px;
+	border-radius: 2px;
+	background: var(--art-line, var(--cyan));
+	box-shadow: 0 0 12px -2px var(--art-line, transparent);
+	pointer-events: none;
+	transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+
+/* At the bottom and inset on the sides, so the band above it reads as one
+   uninterrupted window between the two glass surfaces. No `margin-top: auto`
+   any more: that was what pinned this card down when .region-visual was an
+   overlay, and with the band a real flex sibling the leftover height belongs to
+   the band instead. */
 .region-panel--pick .intelligence-card {
 	position: relative;
 	z-index: 1;
-	margin: auto 16px 16px;
-}
-
-/* Light Glass over a photograph is not dark enough for --text-muted: measured
-   4.04:1 against the real pixels behind it. Raising the card's opacity lifts
-   the backdrop and restores the margin, without touching the text token that
-   every other panel depends on. */
-body.light-mode .region-panel--pick .region-picker,
-body.light-mode .region-panel--pick .intelligence-card {
-	background: rgba(255, 255, 255, 0.9);
+	flex: 0 0 auto;
+	margin: 0 16px 16px;
 }
 
 #region {
 	width: 100%;
 	height: var(--sel-h);
-	padding: 0 34px 0 14px;
-	/* Matches the language bar and the intelligence card below it, so the three
-	   stacked controls read as one set. Only this element is rounded, not the
-	   full-bleed bar it sits in, so the bar still meets the photo's top edge
-	   square. The corners clip against --surface-region-select (0.9 alpha) over
-	   the bar's own glass, not the bare photograph, so nothing bright leaks in. */
+	/* 22px on the left is the .region-picker::before rail plus its gap; 34px on
+	   the right is exactly the chevron reserved below. */
+	padding: 0 34px 0 22px;
+	/* Matches the language bar and the intelligence card below it in radius and
+	   surface, so the three stacked controls read as one set. Only this element is
+	   rounded, not the full-bleed bar it sits in, so the bar still meets the
+	   backdrop's top edge square. The corners clip against
+	   --surface-region-select (0.9 alpha) over the bar's own glass, not the bare
+	   photograph, so nothing bright leaks in.
+
+	   The type is the panel's display size. This is the one control in the app
+	   that names a place, and it is the answer to the question the eyebrow asks,
+	   so it is the largest thing here - the photograph is the backdrop, not the
+	   subject, and letting 14px of medium weight carry the region's name was what
+	   made this read as a generic card with a dropdown in it. */
 	border-radius: var(--radius-sm);
-	font-size: 14px;
-	font-weight: 600;
+	font-size: 15.5px;
+	font-weight: 700;
+	letter-spacing: -0.012em;
 	color: var(--text);
 	cursor: pointer;
 	min-width: 0;
 	text-overflow: ellipsis;
 	/* Its own, far more opaque surface than the shared --surface: this select
-	   sits directly on a photograph, and at 0.62 the value text measured only
+	   sits directly on the region wash, and at 0.62 the value text measured only
 	   3.4:1 in dark mode and 4.0:1 in light against the real pixels behind it.
 	   0.9 clears 4.5:1 in both without flattening the glass bar around it. */
 	background: var(--surface-region-select);
 	backdrop-filter: blur(20px) saturate(1.4);
 	-webkit-backdrop-filter: blur(20px) saturate(1.4);
-	border: 1px solid var(--border);
-	box-shadow: var(--inset-hairline);
+	/* ---------- The selected state ----------
+	   The control wears the selected region's colour: its border is --art-line
+	   and it carries a low-spread glow of the same hue. That is the whole
+	   feedback for "this is the region you picked", and it sits on the one
+	   element the user is looking at when they pick it.
+
+	   --art-line arrives here from the :has() companions in
+	   css/region-visual.css, which are the only thing that carries a region's
+	   colour out of .region-visual and down to this element. The --border-control
+	   fallback is not decorative: without it an unsupporting browser would
+	   resolve the shorthand to `unset` and take the border with it. Each light
+	   theme --art-line is darker than its dark counterpart precisely so that
+	   resting on this near-white surface it still clears the 3:1 that
+	   --border-control was chosen for. */
+	border: 1px solid var(--art-line, var(--border-control));
+	box-shadow:
+		var(--inset-hairline),
+		0 0 24px -12px var(--art-line, transparent);
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* The global :focus-visible rule in css/base.css sets border-radius: 6px on
+   whatever it lands on, which squares off this control's corners the moment it
+   takes focus. Restated, so focusing it looks like focusing it and not like a
+   different control. */
+#region:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: 2px;
+	border-radius: var(--radius-sm);
+	box-shadow:
+		var(--inset-hairline),
+		0 0 0 1px var(--art-line, var(--border-cyan)),
+		0 0 26px -10px var(--art-line, transparent);
 }
 
 /* The dropdown list itself: UA rules only partly allow this, and only where the
@@ -246,48 +365,81 @@ body.light-mode .region-panel--pick .intelligence-card {
 	transition: border-color 0.2s ease;
 }
 
-.region-picker:hover::after { border-color: var(--cyan); }
+.region-picker:hover::after { border-color: var(--art-line, var(--cyan)); }
 
+/* Hover lifts the region's own colour rather than switching hue to cyan: the
+   control is already wearing the region's colour, and swapping it for a
+   different accent on hover would say "somewhere else" at the moment the user
+   is looking at this one. */
 #region:hover {
-	border-color: var(--border-cyan);
-	box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 0 25px rgba(34, 211, 238, 0.08);
+	border-color: var(--art-line, var(--border-cyan));
+	box-shadow:
+		var(--inset-hairline),
+		0 0 0 1px var(--art-line, var(--border-cyan)),
+		0 0 28px -10px var(--art-line, transparent);
 }
 
 /* Regional mode off: the picker is disabled and held on Standard Hindi, so it
-   is dimmed rather than left looking like a live control. The hover rule above
-   is neutralised too, or a disabled select still lights up on the pointer. */
+   is dimmed rather than left looking like a live control - and the region's
+   colour is taken off it entirely, since Standard Hindi being selected is a
+   forced state here rather than a choice, and a brightly accented control would
+   be advertising a region that is not being applied. The hover rule above is
+   neutralised too, or a disabled select still lights up on the pointer. */
 #region:disabled {
 	cursor: not-allowed;
 	opacity: 0.6;
-}
-
-#region:disabled:hover {
-	border-color: var(--border);
+	border-color: var(--border-control);
 	box-shadow: var(--inset-hairline);
 }
 
-/* The chevron is drawn on the wrapper, not the select, so the select cannot dim
-   it from here. js/translator.js puts this class on in step with `disabled`. */
+#region:disabled:hover {
+	border-color: var(--border-control);
+	box-shadow: var(--inset-hairline);
+}
+
+/* The rail and the chevron are drawn on the wrapper, not the select, so neither
+   can be dimmed from #region:disabled above - and a dimmed rail would be worse
+   than no rail, since it would still read as a mark. js/translator.js puts this
+   class on in step with `disabled`. */
 .region-picker.is-disabled::after {
-	border-color: var(--border-soft);
+	border-color: var(--border-control);
+}
+
+.region-picker.is-disabled::before {
+	background: var(--border-control);
+	box-shadow: none;
+	opacity: 0.5;
 }
 
 /* =============================================================
    REGIONAL EXPRESSION INFO
-   #intelligenceText is dimmed to 0.45 by js/translator.js when the
-   regional toggle is off. That opacity change is set inline by JS,
-   so nothing here may override it.
+   .is-inactive is put on by js/translator.js when the region cannot
+   reach the output at all - the switch is off, or the target language
+   takes no regional flavour.
    ============================================================= */
 .intelligence-card {
 	padding: 13px 14px;
 	border-radius: var(--radius-sm);
-	background: var(--surface-deep);
+	/* The same over-photo surface as .region-picker, for the same reason: this
+	   card sits on the region wash too (see the note at the top of this file). */
+	background: var(--surface-over-media);
 	box-shadow: none;
-	transition: opacity 0.35s ease, border-color 0.3s ease, background-color 0.3s ease;
+	/* A hairline of the selected region's colour along the top edge, echoing the
+	   plate that hangs above this card. Decorative, and deliberately the one
+	   accent here: this card is confirmation, not a control, so it names the
+	   region in its type rather than by another mark competing with the select. */
+	border-top-color: var(--art-line, var(--border));
+	transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
+/* A status line, not a heading: the smallest type in the panel, and marked by a
+   dot in the region's colour so the panel has one last accent to close on
+   between the select and the confirmation sentence below it. */
 .intelligence-title {
-	margin-bottom: 6px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin-bottom: 7px;
 	font-size: 10.5px;
 	font-weight: 700;
 	letter-spacing: 0.09em;
@@ -295,14 +447,67 @@ body.light-mode .region-panel--pick .intelligence-card {
 	color: var(--accent-ink);
 }
 
+.intelligence-title::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--art-line, var(--accent-ink));
+	box-shadow: 0 0 9px 0 var(--art-line, transparent);
+	transition: opacity 0.3s ease;
+}
+
 .intelligence-text {
-	font-size: 12.5px;
-	line-height: 1.55;
+	font-size: 13px;
+	line-height: 1.6;
 	color: var(--text-muted);
 	transition: color 0.3s ease;
 }
 
+/* The region name, marked in the type rather than in a caption laid over the
+   backdrop. An underline rather than a coloured label, because it is the one
+   place the region's own hue reaches actual type - and it can, because the text
+   here is on this card's opaque glass rather than on the photograph. The colour
+   is decoration only: the glyphs stay on --text, which is the token that
+   guarantees the contrast, so no region's hue can ever fail the reading. */
 .intelligence-text strong {
 	color: var(--text);
 	font-weight: 700;
+	text-decoration: underline;
+	text-decoration-color: var(--art-line, var(--accent-ink));
+	text-decoration-thickness: 2px;
+	text-underline-offset: 3px;
+}
+
+/* Dimmed, but still readable.
+
+   This used to be an inline opacity:0.45 on the whole block. An opacity cannot
+   be given a usable value here: 0.45 put the copy at 2.4:1 in the dark theme and
+   2.1:1 in the light one, and raising it far enough to pass 4.5:1 in light left
+   nothing visibly distinguishing it from the active state. So the dimming is a
+   pair of theme-aware colours instead - each one still measurably a step below
+   its active counterpart, and each still clearing 4.5:1 on this card's own
+   surface. Two steps, so the region name keeps its emphasis while dimmed.
+
+   The dot and the label above are dimmed to match. They are siblings of
+   #intelligenceText rather than descendants of it, and js/translator.js only
+   ever puts .is-inactive on #intelligenceText, so :has() is what carries the
+   state across. Without it the status line stays bright while its sentence
+   dims - a small inconsistency in browsers without :has(), and a far smaller one
+   than the sentence losing its contrast. */
+.intelligence-text.is-inactive { color: var(--text-inactive); }
+
+.intelligence-text.is-inactive strong {
+	color: var(--text-inactive-strong);
+	text-decoration-color: var(--text-inactive-strong);
+}
+
+.intelligence-card:has(.intelligence-text.is-inactive) .intelligence-title {
+	color: var(--text-inactive-strong);
+}
+
+.intelligence-card:has(.intelligence-text.is-inactive) .intelligence-title::before {
+	opacity: 0.45;
+	box-shadow: none;
 }

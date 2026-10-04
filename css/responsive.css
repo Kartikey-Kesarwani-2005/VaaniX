@@ -102,6 +102,26 @@
 		margin: 0;
 	}
 
+	/* The nav row needs 451px. Above ~480px of viewport it fits, but below
+	   that `overflow-x: auto` on .sidebar used to hide the tail of it with
+	   no affordance - at 320px, "Settings" sat entirely off-screen and could
+	   only be reached by scrolling sideways. Wrap into two rows instead
+	   of asking the reader to scroll a page that must never scroll sideways.
+	   `overflow-x: auto` is left in place on .sidebar as a harmless floor;
+	   wrapping means there is nothing left for it to scroll. */
+	.sidebar { flex-wrap: wrap; }
+	.nav-list {
+		flex-wrap: wrap;
+		flex-shrink: 1;
+		min-width: 0;
+		width: 100%;
+	}
+	.nav-item {
+		width: auto;
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+
 	.translation-grid { gap: 13px; }
 	.translation-card { padding: 14px 14px 12px; }
 
@@ -134,8 +154,31 @@
 	.brand-mark { width: 36px; height: 36px; font-size: 18px; }
 	.engine-status { font-size: 11px; padding: 6px 10px; }
 	.workspace-title { font-size: 20px; }
-	.card-title { font-size: 13px; }
-	.detected { max-width: 52%; }
+
+	/* A long detected label needs more room than the eyebrow beside it can
+	   spare: "Nigerian Pidgin selected" wants 143px and "Hindi (Devanagari)
+	   detected" wants 160px, against the 122px the old 52% cap left. Let the
+	   header wrap so the chip takes a line of its own instead of being
+	   ellipsised, and give it the full width when it does.
+	   That 52% cap was also backwards in the first place: it handed a
+	   NARROWER screen a SMALLER share of the row. */
+	.card-header { flex-wrap: wrap; }
+	.detected { max-width: 100%; }
+
+	/* .card-title deliberately has no size here. It used to drop back to
+	   13px below 400px, which made the field label LARGER on the smallest
+	   screens than on desktop and undid the eyebrow scale in translator.css. */
+}
+
+/* ---------- Tablet: cap the reading measure ---------- */
+/* Below 900px the workspace is a single column, so the card inherits the
+   whole viewport width: measured at 15.5px, that is 99 characters per line
+   at 900px and 90 at 820px, both past the 45-90ch that stays readable.
+   Cap the shell and let the `margin: 0 auto` already in css/base.css centre
+   it. The workspace card and the regional panel stay aligned because both
+   live inside .app. Only engages above ~756px, so 320-768 is untouched. */
+@media (min-width: 620px) and (max-width: 900px) {
+	.app { max-width: 720px; }
 }
 
 /* =============================================================

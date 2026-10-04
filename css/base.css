@@ -12,28 +12,105 @@
 	--surface-strong: rgba(16, 24, 48, 0.82);
 	--surface-deep: rgba(8, 13, 29, 0.72);
 	--surface-region-select: rgba(8, 13, 29, 0.9);
+	/* The only surface used directly against the region band in the region
+	   panel - .region-picker and .intelligence-card in css/intelligence.css.
 
-	/* --- Text --- */
+	   It was introduced when those two were a full-bleed glass layer over the
+	   photograph, where nothing laid over an image can be given a guaranteed
+	   ratio and the measured numbers were what set the 0.82. The band is now a
+	   sibling of both rather than something behind them, so that is no longer the
+	   reason: what it buys now is two matching surfaces with no photo showing
+	   through, which keeps them reading as one set with the select inside the bar
+	   and stops a bright landmark showing through the seam where they meet it.
+	   The value is unchanged rather than re-tuned, because 0.72 measured
+	   5.5:1 against the brightest of the six photos and there is no reason to
+	   spend margin that is not being claimed. */
+	--surface-over-media: rgba(8, 13, 29, 0.82);
+
+	/* --- Text ---
+	   Four steps, each one measurably lighter than the last. Anything that is
+	   real copy picks a step by how much it should recede; --placeholder is an
+	   alias of --text-subtle because a placeholder and a deliberately dimmed
+	   note need exactly the same separation from the surface. */
 	--text: #F8FAFC;
 	--text-muted: #94A3B8;
-	/* The placeholder needs its own, lighter value: #64748B only reaches
-	   ~3.9:1 on the dark glass. */
-	--placeholder: #7C8AA3;
+	--text-subtle: #7C8AA3;
+	--placeholder: var(--text-subtle);
+	/* The Regional Expression card dims itself when the region cannot reach the
+	   output. These two replace an inline opacity:0.45 on the whole block, which
+	   put the copy at 2.1-2.4:1 - unreadable in both themes, and no opacity
+	   multiplier can fix that on a light surface. Two steps rather than one so
+	   the region name inside <strong> still reads as emphasised while dimmed. */
+	--text-inactive: #7E8BA4;
+	--text-inactive-strong: #98A6BE;
 
 	/* --- Brand --- */
 	/* Purple INK, for small text sitting on a purple-tinted surface (pills,
 	   icon chips, uppercase labels). The saturated fill it is used on is
-	   written inline per component. */
+	   --tint-chip below. */
 	--accent-ink: #C4B5FD;
 	--cyan: #22D3EE;
 
-	/* --- Lines --- */
+	/* --- Lines ---
+	   Three different jobs, three different tokens:
+
+	     --border / --border-soft  a glass panel's edge. Decorative. Nothing
+	       has to be read to operate the control, so they stay faint.
+	     --border-control          the boundary of an actual control, where the
+	       line is the only thing identifying it. Clears 3:1 against its own
+	       surface in both themes (WCAG 1.4.11).
+	     --border-cyan             the hover and focus line. Also state, so also
+	       3:1 - at 0.25 it measured 1.3:1 on light glass, which is to say the
+	       focus ring was invisible in the light theme. */
 	--border: rgba(139, 92, 246, 0.22);
 	--border-soft: rgba(139, 92, 246, 0.18);
-	--border-cyan: rgba(34, 211, 238, 0.25);
+	--border-control: rgba(148, 163, 184, 0.62);
+	--border-cyan: rgba(34, 211, 238, 0.55);
 
-	/* --- State --- */
+	/* --- State ---
+	   --success carries the "Copied" tick in .action-card and the engine dot in
+	   the header, so it has to be legible as small text AND visible as a 7px
+	   dot - hence a light-theme override rather than one shared value.
+	   --state-* are the borders js/voice.js and js/clipboard.js put on an action
+	   card, with a matching glow. Same rule: these announce a state, so they
+	   clear 3:1 rather than being a tint. */
 	--success: #34D399;
+	--success-ring: rgba(52, 211, 153, 0.16);
+	--success-ring-wide: rgba(52, 211, 153, 0.05);
+	--state-danger: rgba(251, 113, 133, 0.6);
+	--state-danger-glow: rgba(251, 113, 133, 0.18);
+	--state-accent: rgba(34, 211, 238, 0.55);
+	--state-accent-glow: rgba(34, 211, 238, 0.18);
+	--state-success: rgba(52, 211, 153, 0.55);
+	--state-success-glow: rgba(52, 211, 153, 0.18);
+
+	/* --- Tints ---
+	   The purple chip / hover / wash recipe, written once. Three components
+	   (.detected, .nav-badge, .feature-icon) were each carrying their own copy
+	   of the same rgba(124,58,237,0.14) fill, and two more were restating the
+	   hover and active fills. */
+	--tint-subtle: rgba(139, 92, 246, 0.08);
+	--tint-chip: rgba(124, 58, 237, 0.14);
+	--tint-chip-line: rgba(139, 92, 246, 0.24);
+	--tint-active: rgba(124, 58, 237, 0.18);
+	--tint-active-line: rgba(139, 92, 246, 0.35);
+	--wash-purple: rgba(139, 92, 246, 0.07);
+	--wash-cyan: rgba(34, 211, 238, 0.05);
+
+	/* --- Glows --- */
+	--glow-brand: rgba(124, 58, 237, 0.30);
+	--glow-accent: rgba(34, 211, 238, 0.14);
+
+	/* --- Overlays --- */
+	--selection-bg: rgba(124, 58, 237, 0.55);
+	--selection-ink: #FFFFFF;
+	--scrim: rgba(3, 6, 15, 0.62);
+
+	/* --- Switch --- */
+	/* The off track. Carries --on-accent as its knob, so it cannot be a tint
+	   the knob disappears into - 0.32 slate measured 1.05:1 against a white knob
+	   in the light theme. */
+	--switch-track: rgba(148, 163, 184, 0.62);
 
 	/* Text/icon colour placed on top of a saturated brand fill. */
 	--on-accent: #FFFFFF;
@@ -55,6 +132,10 @@
 	/* --- Elevation --- */
 	--shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 	--shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.28);
+	--shadow-drawer: -24px 0 70px rgba(0, 0, 0, 0.42);
+	/* The switch knob. Small enough that a 35%-black drop reads as grime rather
+	   than elevation on a light card. */
+	--shadow-knob: 0 2px 6px rgba(0, 0, 0, 0.35);
 	--inset-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 
 	/* --- Type --- */
@@ -74,22 +155,69 @@ body.light-mode {
 	--surface-strong: rgba(255, 255, 255, 0.82);
 	--surface-deep: rgba(255, 255, 255, 0.72);
 	--surface-region-select: rgba(255, 255, 255, 0.94);
+	/* See the dark-theme note: this is now a deliberate pairing with the two
+	   cards either side of it rather than a contrast fix, and it is kept at the
+	   same 0.9 so the select stays the most solid thing in the panel in both
+	   themes - it is the one surface that has to hold a 15.5px/700 value. */
+	--surface-over-media: rgba(255, 255, 255, 0.9);
 
 	--text: #0B1220;
 	--text-muted: #4A5568;
-	/* The dark-theme #64748B only reaches ~4.2:1 on white glass, so the light
-	   theme darkens the placeholder. */
-	--placeholder: #5A6478;
+	--text-subtle: #5A6478;
+	--placeholder: var(--text-subtle);
+	--text-inactive: #5F6B80;
+	--text-inactive-strong: #3F4A5C;
 
 	--accent-ink: #5B21B6;
-	--cyan: #0891B2;
+	/* Darker than the dark theme's #22D3EE, and for the same reason the other
+	   light overrides exist: #0891B2 only reaches 3.5:1 on white glass, so
+	   anything using --cyan AS TEXT (the sidebar note's pill, the file://
+	   warning's links and code) was short of 4.5:1. As a focus ring and a dot
+	   it is still the same teal. */
+	--cyan: #0E7490;
 
 	--border: rgba(109, 40, 217, 0.18);
 	--border-soft: rgba(109, 40, 217, 0.13);
-	--border-cyan: rgba(8, 145, 178, 0.22);
+	--border-control: #7C7794;
+	--border-cyan: rgba(14, 116, 144, 0.85);
+
+	/* The dark theme's #34D399 is a pale mint: 1.84:1 as the "Copied" tick and
+	   1.84:1 as the header's status dot, i.e. both effectively invisible. This
+	   is the same hue read dark. */
+	--success: #047857;
+	--success-ring: rgba(4, 120, 87, 0.18);
+	--success-ring-wide: rgba(4, 120, 87, 0.06);
+	--state-danger: #E11D48;
+	--state-danger-glow: rgba(225, 29, 72, 0.18);
+	--state-accent: #0E7490;
+	--state-accent-glow: rgba(14, 116, 144, 0.18);
+	--state-success: #047857;
+	--state-success-glow: rgba(4, 120, 87, 0.18);
+
+	--tint-subtle: rgba(109, 40, 217, 0.07);
+	--tint-chip: rgba(109, 40, 217, 0.10);
+	--tint-chip-line: rgba(109, 40, 217, 0.22);
+	--tint-active: rgba(109, 40, 217, 0.13);
+	--tint-active-line: rgba(109, 40, 217, 0.30);
+	--wash-purple: rgba(109, 40, 217, 0.06);
+	--wash-cyan: rgba(14, 116, 144, 0.06);
+
+	--glow-brand: rgba(109, 40, 217, 0.20);
+	--glow-accent: rgba(14, 116, 144, 0.18);
+
+	/* The dark theme's 0.35 purple over a light page composites to a pale
+	   lavender on which white text is 1.91:1. Solid, so the selection stays
+	   readable over any surface it is dragged across. */
+	--selection-bg: #6D28D9;
+	--selection-ink: #FFFFFF;
+	--scrim: rgba(23, 30, 58, 0.45);
+
+	--switch-track: #7E8799;
 
 	--shadow: 0 18px 46px rgba(30, 41, 82, 0.12);
 	--shadow-sm: 0 8px 22px rgba(30, 41, 82, 0.10);
+	--shadow-drawer: -24px 0 70px rgba(30, 41, 82, 0.20);
+	--shadow-knob: 0 2px 5px rgba(30, 41, 82, 0.28);
 	--inset-hairline: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
@@ -148,8 +276,8 @@ select {
 }
 
 ::selection {
-	background: rgba(124, 58, 237, 0.35);
-	color: #fff;
+	background: var(--selection-bg);
+	color: var(--selection-ink);
 }
 
 /* =============================================================
@@ -285,12 +413,19 @@ body.light-mode .grain { opacity: 0.35; }
    SHARED GLASS PRIMITIVE
    Every surface that gets the blur + border + shadow treatment. Panels that
    need a deeper or lighter variant restate the properties themselves.
+
+   .region-visual is deliberately NOT in this list. It used to be, back when it
+   was the full-panel glass overlay behind the whole selector, but it is now the
+   landmark band in css/region-visual.css: a media surface, not a pane of glass.
+   Nothing shows through it (its .visual-sky layer is an opaque gradient), so the
+   blur had nothing to sample - it cost a backdrop filter per frame and changed
+   nothing - and it was asking for a border and a shadow that band has to switch
+   back off to stay full-bleed. If it ever needs glass again it belongs here.
    ============================================================= */
 .translation-card,
 .language-selector,
 .swap-btn,
 .region-panel,
-.region-visual,
 .intelligence-card,
 .action-card,
 .feature-card,
@@ -389,3 +524,63 @@ body.light-mode .grain { opacity: 0.35; }
 .file-warning a {
 	color: var(--cyan);
 }
+
+/* ---------- A single component failed to load ---------- */
+/* Deliberately built on .file-warning rather than beside it, so this reads as
+   the same kind of panel the file:// notice uses - just sized for a column
+   instead of the whole page. Only tokens, so it follows the light theme. */
+.component-error {
+	max-width: none;
+	padding: 15px 17px;
+	border-left: 2px solid var(--state-danger);
+	text-align: left;
+}
+
+/* .file-warning styles an h1 for the full-page case; in a column that would
+   be shouting, so the title is reined in to a card heading. */
+.component-error h2 {
+	margin: 0;
+	font-size: 14.5px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--text);
+}
+
+.component-error p {
+	margin: 6px 0 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--text-muted);
+}
+
+/* Matched as a compound, not a bare class: `.component-error p` above is
+   (0,1,1) and would otherwise outrank a lone class and repaint the hint in
+   the same colour as the summary, which is the opposite of what the hint is
+   for. */
+.component-error p.component-error-hint { color: var(--text-subtle); }
+
+.component-error-retry {
+	margin-top: 12px;
+	min-height: 38px;
+	padding: 0 15px;
+	border-radius: var(--radius-xs);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text);
+	background: var(--surface-deep);
+	border: 1px solid var(--border-control);
+	box-shadow: var(--inset-hairline);
+	transition:
+		color 0.2s ease,
+		border-color 0.2s ease,
+		box-shadow 0.2s ease,
+		transform 0.12s ease;
+}
+
+.component-error-retry:hover {
+	color: var(--accent-ink);
+	border-color: var(--tint-active-line);
+	box-shadow: 0 0 22px var(--glow-brand), var(--inset-hairline);
+}
+
+.component-error-retry:active { transform: scale(0.98); }

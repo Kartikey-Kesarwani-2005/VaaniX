@@ -9,6 +9,12 @@ function initLanguage() {
 	const intelligenceText = document.getElementById("intelligenceText");
 	const detected = document.getElementById("detectedText");
 
+	/* The two text areas, for the direction rules and for the swap. Not guarded:
+	   a missing text area must not cost the language labels and the swap, so
+	   both callers check before touching the text. */
+	const input = document.getElementById("inputText");
+	const output = document.getElementById("outputText");
+
 	if (!fromLanguage || !toLanguage || !swapButton) return;
 
 	fromLanguage.addEventListener("change", updateLanguageInfo);
@@ -55,19 +61,86 @@ function initLanguage() {
 			return language && language.rtl ? "rtl" : "ltr";
 		};
 
-		const input = document.getElementById("inputText");
 		if (input) input.dir = directionFor(fromLanguage.value);
-
-		const output = document.getElementById("outputText");
 		if (output) output.dir = directionFor(toLanguage.value);
 	}
 
-	/* Swap the two language dropdowns with each other. */
+	/* Swap the two languages - and the two texts with them.
+
+	   Swapping the dropdowns on its own leaves the workspace lying to the user.
+	   FROM said English over "How are you?" and TO said Tamil over the Tamil
+	   answer; after a values-only swap each label describes the other box, and
+	   with Urdu on one side it is worse - applyTextDirection() flips the dir to
+	   match the new label while the text under it is still in the old language.
+
+	   So the text moves too: the translation becomes the new input, and the
+	   source becomes the new output. That pair is not an approximation. Every
+	   phrase in VAANIX_PHRASES carries every language, so running the lookup
+	   for the new direction would return exactly the string that was already in
+	   the box - which is why there is no translation to run here and no
+	   "Translating..." pause to wait through.
+
+	   The one case this cannot repair is a stale output: type a new sentence
+	   without pressing Translate and the output still holds the previous pair,
+	   so what moves across is that pair's translation. It travels in the right
+	   direction and Translate overwrites it in a click, which is the same
+	   staleness the output panel already has while the input is being edited.
+
+	   A miss is the case where there is nothing to move: the output holds the
+	   not-available notice or the placeholder, so only the languages move and the
+	   output goes back to its placeholder - a notice about the direction just
+	   left is not a translation in the new one either. The input is left alone
+	   in that case, because the user typed it and it is theirs. */
 	function swapLanguages() {
 		const oldFrom = fromLanguage.value;
 		fromLanguage.value = toLanguage.value;
 		toLanguage.value = oldFrom;
-		updateLanguageInfo();
+
+		/* Set before anything is written. nav.js's history observer watches
+		   #outputText, and moving text into it would otherwise be logged as a
+		   fresh translation - work the user did not ask for, and a pair already
+		   in the list from the translation that produced it. Same handshake
+		   restore() uses, for the same reason. */
+		window.vaanixSuppressHistory = true;
+
+		/* Both events, not just the values: a programmatic write fires nothing,
+		   and js/translator.js listens on #toLanguage to re-read the regional
+		   state, which is precisely what this swap invalidates. Same reason
+		   setRegionLocked() dispatches on #region. */
+		fromLanguage.dispatchEvent(new Event("change", { bubbles: true }));
+		toLanguage.dispatchEvent(new Event("change", { bubbles: true }));
+
+		if (input && output) {
+			/* The two markers js/clipboard.js, js/voice.js and js/nav.js already
+			   use to tell a result from the rest. A placeholder or the
+			   not-available notice is not a translation, and neither is an empty
+			   box. */
+			const result = output.textContent.trim();
+			const translated = !!result && !output.querySelector(".output-placeholder, .output-empty");
+
+			if (translated) {
+				/* Read before the write: after input.value is replaced the old
+				   source is gone, and it is the new output. */
+				const source = input.value;
+				input.value = result;
+				/* The counter and the validation note belong to js/translator.js,
+				   which listens for this event - so dispatching it is how the new
+				   length and the cleared note arrive without either file reaching
+				   into the other. Same as nav.js's restore(). */
+				input.dispatchEvent(new Event("input", { bubbles: true }));
+				output.textContent = source;
+			} else {
+				/* Same wording the page boots with, so the empty states agree
+				   whatever put them there. */
+				output.innerHTML = `<span class="output-placeholder">Translation will appear here...</span>`;
+			}
+		}
+
+		/* Cleared on the next tick, once the writes above have been delivered to
+		   nav.js's observer. */
+		window.setTimeout(function () {
+			window.vaanixSuppressHistory = false;
+		}, 0);
 	}
 
 	/* Update the intelligence card to name the current region. This replaces

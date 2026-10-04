@@ -44,8 +44,19 @@
             </select>
         </div>
 
-        <!-- Swap button flips the two languages -->
-        <button class="swap-btn" id="swapBtn" type="button" aria-label="Swap languages">⇄</button>
+        <!-- Swap button flips the two languages, and the two text areas with
+             them: js/language.js moves the translation into the input and the
+             source into the output, so neither box ends up labelled with a
+             language its text is not in. With nothing translated it moves only
+             the languages and puts the output placeholder back.
+
+             It also dispatches a change event on both selects, which is how
+             js/translator.js hears that the target moved - that is what makes
+             the Regional Mode label and note correct straight after a swap.
+
+             The aria-label says "and text" because that is what happens: the
+             button moves the workspace, not only the two dropdowns. -->
+        <button class="swap-btn" id="swapBtn" type="button" aria-label="Swap languages and text">⇄</button>
 
         <!-- TO LANGUAGE -->
         <div class="language-selector">

@@ -1,38 +1,21 @@
 <section class="region-panel region-panel--pick">
 
-    <!--
-        Full-panel decorative background. Layers, back to front: the CSS
-        sky/hills/river gradient scene, the inline SVG landmark silhouette,
-        then the region photo if one is available. The photo degrades: if it is
-        missing or fails to load, its layer is removed and the SVG silhouette
-        shows through, so this never renders as an empty box.
+    <!-- The control bar. Full-bleed glass on the panel's top edge, so the
+         eyebrow and the select sit on the band rather than in a padded box.
 
-        This is absolutely positioned to fill .region-panel and sits behind all
-        the content, so the text below always has its own glass surface to sit
-        on rather than competing with the photo. js/region-art.js owns it all;
-        #intelligenceText reports the live region and the <select> names it.
-    -->
-    <div class="region-visual" id="regionVisual" data-region="standard">
-        <div class="visual-sky"></div>
-        <div class="visual-hills"></div>
-        <div class="visual-river"></div>
+         This is first in the DOM because it is first on screen: the panel is a
+         flex column, so document order is the order the three zones stack in.
+         The band that follows cannot be absolutely positioned and overlaid any
+         more - it has to know how much room this bar and the card below are
+         taking, or the photograph slides underneath both of them.
 
-        <!-- The SVG is purely decorative; the select's option text names the region. -->
-        <div class="visual-art" id="regionArt" aria-hidden="true"></div>
-
-        <!-- Photo layer, shown only once an image has actually loaded. -->
-        <div class="visual-photo" id="regionPhoto" aria-hidden="true" hidden></div>
-
-        <div class="visual-grain"></div>
-        <div class="visual-scrim"></div>
-    </div>
-
-    <!-- Option text is kept on one line each: js/language.js reads
+         Option text is kept on one line each: js/language.js reads
          region.options[i].text and drops it straight into #intelligenceText,
          so leading/trailing newlines would show up there.
 
-         The landmark name is intentionally not rendered: the <select> option
-         already names the region, and a caption chip over the photo could not
+         The landmark name is intentionally not rendered as a caption over the
+         band: the <select> already names the region, in larger type than a
+         caption could afford, and text sitting directly on a photograph cannot
          be given a reliable contrast ratio. -->
     <div class="region-picker">
         <span class="region-label">Choose Your Region</span>
@@ -57,6 +40,48 @@
     </div>
 
     <!--
+        The region itself, and the middle of the three: this band sits between
+        the control bar above it and the confirmation card below it, and takes
+        whatever height is left over.
+
+        Layers, back to front:
+
+          1. the CSS sky/hills/river gradient scene,
+          2. the inline SVG landmark silhouette,
+          3. the region photo, shown only once an image has actually loaded,
+          4. .visual-grade, which washes the whole band in the SELECTED
+             region's colour and rims it in that colour, and
+          5. .visual-grain, so the large flat areas do not band.
+
+        Layer 4 is why the panel reads as a place rather than as a photo in a
+        card: --art-glow / --art-glow-2 / --art-line are switched by the
+        data-region attribute that js/region-art.js writes on every change, so
+        picking Prayagraj repaints the band, its frame and the select's own
+        accent in that region's colour.
+
+        Nothing in here is a caption and nothing is clickable. The photo also
+        degrades: if it is missing or fails to load its layer stays hidden and
+        the SVG silhouette shows through, so this never renders as an empty box.
+
+        js/region-art.js owns layers 2 and 3; #intelligenceText reports the live
+        region and the <select> names it.
+    -->
+    <div class="region-visual" id="regionVisual" data-region="standard">
+        <div class="visual-sky"></div>
+        <div class="visual-hills"></div>
+        <div class="visual-river"></div>
+
+        <!-- The SVG is purely decorative; the select's option text names the region. -->
+        <div class="visual-art" id="regionArt" aria-hidden="true"></div>
+
+        <!-- Photo layer, shown only once an image has actually loaded. -->
+        <div class="visual-photo" id="regionPhoto" aria-hidden="true" hidden></div>
+
+        <div class="visual-grade"></div>
+        <div class="visual-grain"></div>
+    </div>
+
+    <!--
         #intelligenceText is rewritten by js/language.js on every region change
         (innerHTML = "VaaniX will adapt the translation to <strong>...</strong>.").
         What is inside it here is only what shows for the split second before
@@ -64,20 +89,12 @@
     -->
     <div class="intelligence-card">
         <div class="intelligence-title">Regional Expression</div>
-        <div
-            class="intelligence-text"
-            id="intelligenceText"
-        >
-
-            VaaniX will adapt the translation
-            to
-
-            <strong>
-                Standard Hindi
-            </strong>.
-
-        </div>
-    </div>
+        <!-- Kept on ONE line, to match the string js/language.js builds
+             character for character. Broken across lines it still renders as
+             "Standard Hindi ." - the newlines collapse to spaces, which puts one
+             between the name and the full stop - so the frame before the script
+             runs would read differently from every frame after it. -->
+        <div class="intelligence-text" id="intelligenceText">VaaniX will adapt the translation to <strong>Standard Hindi</strong>.</div>
     </div>
 
 </section>
