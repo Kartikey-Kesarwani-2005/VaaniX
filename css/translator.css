@@ -398,6 +398,17 @@
 	50%      { transform: scale(1.14); opacity: 0.75; }
 }
 
+/* voice.js sets .speaking while the browser is reading the translation. */
+.action-card:has(.action-hit.speaking) {
+	border-color: rgba(34, 211, 238, 0.45);
+	box-shadow: 0 0 24px rgba(34, 211, 238, 0.18), var(--inset-hairline);
+}
+
+.action-card:has(.action-hit.speaking) .action-icon {
+	filter: none;
+	animation: mic-pulse 0.9s ease-in-out infinite;
+}
+
 .action-card:has(.action-hit.copied) {
 	border-color: rgba(52, 211, 153, 0.45);
 	box-shadow: 0 0 24px rgba(52, 211, 153, 0.18), var(--inset-hairline);

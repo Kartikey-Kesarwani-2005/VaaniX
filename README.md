@@ -86,7 +86,21 @@ python -m http.server 8000
 
 then open <http://localhost:8000>. In VS Code, right-click `index.html` and choose **Open with Live Server** instead.
 
-> Note: voice exchange uses the Web Speech API, which requires a modern browser and an active (often Chrome) connection.
+> Note: voice **input** uses the Web Speech API, which requires a modern browser and an active (often Chrome) connection.
+
+## How Listen Works
+
+Listen picks its voice in two steps, because the browser alone cannot cover these languages:
+
+1. **An installed voice first.** If the OS has a voice matching the target language, the Web Speech API reads it — instant and offline. This is how English and Hindi work on a default Windows install.
+2. **Google's TTS endpoint as a fallback.** Windows ships no voice for Marathi, Bengali, Punjabi, Gujarati, Tamil, Telugu, Kannada or Malayalam, so there would be nothing for `speechSynthesis` to hand the text to. For those, the page streams the audio straight from `translate.google.com/translate_tts` via an `<audio>` element. No backend, no API key, no key in the repo — it is one request the page makes itself. Output over ~150 characters is split into several requests, because the endpoint rejects longer ones, and they play back to back.
+
+Two details worth knowing if you touch this:
+
+- The endpoint sends no CORS headers, which is why playback goes through an `<audio>` element rather than `fetch()`. Media elements may play a cross-origin resource unread; `fetch()` may not.
+- Odia and Assamese have a voice in **neither** place, so those two say so rather than reading the text in an unrelated language. Installing the Windows voice pack for them is enough to make Listen work — no code change.
+
+Both engines are shut down through one path, so a second click stops whatever is currently talking instead of talking over it.
 
 ## How Translation Works
 
